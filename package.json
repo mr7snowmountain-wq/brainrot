@@ -1,0 +1,36 @@
+{
+  "name": "brainrot-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "validate": "tsx scripts/validate-articles.ts",
+    "validate:prod": "cross-env SITE_ENV=production tsx scripts/validate-articles.ts",
+    "schedule": "tsx scripts/schedule.ts",
+    "status": "tsx scripts/dashboard.ts",
+    "media:ingest": "tsx scripts/media-ingest.ts",
+    "media:audit": "tsx scripts/media-audit.ts",
+    "media:rename": "tsx scripts/media-rename.ts",
+    "pin:publish": "tsx scripts/pinterest-publish.ts",
+    "prebuild": "cross-env SITE_ENV=production tsx scripts/validate-articles.ts",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.9",
+    "@astrojs/sitemap": "3.2.1",
+    "astro": "^4.16.18",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "gray-matter": "^4.0.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

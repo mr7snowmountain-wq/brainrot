@@ -1,0 +1,15 @@
+---
+interface Props {
+  reponse: string;
+  nbSources: number;
+}
+const { reponse, nbSources } = Astro.props;
+---
+<div class="reponse-directe" id="reponse">
+  <p>{reponse}</p>
+  {nbSources > 0 && (
+    <p class="sourcage-inline">
+      <a href="#sources">{nbSources} source{nbSources > 1 ? 's' : ''} — en bas de page</a>
+    </p>
+  )}
+</div>

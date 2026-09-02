@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { getPublishedArticles, categoryOf, shortSlug } from '@/lib/articles';
+
+export const getStaticPaths = (async () => {
+  const articles = await getPublishedArticles();
+  return articles.map((entry) => ({
+    params: { category: categoryOf(entry), slug: shortSlug(entry) },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content, headings } = await entry.render();
+---
+<ArticleLayout entry={entry} headings={headings}>
+  <Content />
+</ArticleLayout>

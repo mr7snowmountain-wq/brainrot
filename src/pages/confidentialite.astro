@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { brand } from '@/config/brand';
+---
+<BaseLayout
+  title="Confidentialité (RGPD)"
+  description="Politique de confidentialité de Brainrot : lecture anonyme, cookies, affiliation et droits RGPD."
+  canonicalPath="/confidentialite"
+  robots="noindex,follow"
+>
+  <div class="prose">
+    <h1>Confidentialité</h1>
+    <p><em>Contenu à compléter avant mise en ligne.</em></p>
+    <h2>Lecture anonyme</h2>
+    <p>La lecture du site ne demande aucun compte. Aucune donnée sensible n'est
+    collectée à la lecture.</p>
+    <h2>Cookies & mesure d'audience</h2>
+    <p>Le site utilise des cookies de mesure d'audience et, le cas échéant, de
+    publicité (AdMob/display). Un bandeau de consentement te laisse accepter ou
+    refuser les cookies non essentiels. Détail des finalités à préciser.</p>
+    <h2>Affiliation</h2>
+    <p>Certains liens sortants sont affiliés. Cliquer dessus peut déposer un
+    cookie du partenaire marchand, soumis à sa propre politique.</p>
+    <h2>Tes droits (RGPD)</h2>
+    <p>Accès, rectification, effacement, opposition. Écris-nous à
+    <a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>.</p>
+  </div>
+</BaseLayout>

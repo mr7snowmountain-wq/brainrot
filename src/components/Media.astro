@@ -1,0 +1,91 @@
+---
+import { brand } from '@/config/brand';
+
+/**
+ * Emplacement média.
+ *  - Article : <Media id="mon-image" images={frontmatter.images} /> → résout la
+ *    déclaration depuis le frontmatter (SOURCE UNIQUE, cf. docs/SPECS-MEDIAS.md).
+ *  - Direct : <Media type="video" ratio="16/9" alt="…" /> (pages hors article).
+ * Rend le vrai asset s'il a un `src`, sinon un placeholder à ratio verrouillé
+ * (aucun décalage de mise en page). Attributs Pinterest inclus.
+ */
+interface ImageDecl {
+  id?: string;
+  src?: string;
+  alt: string;
+  caption?: string;
+  eager?: boolean;
+  ratio?: string;
+  width?: number;
+  height?: number;
+  pinnable?: boolean;
+  pinDescription?: string;
+  label?: string;
+}
+interface Props extends Partial<ImageDecl> {
+  id?: string;
+  images?: (ImageDecl & { widths?: number[] })[];
+  type?: 'image' | 'video';
+  poster?: string;
+  widths?: number[];
+}
+
+const p = Astro.props;
+let d: ImageDecl & { type?: string; poster?: string } = { ...p };
+
+if (p.id && p.images) {
+  const rec = p.images.find((i) => i.id === p.id);
+  if (rec) d = { ...rec, type: 'image' };
+  else d = { alt: `id introuvable : ${p.id}`, label: `⚠ id introuvable : ${p.id}`, ratio: p.ratio };
+}
+
+const type = (d.type as 'image' | 'video') || 'image';
+const ratio = (d.ratio || '16/9').replace('/', ' / ');
+const alt = d.alt || '';
+const pinnable = d.pinnable !== false;
+const pinDesc = d.pinDescription || d.caption || alt;
+const pinUrl = `${brand.siteUrl}${Astro.url.pathname}`.replace(/\/$/, '');
+const loading = d.eager ? 'eager' : 'lazy';
+const defaultLabel = type === 'video' ? 'Vidéo à venir' : 'Image à venir';
+
+// srcset responsive à partir des variantes générées par media:ingest
+// (convention : {base}.webp = repli, {base}-{w}.webp = variantes).
+const widths = (d as { widths?: number[] }).widths;
+const base = d.src ? d.src.replace(/\.webp$/, '') : '';
+const srcset = widths && d.src ? widths.map((w) => `${base}-${w}.webp ${w}w`).join(', ') : undefined;
+const sizes = srcset ? '(max-width: 700px) 100vw, 700px' : undefined;
+---
+<figure class="media" style={`--ratio:${ratio}`}>
+  {d.src && type === 'image' && (
+    <img
+      src={d.src}
+      srcset={srcset}
+      sizes={sizes}
+      alt={alt}
+      width={d.width}
+      height={d.height}
+      loading={loading}
+      decoding="async"
+      data-pin-description={pinnable ? pinDesc : undefined}
+      data-pin-url={pinnable ? pinUrl : undefined}
+      data-pin-nopin={pinnable ? undefined : 'true'}
+    />
+  )}
+  {d.src && type === 'video' && (
+    <video controls preload="none" poster={d.poster} playsinline>
+      <source src={d.src} />
+    </video>
+  )}
+  {!d.src && (
+    <div class="media-ph" role="img" aria-label={alt}>
+      {type === 'video' ? (
+        <svg class="media-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor"/></svg>
+      ) : (
+        <svg class="media-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M4 18l5-5 4 4 3-3 4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      )}
+      <span class="media-label">{d.label ?? defaultLabel}</span>
+      <span class="media-alt">{alt}</span>
+    </div>
+  )}
+  {d.caption && <figcaption>{d.caption}</figcaption>}
+</figure>

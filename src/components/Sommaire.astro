@@ -1,0 +1,19 @@
+---
+import type { MarkdownHeading } from 'astro';
+interface Props {
+  headings: MarkdownHeading[];
+}
+const { headings } = Astro.props;
+// On ne garde que les H2 : chaque H2 est une requête, le sommaire les suit.
+const items = headings.filter((h) => h.depth === 2);
+---
+{items.length > 0 && (
+  <nav class="sommaire" aria-label="Sommaire">
+    <p class="sommaire-titre">Sur cette page</p>
+    <ol>
+      {items.map((h) => (
+        <li><a href={`#${h.slug}`}>{h.text}</a></li>
+      ))}
+    </ol>
+  </nav>
+)}

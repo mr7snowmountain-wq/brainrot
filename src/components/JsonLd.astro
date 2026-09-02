@@ -1,0 +1,9 @@
+---
+interface Props {
+  graph: unknown;
+}
+const { graph } = Astro.props;
+// Échappe < pour ne jamais casser la balise script, même si un titre contient du HTML.
+const json = JSON.stringify(graph).replace(/</g, '\\u003c');
+---
+<script type="application/ld+json" is:inline set:html={json} />

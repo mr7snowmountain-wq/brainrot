@@ -1,0 +1,68 @@
+---
+import { brand } from '@/config/brand';
+import { CATEGORY_SLUGS, CATEGORY_META } from '@/config/taxonomy';
+
+// Réseaux réellement renseignés (les placeholders __ sont exclus).
+const RESEAUX: { key: keyof typeof brand.sameAs; label: string }[] = [
+  { key: 'tiktok', label: 'TikTok' },
+  { key: 'instagram', label: 'Instagram' },
+  { key: 'youtube', label: 'YouTube' },
+];
+const reseaux = RESEAUX.filter((r) => {
+  const u = brand.sameAs[r.key];
+  return u && !u.startsWith('__');
+});
+const annee = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-word">brainrot</span>
+      <p class="footer-tagline">{brand.tagline}</p>
+      <p class="footer-method">
+        Tests et classements maison, chiffres sourcés.
+        <a href="/a-propos">La ligne éditoriale →</a>
+      </p>
+    </div>
+
+    <nav class="footer-cols" aria-label="Pied de page">
+      <div class="footer-col">
+        <h2>Catégories</h2>
+        <ul>
+          {CATEGORY_SLUGS.map((slug) => (
+            <li><a href={`/${slug}`}>{CATEGORY_META[slug].label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Le média</h2>
+        <ul>
+          <li><a href="/a-propos">À propos</a></li>
+          <li><a href={`mailto:${brand.contactEmail}`}>Contact</a></li>
+        </ul>
+      </div>
+      {reseaux.length > 0 && (
+        <div class="footer-col">
+          <h2>Réseaux</h2>
+          <ul>
+            {reseaux.map((r) => (
+              <li><a href={brand.sameAs[r.key]} rel="me noopener" target="_blank">{r.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div class="footer-col">
+        <h2>Légal</h2>
+        <ul>
+          <li><a href="/mentions-legales">Mentions légales</a></li>
+          <li><a href="/confidentialite">Confidentialité</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© {annee} {brand.name}. Certains liens sont affiliés — signalés dans les articles.</p>
+    <p class="footer-discret">Lecture sans compte · sans pistage caché.</p>
+  </div>
+</footer>

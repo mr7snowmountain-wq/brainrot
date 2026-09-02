@@ -1,0 +1,41 @@
+---
+interface Source {
+  titre: string;
+  url: string;
+  auteur?: string;
+  editeur?: string;
+  annee?: number | string;
+  identifiant?: { type: string; value: string };
+}
+interface Props {
+  sources: Source[];
+}
+const { sources } = Astro.props;
+
+/** Nom d'hôte lisible (sans www) pour situer la source d'un coup d'œil. */
+function hostLabel(url: string): string {
+  try {
+    return new URL(url).host.replace(/^www\./, '');
+  } catch {
+    return 'source';
+  }
+}
+---
+{sources.length > 0 && (
+  <section id="sources" class="sources">
+    <h2>Sources</h2>
+    <ol>
+      {sources.map((s) => (
+        <li>
+          {s.auteur && <span>{s.auteur}. </span>}
+          <em>{s.titre}</em>.
+          {s.editeur && <span> {s.editeur}</span>}{s.annee && <span>, {s.annee}</span>}.
+          {' '}
+          <a href={s.url} rel="nofollow noopener" target="_blank">
+            {s.identifiant ? `${s.identifiant.type} ${s.identifiant.value}` : hostLabel(s.url)}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

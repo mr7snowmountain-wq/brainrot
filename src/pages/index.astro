@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import { buildEntityGraph } from '@/lib/jsonld';
+import { getPublishedArticles, categoryOf, shortSlug } from '@/lib/articles';
+import { CATEGORY_SLUGS, CATEGORY_META, categoryLabel } from '@/config/taxonomy';
+
+const arts = await getPublishedArticles();
+const latest = arts.slice(0, 9);
+const graph = buildEntityGraph();
+---
+<BaseLayout
+  title="Brainrot — le média de la Gen Z qui joue"
+  description="Gaming, séries, anime, musique, tech et culture web. Les meilleurs jeux testés et classés, les sorties à ne pas rater, le lexique internet décodé."
+  canonicalPath="/"
+>
+  <JsonLd slot="head" graph={graph} />
+
+  <section class="home-hero">
+    <p class="home-kicker">Le média de la Gen Z qui joue</p>
+    <h1>Le meilleur du <span class="grad">gaming</span> et de la culture <span class="grad">internet</span>.</h1>
+    <p class="home-lede">Jeux testés et classés, séries et anime à ne pas rater, memes décodés.
+    On te dit ce qui vaut le coup — chiffres sourcés, zéro faux avis.</p>
+    <div class="home-cta-row">
+      <a class="btn-primary" href="/gaming">Explorer le gaming</a>
+      <a class="btn-secondary" href="/culture-web">Décoder la culture web</a>
+    </div>
+  </section>
+
+  <section class="home-cats">
+    <h2 class="home-h2">Par univers</h2>
+    <div class="cat-grid">
+      {CATEGORY_SLUGS.map((slug) => (
+        <a class={`cat-card cat-${slug}`} href={`/${slug}`}>
+          <span class="cat-label">{CATEGORY_META[slug].label}</span>
+          <span class="cat-go">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-latest">
+    <h2 class="home-h2">Derniers articles</h2>
+    {latest.length > 0 ? (
+      <ul class="card-grid">
+        {latest.map((a) => (
+          <li>
+            <a class="art-card" href={`/${categoryOf(a)}/${shortSlug(a)}`}>
+              <span class="art-cat">{categoryLabel(categoryOf(a))}</span>
+              <span class="art-titre">{a.data.titre_h1}</span>
+              <span class="art-dek">{a.data.soustitre}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="home-vide"><em>Les premiers articles arrivent très vite. Reviens vite.</em></p>
+    )}
+  </section>
+</BaseLayout>

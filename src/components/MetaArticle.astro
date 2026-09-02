@@ -1,0 +1,20 @@
+---
+import { brand } from '@/config/brand';
+interface Props {
+  datePublished: Date;
+  dateModified: Date;
+  nbSources: number;
+}
+const { datePublished, dateModified, nbSources } = Astro.props;
+const fmt = (d: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+---
+<div class="meta-article">
+  <span>Par <a href="/auteur" rel="author">{brand.author}</a></span>
+  <time datetime={iso(datePublished)}>Publié le {fmt(datePublished)}</time>
+  {dateModified > datePublished && (
+    <time datetime={iso(dateModified)}>Mis à jour le {fmt(dateModified)}</time>
+  )}
+  {nbSources > 0 && <span class="sourcage">{nbSources} source{nbSources > 1 ? 's' : ''}</span>}
+</div>

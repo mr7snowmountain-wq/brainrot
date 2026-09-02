@@ -1,0 +1,23 @@
+---
+interface FaqItem {
+  q: string;
+  a: string;
+}
+interface Props {
+  items: FaqItem[];
+}
+const { items } = Astro.props;
+---
+{items.length > 0 && (
+  <section id="faq" class="faq">
+    <h2>Questions fréquentes</h2>
+    {items.map((item) => (
+      <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+        <h3 itemprop="name">{item.q}</h3>
+        <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+          <p itemprop="text">{item.a}</p>
+        </div>
+      </div>
+    ))}
+  </section>
+)}

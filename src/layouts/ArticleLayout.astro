@@ -1,0 +1,70 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import ReponseDirecte from '@/components/ReponseDirecte.astro';
+import MetaArticle from '@/components/MetaArticle.astro';
+import Sommaire from '@/components/Sommaire.astro';
+import Faq from '@/components/Faq.astro';
+import Sources from '@/components/Sources.astro';
+import Maillage from '@/components/Maillage.astro';
+import CtaVariant from '@/components/CtaVariant.astro';
+import Media from '@/components/Media.astro';
+import { buildArticleGraph, articleUrl } from '@/lib/jsonld';
+import { categoryOf, shortSlug } from '@/lib/articles';
+import { categoryLabel } from '@/config/taxonomy';
+
+interface Props {
+  entry: CollectionEntry<'articles'>;
+  headings: MarkdownHeading[];
+}
+const { entry, headings } = Astro.props;
+const d = entry.data;
+const category = categoryOf(entry);
+const slug = shortSlug(entry);
+const path = `/${category}/${slug}`;
+const url = articleUrl(category, slug);
+const graph = buildArticleGraph(d, url);
+const heroImg = d.heroImage ? d.images.find((i) => i.id === d.heroImage) : undefined;
+---
+<BaseLayout
+  title={d.title_tag}
+  description={d.meta_description}
+  canonicalPath={path}
+  category={category}
+  ogType="article"
+  ogImage={heroImg?.pinImage ?? heroImg?.src}
+  publishedTime={d.datePublished.toISOString()}
+>
+  <JsonLd slot="head" graph={graph} />
+
+  <article class="article">
+    <p class="eyebrow"><a href={`/${category}`}>{categoryLabel(category)}</a></p>
+    <h1>{d.titre_h1}</h1>
+    <p class="dek">{d.soustitre}</p>
+
+    <ReponseDirecte reponse={d.reponse} nbSources={d.sources.length} />
+    <MetaArticle
+      datePublished={d.datePublished}
+      dateModified={d.dateModified}
+      nbSources={d.sources.length}
+    />
+
+    {heroImg && <Media id={heroImg.id} images={d.images} />}
+
+    <Sommaire headings={headings} />
+
+    <div class="corps">
+      <slot />
+    </div>
+
+    <Faq items={d.faq} />
+
+    {d.cta && <CtaVariant cta={d.cta} />}
+
+    <Sources sources={d.sources} />
+
+    <Maillage pilier={d.pilier_ref} liens={d.liens_internes} />
+  </article>
+</BaseLayout>

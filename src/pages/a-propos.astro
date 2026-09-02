@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import { buildEntityGraph } from '@/lib/jsonld';
+import { brand } from '@/config/brand';
+
+const graph = buildEntityGraph();
+---
+<BaseLayout
+  title={`À propos — ${brand.name}`}
+  description="Qui écrit, comment on teste et classe, d'où viennent les chiffres, et pourquoi les liens affiliés sont toujours signalés. La ligne éditoriale de Brainrot."
+  canonicalPath="/a-propos"
+>
+  <JsonLd slot="head" graph={graph} />
+
+  <div class="prose">
+    <h1>C'est quoi Brainrot ?</h1>
+
+    <p><strong>{brand.name}</strong>, le média de la Gen Z qui joue : gaming, séries,
+    anime, musique, tech et culture web. On te dit ce qui vaut vraiment ton temps
+    — sans hype forcée, sans faux avis.</p>
+
+    <h2>Comment on teste et on classe</h2>
+    <p>Nos tops, tier-lists et comparatifs partent de critères annoncés, pas d'un
+    ressenti au doigt mouillé. Quand on donne une note, on dit pourquoi. Quand un
+    jeu ou une série a un défaut, on l'écrit même s'il est populaire.</p>
+
+    <h2>D'où viennent les chiffres</h2>
+    <p>Chaque chiffre (note, nombre de téléchargements, date de sortie) est
+    rattaché à une source vérifiable : fiche officielle, éditeur, presse ou base
+    de notes. Quand une donnée n'existe pas, on ne l'invente pas — on le dit.</p>
+
+    <h2>Les liens affiliés</h2>
+    <p>Certains liens (jeux, gift cards, matériel, abonnements) sont affiliés :
+    si tu passes par eux, on touche une petite commission, sans surcoût pour toi.
+    Ces liens sont toujours signalés, et ils ne changent jamais nos classements.</p>
+
+    <p class="footer-links">
+      {brand.sameAs.tiktok && !brand.sameAs.tiktok.startsWith('__') && (
+        <a href={brand.sameAs.tiktok} rel="me noopener" target="_blank">TikTok</a>
+      )}
+      {brand.sameAs.instagram && !brand.sameAs.instagram.startsWith('__') && (
+        <a href={brand.sameAs.instagram} rel="me noopener" target="_blank">Instagram</a>
+      )}
+      <a href={`mailto:${brand.contactEmail}`}>Contact</a>
+    </p>
+  </div>
+</BaseLayout>

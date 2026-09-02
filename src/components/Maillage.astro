@@ -1,0 +1,31 @@
+---
+interface Lien {
+  href: string;
+  label: string;
+}
+interface Props {
+  pilier?: Lien;
+  liens: Lien[];
+}
+const { pilier, liens } = Astro.props;
+// On ne duplique pas le pilier s'il figure déjà dans les liens.
+const autres = liens.filter((l) => !pilier || l.href !== pilier.href);
+---
+<nav class="articles-lies" aria-label="À lire ensuite">
+  <h2 class="maillage-titre">À lire dans la même série</h2>
+  <div class="maillage-grid">
+    {pilier && (
+      <a class="maillage-card is-pilier" href={pilier.href}>
+        <span class="badge">pilier</span>
+        <span class="maillage-label">{pilier.label}</span>
+        <span class="maillage-go">Lire →</span>
+      </a>
+    )}
+    {autres.map((l) => (
+      <a class="maillage-card" href={l.href}>
+        <span class="maillage-label">{l.label}</span>
+        <span class="maillage-go">Lire →</span>
+      </a>
+    ))}
+  </div>
+</nav>

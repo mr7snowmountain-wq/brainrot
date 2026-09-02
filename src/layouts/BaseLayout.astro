@@ -1,0 +1,111 @@
+---
+import '@/styles/global.css';
+import { brand } from '@/config/brand';
+import SiteFooter from '@/components/SiteFooter.astro';
+import { CATEGORY_SLUGS, CATEGORY_META } from '@/config/taxonomy';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  category?: string;
+  robots?: string;
+  ogType?: 'website' | 'article';
+  ogImage?: string; // absolu ou relatif (repli : logo)
+  publishedTime?: string; // ISO, pour les Rich Pins Pinterest
+}
+const {
+  title,
+  description,
+  canonicalPath,
+  category,
+  robots = 'index,follow',
+  ogType = 'website',
+  ogImage,
+  publishedTime,
+} = Astro.props;
+const canonical = `${brand.siteUrl}${canonicalPath}`;
+const rawOg = ogImage || brand.logoPath;
+const ogImageAbs = /^https?:\/\//.test(rawOg) ? rawOg : `${brand.siteUrl}${rawOg.startsWith('/') ? '' : '/'}${rawOg}`;
+const nav = CATEGORY_SLUGS.map((slug) => ({ slug, label: CATEGORY_META[slug].label }));
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={brand.name} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:image" content={ogImageAbs} />
+    {ogType === 'article' && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <slot name="head" />
+  </head>
+  <body data-category={category}>
+    <div class="glow-bg" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label={brand.name}>
+        <span class="brand-word">brainrot</span>
+      </a>
+      <nav class="site-nav" aria-label="Catégories">
+        {nav.map((n) => (
+          <a href={`/${n.slug}`} class={category === n.slug ? 'is-active' : undefined}>{n.label}</a>
+        ))}
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <SiteFooter />
+
+    <script is:inline>
+      (() => {
+        const hdr = document.querySelector('.site-header');
+        if (!hdr) return;
+        let lastY = window.scrollY;
+        let ticking = false;
+        const update = () => {
+          const y = window.scrollY;
+          if (y > lastY && y > 90) hdr.classList.add('nav-hidden');
+          else hdr.classList.remove('nav-hidden');
+          lastY = y;
+          ticking = false;
+        };
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (!ticking) {
+              requestAnimationFrame(update);
+              ticking = true;
+            }
+          },
+          { passive: true },
+        );
+      })();
+    </script>
+  </body>
+</html>
