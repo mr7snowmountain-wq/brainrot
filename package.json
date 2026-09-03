@@ -13,6 +13,7 @@
     "schedule": "tsx scripts/schedule.ts",
     "veille": "tsx scripts/veille.ts",
     "veille:test": "tsx scripts/veille-test-flux.ts",
+    "verif": "tsx scripts/verif.ts",
     "status": "tsx scripts/dashboard.ts",
     "media:ingest": "tsx scripts/media-ingest.ts",
     "media:audit": "tsx scripts/media-audit.ts",
