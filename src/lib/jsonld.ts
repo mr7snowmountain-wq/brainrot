@@ -1,5 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
 import { brand, NODE_IDS, resolvedSameAs } from '@/config/brand';
+import { categoryLabel } from '@/config/taxonomy';
 
 type ArticleData = CollectionEntry<'articles'>['data'];
 
@@ -72,6 +73,17 @@ export function buildArticleGraph(data: ArticleData, url: string) {
   }
 
   const graph: Record<string, unknown>[] = [main];
+
+  // Fil d'Ariane : Accueil → Catégorie → Article (aide SEO/GEO à situer la page).
+  graph.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: brand.siteUrl },
+      { '@type': 'ListItem', position: 2, name: categoryLabel(data.category), item: `${brand.siteUrl}/${data.category}` },
+      { '@type': 'ListItem', position: 3, name: data.titre_h1, item: url },
+    ],
+  });
 
   if (data.faq.length > 0) {
     graph.push({
