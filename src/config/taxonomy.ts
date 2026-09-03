@@ -9,9 +9,9 @@
 
 /** Slugs de catégorie (tuple figé pour z.enum). L'ordre = l'ordre de la nav. */
 export const CATEGORY_SLUGS = [
-  'gaming',
+  'jeux-video',
+  'anime',
   'streaming-series',
-  'anime-manga',
   'musique',
   'tech',
   'culture-web',
@@ -26,23 +26,23 @@ export interface CategoryMeta {
 }
 
 export const CATEGORY_META: Record<Category, CategoryMeta> = {
-  gaming: {
-    label: 'Gaming',
-    titre: 'Gaming',
+  'jeux-video': {
+    label: 'Jeux vidéo',
+    titre: 'Jeux vidéo',
     description:
       'Jeux mobiles, gacha, RPG, tier-lists et guides : les meilleurs jeux du moment, testés et classés.',
+  },
+  anime: {
+    label: 'Anime & manga',
+    titre: 'Anime & manga',
+    description:
+      'Anime de la saison, sorties manga, où regarder en VOSTFR : les repères pour ne rien rater.',
   },
   'streaming-series': {
     label: 'Séries & streaming',
     titre: 'Séries & streaming',
     description:
       'Netflix, Prime, Disney+ : quoi regarder, quand ça sort, ce qui vaut le coup. Séries, films, plateformes.',
-  },
-  'anime-manga': {
-    label: 'Anime & manga',
-    titre: 'Anime & manga',
-    description:
-      'Anime de la saison, sorties manga, où regarder en VOSTFR : les repères pour ne rien rater.',
   },
   musique: {
     label: 'Musique',

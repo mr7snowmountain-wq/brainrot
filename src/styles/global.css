@@ -221,9 +221,9 @@ img { max-width: 100%; }
 .cat-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.4); color: #0c0a16; }
 .cat-label { position: relative; z-index: 1; font-size: 1.3rem; line-height: 1.1; }
 .cat-go { position: relative; z-index: 1; font-size: 1.5rem; }
-.cat-gaming { background: linear-gradient(135deg, #a679ff, #ff6fb3); }
+.cat-jeux-video { background: linear-gradient(135deg, #a679ff, #ff6fb3); }
 .cat-streaming-series { background: linear-gradient(135deg, #58c7ff, #63f2d9); }
-.cat-anime-manga { background: linear-gradient(135deg, #ff6fb3, #ffb36b); }
+.cat-anime { background: linear-gradient(135deg, #ff6fb3, #ffb36b); }
 .cat-musique { background: linear-gradient(135deg, #c17bff, #ff8fd0); }
 .cat-tech { background: linear-gradient(135deg, #63f2d9, #58c7ff); }
 .cat-culture-web { background: linear-gradient(135deg, #ff8fd0, #ffe27a); }
@@ -325,7 +325,9 @@ img { max-width: 100%; }
 .sources li { margin: .5rem 0; }
 .sources a { color: var(--blue); }
 
-.cta-fin { margin: 2.5rem 0; }
+.cta-fin { margin: 2.6rem 0; padding: 1.4rem 1.5rem; background: var(--grad-soft); border: 1px solid var(--line-strong); border-radius: 20px; text-align: center; }
+.cta-titre { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--fg); margin: 0 0 .5rem; line-height: 1.2; }
+.cta-texte { color: var(--fg-soft); margin: 0 auto 1rem; max-width: 40rem; }
 .cta-fin .cta-hero { width: 100%; max-width: 26rem; margin: 0 auto; }
 
 .articles-lies { margin: 2.8rem 0; }

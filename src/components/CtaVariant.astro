@@ -1,12 +1,14 @@
 ---
 /**
- * Bloc de pied d'article générique (promo d'app / affiliation) — un seul par
- * page, après les sources. Alimenté par le champ `cta` du frontmatter :
- *   cta: { label, href, soustitre?, track }
+ * Bloc de pied d'article (promo d'app / affiliation) — un seul par page, après
+ * le contenu, AVANT la FAQ. Alimenté par le champ `cta` du frontmatter :
+ *   cta: { titre?, texte?, label, href, soustitre?, track }
  * `track` sert au tracking (data-track). Divulgation d'affiliation obligatoire
- * quand le lien est affilié (à indiquer dans le corps ou le soustitre).
+ * quand le lien est affilié (à indiquer dans le texte).
  */
 interface Cta {
+  titre?: string;
+  texte?: string;
   label: string;
   href: string;
   soustitre?: string;
@@ -17,14 +19,18 @@ interface Props {
 }
 const { cta } = Astro.props;
 const external = /^https?:\/\//.test(cta.href);
+const pending = cta.href === '#' || cta.href.startsWith('TODO');
 ---
 <aside class="cta-fin">
+  {cta.titre && <p class="cta-titre">{cta.titre}</p>}
+  {cta.texte && <p class="cta-texte">{cta.texte}</p>}
   <a
     class="cta-hero"
     href={cta.href}
     data-track={cta.track}
     rel={external ? 'sponsored noopener' : undefined}
     target={external ? '_blank' : undefined}
+    aria-disabled={pending ? 'true' : undefined}
   >
     {cta.label}
     {cta.soustitre && <small>{cta.soustitre}</small>}

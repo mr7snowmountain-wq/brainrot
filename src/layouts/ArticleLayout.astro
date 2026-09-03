@@ -59,9 +59,9 @@ const heroImg = d.heroImage ? d.images.find((i) => i.id === d.heroImage) : undef
       <slot />
     </div>
 
-    <Faq items={d.faq} />
-
     {d.cta && <CtaVariant cta={d.cta} />}
+
+    <Faq items={d.faq} />
 
     <Sources sources={d.sources} />
 

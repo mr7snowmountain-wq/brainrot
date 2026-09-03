@@ -40,6 +40,9 @@ export function buildArticleGraph(data: ArticleData, url: string) {
     articleSection: data.category,
   };
 
+  // `about` fourni dans le frontmatter (TVSeason / Movie / VideoGame…) : injecté tel quel.
+  if ((data as { about?: unknown }).about) main.about = (data as { about?: unknown }).about;
+
   // Review → note /10 + objet évalué.
   if (data.jsonld_type === 'Review' && typeof data.note === 'number') {
     main.reviewRating = {

@@ -39,8 +39,11 @@ const lien = z.object({
 });
 
 // Bloc de pied d'article (promo app / affiliation) — générique et optionnel.
+// Peut être un simple bouton, ou un bloc riche (titre + texte + bouton).
 const cta = z.object({
-  label: z.string().min(1),
+  titre: z.string().optional(), // titre du bloc (ex. « Cinq mois sans la moindre date »)
+  texte: z.string().optional(), // paragraphe de pont
+  label: z.string().min(1), // libellé du bouton (ex. « Voir le jeu »)
   href: z.string().min(1),
   soustitre: z.string().optional(),
   track: z.string().min(1), // identifiant de tracking distinct par CTA
@@ -89,6 +92,9 @@ const articles = defineCollection({
       jsonld_type: z.enum(JSONLD_TYPES).default('Article'),
       // Note /10 pour un article de test (jsonld_type: Review) — facultatif.
       note: z.number().min(0).max(10).optional(),
+      // Objet schema.org `about` brut (TVSeason, Movie, VideoGame…) — injecté
+      // tel quel dans le nœud principal du JSON-LD. Optionnel.
+      about: z.record(z.any()).optional(),
 
       // Réponse extraite par les IA — 40 à 60 mots (comptage dans le script)
       reponse: z.string().min(1),
