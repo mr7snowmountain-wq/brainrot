@@ -52,7 +52,7 @@ jobs:
       - name: Build
         run: pnpm exec astro build
         env:
-          SITE_URL: ${{ vars.SITE_URL || 'https://brainrotgame.fr' }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://brainrotstudio.fr' }}
           BASE_PATH: ${{ vars.BASE_PATH || '/' }}
 
       - name: Upload Pages artifact

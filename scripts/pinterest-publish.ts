@@ -9,7 +9,7 @@
  *   pnpm pin:publish --dry-run     # montre ce qui serait posté, ne poste rien
  *   pnpm pin:publish               # poste (exige PINTEREST_ACCESS_TOKEN + _BOARD_ID)
  *
- * Env : PINTEREST_ACCESS_TOKEN, PINTEREST_BOARD_ID, SITE_URL (déf. https://brainrotgame.fr)
+ * Env : PINTEREST_ACCESS_TOKEN, PINTEREST_BOARD_ID, SITE_URL (déf. https://brainrotstudio.fr)
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,7 +18,7 @@ import { buildPinDraft, postPin } from './lib/pinterest.ts';
 
 const ARTICLES = join(SITE_ROOT, 'src', 'content', 'articles');
 const LOG = join(SITE_ROOT, '..', 'visuels', 'pinterest-log.json');
-const SITE_URL = (process.env.SITE_URL || 'https://brainrotgame.fr').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://brainrotstudio.fr').replace(/\/$/, '');
 
 const dryRun = process.argv.includes('--dry-run');
 
