@@ -18,9 +18,11 @@ import {
   countInternalLinks,
   findForbiddenMentions,
   slugStopwords,
+  hasContradictionBlock,
+  isWeakSource,
 } from '../src/lib/rules.ts';
 import { REQUIRED_ENTITY_KEYS, isPlaceholder } from '../src/config/entity.ts';
-import { CATEGORY_SLUGS } from '../src/config/taxonomy.ts';
+import { CATEGORY_SLUGS, GABARITS, GABARITS_CONTRADICTION } from '../src/config/taxonomy.ts';
 import { SITE_ROOT, ARTICLES_DIR, loadEnv, walk, readArticle, isMain } from './lib/util.ts';
 import { findPinBannedWords } from './lib/pinterest.ts';
 
@@ -114,6 +116,26 @@ export function validateArticle(file: string): Report {
     else if (v === 'nominal') warnings.push(`H2 nominal — une question serait mieux reprise par les IA : "${h}"`);
   }
 
+  // 2 bis. Gabarit + BLOC CONTRADICTION (REGLES §2-3, règle GEO n°1).
+  //   Sur les gabarits artiste/film/jeu/mode, un bloc contradiction (un H2 qui
+  //   démonte une idée reçue, ex. « Ce qu'on raconte de faux sur … ») est OBLIGATOIRE.
+  if (d.gabarit && !GABARITS.includes(d.gabarit)) {
+    errors.push(`gabarit inconnu : "${d.gabarit}" (attendu : ${GABARITS.join(', ')})`);
+  }
+  if (d.gabarit && GABARITS_CONTRADICTION.includes(d.gabarit) && !hasContradictionBlock(h2s)) {
+    errors.push(
+      `gabarit "${d.gabarit}" : bloc contradiction manquant — ajoute un H2 qui démonte une idée reçue ` +
+        `(ex. « Ce qu'on raconte de faux sur … », puis « On lit souvent X. C'est faux : … »)`,
+    );
+  }
+
+  // 2 ter. dateModified obligatoire et réel — BLOQUANT si absent.
+  if (!d.dateModified) {
+    errors.push('dateModified manquant (obligatoire et réel — à mettre à jour à chaque retouche)');
+  } else if (d.datePublished && new Date(d.dateModified) < new Date(d.datePublished)) {
+    errors.push('dateModified antérieur à datePublished');
+  }
+
   // 3. Bloc réponse 40-60 mots — BLOQUANT
   if (!d.reponse) {
     errors.push('bloc "reponse" manquant');
@@ -146,6 +168,10 @@ export function validateArticle(file: string): Report {
   const sources = Array.isArray(d.sources) ? d.sources : [];
   for (const [i, s] of sources.entries()) {
     if (!s?.url) errors.push(`source #${i + 1} sans url vérifiable`);
+    // Hiérarchie de sources (REGLES §2) : blog perso / plateforme = refusé.
+    else if (isWeakSource(String(s.url))) {
+      warnings.push(`source #${i + 1} : domaine faible (blog/plateforme) — privilégie une source officielle (N1), une base de référence type IMDb/Metacritic (N2) ou une presse établie (N3)`);
+    }
   }
   const chiffres = hasNumericClaim(String(d.reponse ?? '') + '\n' + content);
   if (chiffres && sources.length === 0) {

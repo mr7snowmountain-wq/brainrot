@@ -79,3 +79,16 @@ export type ArticleType = (typeof ARTICLE_TYPES)[number];
  */
 export const JSONLD_TYPES = ['Article', 'Review', 'ItemList', 'HowTo', 'VideoObject'] as const;
 export type JsonLdType = (typeof JSONLD_TYPES)[number];
+
+/**
+ * Gabarits d'entité (REGLES §3) = grilles de structure figées. Le validateur
+ * s'en sert notamment pour EXIGER le bloc contradiction là où il est obligatoire.
+ */
+export const GABARITS = ['artiste', 'film', 'jeu', 'sport', 'mode'] as const;
+export type Gabarit = (typeof GABARITS)[number];
+
+/**
+ * Gabarits sur lesquels le BLOC CONTRADICTION est OBLIGATOIRE (REGLES §3 :
+ * « obligatoire sur 4 gabarits sur 5 »). Le sport en est exempté.
+ */
+export const GABARITS_CONTRADICTION: readonly Gabarit[] = ['artiste', 'film', 'jeu', 'mode'];

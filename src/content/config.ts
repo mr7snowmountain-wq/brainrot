@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { CATEGORY_SLUGS, ARTICLE_TYPES, JSONLD_TYPES } from '@/config/taxonomy';
+import { CATEGORY_SLUGS, ARTICLE_TYPES, JSONLD_TYPES, GABARITS } from '@/config/taxonomy';
 
 /**
  * Contrat de frontmatter des articles. Zod le valide au build :
@@ -80,6 +80,9 @@ const articles = defineCollection({
       // Rangement & GEO
       category: z.enum(CATEGORY_SLUGS),
       type: z.enum(ARTICLE_TYPES),
+      // Gabarit d'entité (REGLES §3). Facultatif ; s'il vaut artiste/film/jeu/mode,
+      // le validateur exige un bloc contradiction dans le corps.
+      gabarit: z.enum(GABARITS).optional(),
       cluster: z.string().optional(), // hub thématique (pilier + satellites)
       // Type de JSON-LD principal. FAQPage est ajouté en plus, automatiquement,
       // dès qu'une FAQ est présente (cf. lib/jsonld.ts).

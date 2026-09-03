@@ -135,6 +135,38 @@ function safeHost(u: string): string {
   }
 }
 
+/**
+ * Bloc CONTRADICTION (REGLES §2, la règle GEO n°1) : un H2 qui démonte une idée
+ * reçue (« Ce qu'on raconte de faux… », « On lit souvent X, c'est faux »).
+ * On reconnaît le titre de section par ses marqueurs lexicaux.
+ */
+const CONTRADICTION_RE = /\bfaux\b|on raconte|on lit souvent|id[ée]e re[çc]ue|[àa]\s+tort|contrairement|c'est faux|mythe/i;
+
+export function isContradictionHeading(h: string): boolean {
+  return CONTRADICTION_RE.test(h);
+}
+
+/** Y a-t-il un bloc contradiction parmi les H2 d'un article ? */
+export function hasContradictionBlock(h2s: string[]): boolean {
+  return h2s.some(isContradictionHeading);
+}
+
+/**
+ * Hiérarchie de sources (REGLES §2). On ne peut pas classer automatiquement un
+ * « niveau », mais on peut repérer les hôtes FAIBLES explicitement refusés
+ * (blogs perso, plateformes de contenu, agrégateurs sans source primaire).
+ */
+const SOURCE_WEAK_HOSTS = [
+  'blogspot.', 'wordpress.com', 'medium.com', 'over-blog.', 'skyrock.',
+  'tumblr.com', 'wattpad.', 'substack.com', 'blog4ever.', 'e-monsite.',
+];
+
+export function isWeakSource(url: string): boolean {
+  const h = safeHost(url).toLowerCase();
+  if (!h) return false;
+  return SOURCE_WEAK_HOSTS.some((w) => h.includes(w));
+}
+
 /** Mentions interdites (fausse caution) — recherche insensible à la casse. */
 export const FORBIDDEN_REVIEW_MENTIONS = ['relu par', 'reviewedby', 'lastreviewed', 'relecture par'];
 

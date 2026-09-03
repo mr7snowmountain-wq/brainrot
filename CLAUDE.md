@@ -17,10 +17,13 @@ Ajouter une catégorie = un slug + son entrée `CATEGORY_META` (la nav, le routi
 - Réponse directe 40-60 mots en tête (`reponse`).
 - H2 : jamais à l'impératif (ordre au lecteur) = BLOQUANT. Un H2 nominal (sans verbe ni « ? ») est signalé (idéal GEO = question), non bloquant.
 - FAQ 5-9 items. ≥3 liens internes.
-- AUCUN chiffre sans source (source = URL vérifiable ; identifiant optionnel : PlayStore/IMDb/MAL/Metacritic…).
+- **BLOC CONTRADICTION obligatoire** (règle GEO n°1) sur les gabarits `artiste`/`film`/`jeu`/`mode` : un H2 qui démonte une idée reçue (« Ce qu'on raconte de faux sur … » → « On lit souvent X. C'est faux : … »). Le champ `gabarit` (artiste/film/jeu/sport/mode) est optionnel ; s'il est posé, il déclenche cette règle.
+- **`dateModified` obligatoire et réel** (≥ `datePublished`, à mettre à jour à chaque retouche).
+- AUCUN chiffre sans source. Hiérarchie de sources : **N1** officiel (fiche Play Store/éditeur, communiqué), **N2** base de référence (IMDb, Metacritic, Discogs, Sherdog…), **N3** presse établie datée. Source = URL vérifiable ; identifiant optionnel. Blog perso/plateforme (blogspot, medium…) = signalé.
 - alt d'image 5-20 mots. Un seul hero eager par page. Aucune image brute dans le corps (passe par `images[]` + `<Media id>`).
 - pinDescription sans lexique interdit Pinterest.
 - category cohérente avec le dossier de rangement `src/content/articles/<category>/`.
+- Aucune règle sur le CTA (champ `cta` libre : quiz, lien app, ou rien). CTA placé au-dessus des sources.
 
 ## GEO (priorité)
 Chaque article répond à UNE question en une phrase citable, entité-riche (noms/dates précis),
