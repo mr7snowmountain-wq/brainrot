@@ -2,7 +2,7 @@
 
 Média de culture Gen Z (FR) : **gaming** (cœur) + séries/streaming, anime/manga,
 musique, tech, culture web. Optimisé SEO **et** GEO (citation par les moteurs IA).
-Rendu 100 % statique. Domaine : **brainrotstudio.fr**.
+Rendu 100 % statique. Domaine : **brainrotstudio.app**.
 
 ## Démarrer
 

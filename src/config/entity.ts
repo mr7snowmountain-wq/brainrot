@@ -30,7 +30,7 @@ export type EntityKey = (typeof REQUIRED_ENTITY_KEYS)[number];
 /** Valeurs de repli en développement (jamais utilisées en prod). */
 export const ENTITY_DEFAULTS: Record<EntityKey, string> = {
   BRAND_NAME: 'Brainrot',
-  SITE_URL: 'https://brainrotstudio.fr',
+  SITE_URL: 'https://brainrotstudio.app',
   AUTHOR_NAME: 'La rédaction Brainrot',
   CONTACT_EMAIL: '__CONTACT_EMAIL__',
   LOGO_PATH: '/logo.png',

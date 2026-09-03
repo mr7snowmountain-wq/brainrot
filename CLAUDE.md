@@ -2,7 +2,7 @@
 
 Média de culture Gen Z : **gaming (cœur)** + séries/streaming, musique, anime/manga, tech, culture web.
 Objectif n°1 : ranker sur Google ET être cité par les IA (GEO). Les jeux (Play Store) = une verticale + le tunnel de monétisation.
-Domaine : **brainrotstudio.fr**. DA : Y2K / hype pastel-vif, dark-native, mobile-first.
+Domaine : **brainrotstudio.app**. DA : Y2K / hype pastel-vif, dark-native, mobile-first.
 
 ## Stack (identique au template, ne pas dévier)
 Astro 4 (content collections) · Zod · @astrojs/sitemap PINNÉ 3.2.1 · pnpm ·

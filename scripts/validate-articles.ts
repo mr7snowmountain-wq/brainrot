@@ -34,7 +34,7 @@ const LIENS_MIN = 3;
 const CADENCE_MIN_DAYS = 30;
 
 const ENV = loadEnv();
-const SITE_URL = ENV.SITE_URL || 'https://brainrotstudio.fr';
+const SITE_URL = ENV.SITE_URL || 'https://brainrotstudio.app';
 
 export interface Report {
   file: string;
