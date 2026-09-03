@@ -3,31 +3,28 @@
  *
  *   pnpm veille
  *
- * Lit des flux RSS/Atom publics et écrit `veille/AAAA-MM-JJ.pdf` : la liste des
- * candidats du jour. AUCUN appel à un modèle de langage — que du HTTP + parsing,
- * coût nul (cf. SPEC-VEILLE). Sources configurées dans `config/veille-sources.json`.
+ * Lit tous les flux CONFIRMÉS de `config/veille-sources.json` (statuts posés par
+ * `pnpm veille:test`, Étape 5.2) et écrit `veille/AAAA-MM-JJ.pdf` : la liste des
+ * candidats du jour. AUCUN appel à un modèle de langage — que du HTTP + parsing.
  *
- * SOUS-ÉTAPE 5.1 : on se limite à quelques flux pour VALIDER LE FORMAT de sortie.
- * Le test de tous les flux (5.2), le tri par priorité + comparaison aux slugs
- * (5.3) et la fraîcheur (5.4) viennent ensuite.
+ * Le tri par priorité + la comparaison aux articles publiés (5.3) et la fraîcheur
+ * (5.4) viennent ensuite. Ici : lecture parallèle + sortie PDF.
  */
 import { readFileSync, mkdirSync, createWriteStream } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import PDFDocument from 'pdfkit';
+import { fetchFeed, looksLikeFeed, ts, fmtDate, mapLimit, type FeedItem } from './lib/feeds.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = join(__dirname, '..');
 const CONFIG = join(SITE_ROOT, 'config', 'veille-sources.json');
 const OUT_DIR = join(SITE_ROOT, 'veille');
 
-// 5.1 : plafond volontairement bas pour valider le format. Levé en 5.2.
-const MAX_SOURCES = 3;
-const ITEMS_PER_FEED = 5;
-const FETCH_TIMEOUT_MS = 15000;
-const UA = 'BrainrotVeille/1.0 (+https://brainrotstudio.app)';
+const ITEMS_PER_FEED = 4;
+const CONCURRENCY = 8;
 
-/** Libellé « Type » par catégorie de la config (pour la sortie). */
+/** Libellé « Type » par catégorie de la config. */
 const TYPE_LABEL: Record<string, string> = {
   musique_urbaine: 'musique',
   anime_manga: 'anime',
@@ -45,132 +42,50 @@ interface Source {
   type: string;
 }
 
-interface FeedItem {
-  title: string;
-  link: string;
-  date?: string;
-}
-
-/** Un URL ressemble-t-il à un flux (et pas à une simple page) ? */
-function looksLikeFeed(url: string): boolean {
-  return /\.xml($|\?)|\/rss|\/feed/i.test(url);
-}
-
-/** Parcourt la config et collecte les sources CONFIRMÉES qui sont des flux. */
-function collectSources(config: Record<string, any>): Source[] {
+/** Toutes les sources CONFIRMÉES qui sont des flux. */
+function collectConfirmed(config: Record<string, any>): Source[] {
   const out: Source[] = [];
-  for (const [key, val] of Object.entries(config)) {
-    if (key.startsWith('_') || typeof val !== 'object' || val === null) continue;
-    const type = TYPE_LABEL[key] ?? key;
-    const visit = (node: any) => {
-      if (Array.isArray(node)) return node.forEach(visit);
-      if (node && typeof node === 'object') {
-        const url = typeof node.url === 'string' ? node.url : '';
-        if (url.startsWith('http') && node.statut === 'confirme' && looksLikeFeed(url)) {
-          out.push({ nom: node.nom ?? url, url, category: key, type });
-        }
-        for (const v of Object.values(node)) visit(v);
-      }
-    };
-    visit(val);
+  const walk = (node: any, category: string, type: string) => {
+    if (Array.isArray(node)) return node.forEach((n) => walk(n, category, type));
+    if (!node || typeof node !== 'object') return;
+    const url = typeof node.url === 'string' ? node.url : '';
+    if (node.statut === 'confirme' && url.startsWith('http') && looksLikeFeed(url) && typeof node.nom === 'string') {
+      out.push({ nom: node.nom, url, category, type });
+    }
+    for (const v of Object.values(node)) walk(v, category, type);
+  };
+  for (const [category, val] of Object.entries(config)) {
+    if (category.startsWith('_')) continue;
+    walk(val, category, TYPE_LABEL[category] ?? category);
   }
   return out;
 }
 
-const stripCdata = (s: string) => s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1');
-const decode = (s: string) =>
-  s
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&#8217;/g, '’')
-    .trim();
-const firstMatch = (re: RegExp, s: string) => {
-  const m = re.exec(s);
-  return m ? decode(stripCdata(m[1])).replace(/\s+/g, ' ').trim() : '';
-};
-
-/** Parse un corps RSS ou Atom en une liste d'items (titre + lien + date). */
-function parseFeed(xml: string): FeedItem[] {
-  const blocks =
-    xml.match(/<item[\s\S]*?<\/item>/gi) ?? xml.match(/<entry[\s\S]*?<\/entry>/gi) ?? [];
-  const items: FeedItem[] = [];
-  for (const b of blocks) {
-    const title = firstMatch(/<title[^>]*>([\s\S]*?)<\/title>/i, b);
-    // lien : RSS <link>URL</link> ; Atom <link href="URL" .../>
-    let link = firstMatch(/<link[^>]*>([\s\S]*?)<\/link>/i, b);
-    if (!link) {
-      const m = /<link[^>]*href="([^"]+)"/i.exec(b);
-      link = m ? decode(m[1]) : '';
-    }
-    const date =
-      firstMatch(/<pubDate>([\s\S]*?)<\/pubDate>/i, b) ||
-      firstMatch(/<published>([\s\S]*?)<\/published>/i, b) ||
-      firstMatch(/<updated>([\s\S]*?)<\/updated>/i, b) ||
-      firstMatch(/<dc:date>([\s\S]*?)<\/dc:date>/i, b) ||
-      undefined;
-    if (title && link) items.push({ title, link, date });
-  }
-  return items;
-}
-
-async function fetchFeed(url: string): Promise<FeedItem[]> {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
-  try {
-    const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/rss+xml, application/xml, text/xml, */*' }, signal: ctrl.signal });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const xml = await res.text();
-    return parseFeed(xml);
-  } finally {
-    clearTimeout(t);
-  }
-}
-
-const ts = (d?: string) => {
-  if (!d) return 0;
-  const n = Date.parse(d);
-  return isNaN(n) ? 0 : n;
-};
-const fmtDate = (d?: string) => {
-  const n = ts(d);
-  return n ? new Date(n).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
-};
-
 async function main() {
   const config = JSON.parse(readFileSync(CONFIG, 'utf8'));
-  // 5.1 : une source par catégorie (diversité de la démo), plafonnée. En 5.2 on
-  // lèvera le plafond et on testera TOUS les flux.
-  const seenCat = new Set<string>();
-  const sources: Source[] = [];
-  for (const s of collectSources(config)) {
-    if (seenCat.has(s.category)) continue;
-    seenCat.add(s.category);
-    sources.push(s);
-    if (sources.length >= MAX_SOURCES) break;
-  }
+  const sources = collectConfirmed(config);
 
   const today = new Date();
   const iso = today.toISOString().slice(0, 10);
   const titreDate = today.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  const reachable: { src: Source; items: FeedItem[] }[] = [];
-  const unreachable: { src: Source; raison: string }[] = [];
-
-  for (const src of sources) {
+  const results = await mapLimit(sources, CONCURRENCY, async (src) => {
     try {
-      const items = (await fetchFeed(src.url))
+      const items = (await fetchFeed(src.url, 12000))
         .sort((a, b) => ts(b.date) - ts(a.date))
         .slice(0, ITEMS_PER_FEED);
-      if (items.length) reachable.push({ src, items });
-      else unreachable.push({ src, raison: 'aucun item lisible (format inattendu ?)' });
+      return { src, items, ok: items.length > 0, raison: items.length ? '' : 'aucun item lisible' };
     } catch (e: any) {
-      unreachable.push({ src, raison: e?.message ?? 'injoignable' });
+      return { src, items: [] as FeedItem[], ok: false, raison: e?.message ?? 'injoignable' };
     }
-  }
+  });
 
-  // Rédaction du PDF de veille (ouvrable d'un double-clic, liens cliquables).
+  const reachable = results.filter((r) => r.ok);
+  const unreachable = results.filter((r) => !r.ok);
+  const totalItems = reachable.reduce((n, r) => n + r.items.length, 0);
+
   mkdirSync(OUT_DIR, { recursive: true });
   const outFile = join(OUT_DIR, `${iso}.pdf`);
-  const totalItems = reachable.reduce((n, r) => n + r.items.length, 0);
 
   await new Promise<void>((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4', margin: 48, info: { Title: `Veille du ${titreDate}`, Author: 'Brainrot Veille' } });
@@ -184,17 +99,14 @@ async function main() {
     doc.font('Helvetica-Bold').fontSize(22).fillColor(INK).text(`Veille du ${titreDate}`);
     doc.moveDown(0.3);
     doc.font('Helvetica').fontSize(9).fillColor(SOFT)
-      .text(`Généré automatiquement le ${today.toLocaleString('fr-FR')} — sources lues : ${reachable.length}/${sources.length} — ${totalItems} sujets — aucun appel IA.`);
+      .text(`Généré automatiquement le ${today.toLocaleString('fr-FR')} — ${reachable.length}/${sources.length} flux — ${totalItems} sujets — aucun appel IA.`);
     doc.moveDown(0.15);
     doc.fontSize(9).fillColor(SOFT)
-      .text('Sous-étape 5.1 : validation du format. Le tri par priorité et la comparaison aux articles publiés arrivent en 5.3.');
+      .text('Le tri par priorité (le plus chaud d\'abord) et la comparaison aux articles publiés arrivent en 5.3.');
     doc.moveDown(0.8);
 
     doc.font('Helvetica-Bold').fontSize(15).fillColor(ACCENT).text('À surveiller — dernières remontées des flux');
     doc.moveDown(0.4);
-    if (reachable.length === 0) {
-      doc.font('Helvetica-Oblique').fontSize(10).fillColor(SOFT).text('Aucun item récupéré.');
-    }
     for (const { src, items } of reachable) {
       doc.moveDown(0.3);
       doc.font('Helvetica-Bold').fontSize(12).fillColor(INK).text(`${src.nom}  ·  ${src.type}`);
@@ -208,14 +120,14 @@ async function main() {
     }
 
     doc.moveDown(0.6);
-    doc.font('Helvetica-Bold').fontSize(15).fillColor(ACCENT).text('Sources injoignables');
+    doc.font('Helvetica-Bold').fontSize(15).fillColor(ACCENT).text('Sources injoignables aujourd\'hui');
     doc.moveDown(0.3);
     if (unreachable.length === 0) {
-      doc.font('Helvetica-Oblique').fontSize(10).fillColor(SOFT).text('Aucune — tous les flux ont répondu.');
+      doc.font('Helvetica-Oblique').fontSize(10).fillColor(SOFT).text('Aucune — tous les flux confirmés ont répondu.');
     } else {
       for (const { src, raison } of unreachable) {
         doc.font('Helvetica').fontSize(9.5).fillColor(INK).text(`•  ${src.nom}`, { continued: true });
-        doc.fillColor(SOFT).text(`  (${src.url}) — ${raison}`);
+        doc.fillColor(SOFT).text(`  — ${raison}`);
       }
     }
 
@@ -223,10 +135,9 @@ async function main() {
   });
 
   console.log(`\nVeille écrite : veille/${iso}.pdf`);
-  console.log(`  Sources lues     : ${reachable.length}/${sources.length}`);
-  console.log(`  Items remontés   : ${totalItems}`);
-  console.log(`  Injoignables     : ${unreachable.length}`);
-  if (unreachable.length) unreachable.forEach((u) => console.log(`     ! ${u.src.nom} — ${u.raison}`));
+  console.log(`  Flux confirmés lus : ${reachable.length}/${sources.length}`);
+  console.log(`  Sujets remontés    : ${totalItems}`);
+  console.log(`  Injoignables       : ${unreachable.length}`);
   console.log('');
 }
 

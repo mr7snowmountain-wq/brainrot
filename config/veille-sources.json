@@ -24,38 +24,38 @@
       {
         "nom": "Grizzmine — actu rap français",
         "url": "https://www.grizzmine.com/rss/actu-rap-francais.xml",
-        "statut": "confirme"
+        "statut": "perime"
       },
       {
         "nom": "Grizzmine — clips",
         "url": "https://www.grizzmine.com/rss/clip-rap-francais.xml",
-        "statut": "confirme"
+        "statut": "perime"
       },
       {
         "nom": "Grizzmine — sons",
         "url": "https://www.grizzmine.com/rss/sons-rap.xml",
-        "statut": "confirme"
+        "statut": "perime"
       },
       {
         "nom": "Booska-P",
         "url": "https://www.booska-p.com/feed/",
-        "statut": "a_tester",
+        "statut": "confirme",
         "note": "Site majeur du rap FR. Motif WordPress à vérifier."
       },
       {
         "nom": "Rap2France",
         "url": "https://www.rap2france.com/feed/",
-        "statut": "a_tester"
+        "statut": "mort"
       },
       {
         "nom": "13OR du Hip Hop",
         "url": "https://www.13or-du-hiphop.com/feed/",
-        "statut": "a_tester"
+        "statut": "confirme"
       },
       {
         "nom": "Gentsu — rap FR",
         "url": "https://www.gentsu.fr/rap-fr/feed/",
-        "statut": "a_tester"
+        "statut": "mort"
       }
     ],
     "a_completer": "Chercher des flux pour le rap US en français, l'amapiano et l'afrobeat, et les scènes shatta et bouyon — aucune source confirmée à ce jour sur ces trois derniers."
@@ -79,18 +79,18 @@
       {
         "nom": "ADN — Animation Digital Network",
         "url": "https://news.animationdigitalnetwork.com/fr/feed/",
-        "statut": "a_tester",
+        "statut": "confirme",
         "note": "Plateforme de streaming anime française. Source officielle pour les annonces de licences et de dates."
       },
       {
         "nom": "Japanim News",
         "url": "https://news.japanim.com/feed/",
-        "statut": "a_tester"
+        "statut": "confirme"
       },
       {
         "nom": "Manga News",
         "url": "https://www.manga-news.com/index.php/rss",
-        "statut": "a_tester"
+        "statut": "mort"
       }
     ],
     "a_completer": "Consulter l'atlas manga pour élargir. Chercher aussi un flux Crunchyroll France si disponible."
@@ -122,18 +122,18 @@
       {
         "nom": "Betanews — gaming",
         "url": "https://www.betanews.fr/gaming/feed/",
-        "statut": "confirme"
+        "statut": "mort"
       },
       {
         "nom": "Jeuxvideo.com",
         "url": "https://www.jeuxvideo.com/rss/rss.xml",
-        "statut": "a_tester",
+        "statut": "confirme",
         "note": "Le plus gros média FR du secteur. Concurrent direct sur les requêtes de test, mais indispensable pour la veille."
       },
       {
         "nom": "Gamekult",
         "url": "https://www.gamekult.com/feed.xml",
-        "statut": "a_tester"
+        "statut": "confirme"
       }
     ]
   },
@@ -169,7 +169,7 @@
       {
         "nom": "Allociné",
         "url": "https://www.allocine.fr/rss/news.xml",
-        "statut": "a_tester",
+        "statut": "confirme",
         "note": "Concurrent direct sur les requêtes film. Indispensable en veille."
       }
     ],
@@ -182,7 +182,7 @@
       {
         "nom": "La Sueur — section fight",
         "url": "https://lasueur.com/feed/",
-        "statut": "a_tester",
+        "statut": "confirme",
         "note": "Média MMA et UFC francophone le plus actif. Fréquence d'actualisation maximale dans l'Atlas des flux. Source prioritaire."
       },
       {
@@ -200,13 +200,13 @@
       {
         "nom": "Gentsu — boxe MMA",
         "url": "https://www.gentsu.fr/boxe-mma/feed/",
-        "statut": "a_tester",
+        "statut": "mort",
         "note": "Même éditeur que la source rap FR de la verticale musique."
       },
       {
         "nom": "Hexagone MMA",
         "url": "https://hexagone-mma.com/feed/",
-        "statut": "a_tester",
+        "statut": "mort",
         "note": "Organisation française de MMA. Source officielle pour les événements nationaux."
       },
       {
@@ -239,23 +239,23 @@
     "sources_francophones": [
       {
         "nom": "Sneakers.fr — Releases",
-        "url": "https://www.sneakers.fr/category/releases/",
+        "url": "https://www.sneakers.fr/feed/",
         "flux_a_tester": "https://www.sneakers.fr/feed/",
-        "statut": "confirme_page",
+        "statut": "confirme",
         "note": "SOURCE PRIORITAIRE. Page de releases structurée : modèle, coloris, prix en euros, SKU, date de sortie. Exactement le format dont le site a besoin. Motif WordPress à tester pour le flux."
       },
       {
         "nom": "Sneakers-actus.fr",
         "url": "https://www.sneakers-actus.fr/",
         "flux_a_tester": "https://www.sneakers-actus.fr/feed/",
-        "statut": "confirme_page",
+        "statut": "mort",
         "note": "Publie des guides de sortie par modèle, avec tableaux date / prix / SKU. Format proche de ce qu'on veut produire."
       },
       {
         "nom": "Project X Paris — Le Radar",
-        "url": "https://www.projectxparis.com/blogs/le-radar",
+        "url": "https://www.projectxparis.com/blogs/le-radar.atom",
         "flux_a_tester": "https://www.projectxparis.com/blogs/le-radar.atom",
-        "statut": "confirme_page",
+        "statut": "confirme",
         "note": "Publie des calendriers saisonniers. Boutique Shopify, donc flux Atom disponible sur le motif /blogs/NOM.atom."
       }
     ],
@@ -338,7 +338,7 @@
         "nom": "Know Your Meme",
         "url": "https://knowyourmeme.com/newsfeed.rss",
         "flux_a_tester": "https://knowyourmeme.com/newsfeed.rss",
-        "statut": "a_tester",
+        "statut": "confirme",
         "type": "flux",
         "note": "Seule source de cette verticale qui pourrait avoir un flux RSS. En anglais, mais source primaire mondiale sur les memes. Les sites francais reprennent avec plusieurs jours de retard : documenter en premier en francais est l'avantage."
       }
