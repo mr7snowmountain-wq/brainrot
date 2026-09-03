@@ -1,0 +1,72 @@
+name: Build & Deploy
+
+# Publie le site sur GitHub Pages :
+#  - à chaque push sur main (mise à jour immédiate) ;
+#  - chaque matin via cron → publie les articles dont la publishDate est arrivée,
+#    même si le PC du propriétaire est éteint (c'est le but de l'Étape 2) ;
+#  - manuellement via le bouton "Run workflow".
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 5 * * *' # ~06h/07h Paris — rebuild quotidien
+  workflow_dispatch:
+
+# Droits nécessaires au déploiement Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Valide les articles (règles éditoriales). Les variables d'entité non
+      # renseignées restent de simples avertissements ici (mode dev) tant que
+      # le .env de prod n'est pas fourni — un article invalide, lui, bloque.
+      - name: Validate articles
+        run: pnpm validate
+
+      - name: Build
+        run: pnpm exec astro build
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://brainrotgame.fr' }}
+          BASE_PATH: ${{ vars.BASE_PATH || '/' }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
