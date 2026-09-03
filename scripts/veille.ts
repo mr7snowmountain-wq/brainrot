@@ -3,7 +3,7 @@
  *
  *   pnpm veille
  *
- * Lit des flux RSS/Atom publics et écrit `veille/AAAA-MM-JJ.md` : la liste des
+ * Lit des flux RSS/Atom publics et écrit `veille/AAAA-MM-JJ.pdf` : la liste des
  * candidats du jour. AUCUN appel à un modèle de langage — que du HTTP + parsing,
  * coût nul (cf. SPEC-VEILLE). Sources configurées dans `config/veille-sources.json`.
  *
@@ -11,9 +11,10 @@
  * Le test de tous les flux (5.2), le tri par priorité + comparaison aux slugs
  * (5.3) et la fraîcheur (5.4) viennent ensuite.
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, mkdirSync, createWriteStream } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import PDFDocument from 'pdfkit';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = join(__dirname, '..');
@@ -166,46 +167,66 @@ async function main() {
     }
   }
 
-  // Rédaction du fichier de veille.
-  const L: string[] = [];
-  L.push(`# Veille du ${titreDate}`, '');
-  L.push(`_Généré automatiquement le ${today.toLocaleString('fr-FR')}. Sources lues : ${reachable.length}/${sources.length}. Aucun appel IA._`, '');
-  L.push('> Sous-étape 5.1 — validation du format. Le tri par priorité, la comparaison aux articles existants et la fraîcheur arrivent en 5.3/5.4.', '');
-
-  L.push('## À surveiller — dernières remontées des flux', '');
-  if (reachable.length === 0) {
-    L.push('_Aucun item récupéré._', '');
-  }
-  for (const { src, items } of reachable) {
-    L.push(`### ${src.nom} — _${src.type}_`, '');
-    for (const it of items) {
-      L.push(`- **${it.title}**`);
-      L.push(`  - Type : ${src.type}`);
-      L.push(`  - Source : ${it.link}`);
-      L.push(`  - Publié le : ${fmtDate(it.date)}`);
-    }
-    L.push('');
-  }
-
-  L.push('## Sources injoignables', '');
-  if (unreachable.length === 0) {
-    L.push('_Aucune — tous les flux ont répondu._', '');
-  } else {
-    for (const { src, raison } of unreachable) {
-      L.push(`- ${src.nom} (${src.url}) — ${raison}`);
-    }
-    L.push('');
-  }
-
+  // Rédaction du PDF de veille (ouvrable d'un double-clic, liens cliquables).
   mkdirSync(OUT_DIR, { recursive: true });
-  const outFile = join(OUT_DIR, `${iso}.md`);
-  writeFileSync(outFile, L.join('\n'), 'utf8');
+  const outFile = join(OUT_DIR, `${iso}.pdf`);
+  const totalItems = reachable.reduce((n, r) => n + r.items.length, 0);
 
-  console.log(`\nVeille écrite : veille/${iso}.md`);
+  await new Promise<void>((resolve, reject) => {
+    const doc = new PDFDocument({ size: 'A4', margin: 48, info: { Title: `Veille du ${titreDate}`, Author: 'Brainrot Veille' } });
+    const stream = createWriteStream(outFile);
+    stream.on('finish', () => resolve());
+    stream.on('error', reject);
+    doc.pipe(stream);
+
+    const INK = '#141024', SOFT = '#6b6684', ACCENT = '#7c3aed', LINK = '#2563eb';
+
+    doc.font('Helvetica-Bold').fontSize(22).fillColor(INK).text(`Veille du ${titreDate}`);
+    doc.moveDown(0.3);
+    doc.font('Helvetica').fontSize(9).fillColor(SOFT)
+      .text(`Généré automatiquement le ${today.toLocaleString('fr-FR')} — sources lues : ${reachable.length}/${sources.length} — ${totalItems} sujets — aucun appel IA.`);
+    doc.moveDown(0.15);
+    doc.fontSize(9).fillColor(SOFT)
+      .text('Sous-étape 5.1 : validation du format. Le tri par priorité et la comparaison aux articles publiés arrivent en 5.3.');
+    doc.moveDown(0.8);
+
+    doc.font('Helvetica-Bold').fontSize(15).fillColor(ACCENT).text('À surveiller — dernières remontées des flux');
+    doc.moveDown(0.4);
+    if (reachable.length === 0) {
+      doc.font('Helvetica-Oblique').fontSize(10).fillColor(SOFT).text('Aucun item récupéré.');
+    }
+    for (const { src, items } of reachable) {
+      doc.moveDown(0.3);
+      doc.font('Helvetica-Bold').fontSize(12).fillColor(INK).text(`${src.nom}  ·  ${src.type}`);
+      doc.moveDown(0.15);
+      for (const it of items) {
+        doc.font('Helvetica-Bold').fontSize(10.5).fillColor(INK).text(`•  ${it.title}`, { indent: 6 });
+        doc.font('Helvetica').fontSize(8.5).fillColor(SOFT).text(`${src.type}  ·  publié le ${fmtDate(it.date)}`, { indent: 18 });
+        doc.font('Helvetica').fontSize(8.5).fillColor(LINK).text(it.link, { indent: 18, link: it.link, underline: true });
+        doc.moveDown(0.25);
+      }
+    }
+
+    doc.moveDown(0.6);
+    doc.font('Helvetica-Bold').fontSize(15).fillColor(ACCENT).text('Sources injoignables');
+    doc.moveDown(0.3);
+    if (unreachable.length === 0) {
+      doc.font('Helvetica-Oblique').fontSize(10).fillColor(SOFT).text('Aucune — tous les flux ont répondu.');
+    } else {
+      for (const { src, raison } of unreachable) {
+        doc.font('Helvetica').fontSize(9.5).fillColor(INK).text(`•  ${src.nom}`, { continued: true });
+        doc.fillColor(SOFT).text(`  (${src.url}) — ${raison}`);
+      }
+    }
+
+    doc.end();
+  });
+
+  console.log(`\nVeille écrite : veille/${iso}.pdf`);
   console.log(`  Sources lues     : ${reachable.length}/${sources.length}`);
-  console.log(`  Items remontés   : ${reachable.reduce((n, r) => n + r.items.length, 0)}`);
+  console.log(`  Items remontés   : ${totalItems}`);
   console.log(`  Injoignables     : ${unreachable.length}`);
-  if (unreachable.length) unreachable.forEach((u) => console.log(`     ⚠ ${u.src.nom} — ${u.raison}`));
+  if (unreachable.length) unreachable.forEach((u) => console.log(`     ! ${u.src.nom} — ${u.raison}`));
   console.log('');
 }
 
