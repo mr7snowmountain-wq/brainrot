@@ -1,0 +1,52 @@
+name: Veille quotidienne
+
+# Génère la veille du jour (veille/AAAA-MM-JJ.pdf) chaque matin, sur les serveurs
+# GitHub — indépendamment du PC. Le PDF est commité dans le dépôt ; la tâche
+# Windows « git pull au démarrage » le ramène ensuite sur la machine.
+# Aucun appel LLM, aucun secret : que de la lecture de flux publics.
+on:
+  schedule:
+    - cron: '0 5 * * *' # ~06h/07h Paris
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: veille
+  cancel-in-progress: false
+
+jobs:
+  veille:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Générer la veille
+        run: pnpm veille
+
+      - name: Commit du PDF de veille
+        run: |
+          git config user.name "brainrot-veille[bot]"
+          git config user.email "actions@users.noreply.github.com"
+          git add veille/*.pdf
+          if git diff --cached --quiet; then
+            echo "Aucune nouvelle veille à commiter."
+          else
+            git commit -m "chore(veille): veille du $(date +%F) [skip ci]"
+            git push
+          fi

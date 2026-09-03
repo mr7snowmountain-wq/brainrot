@@ -21,9 +21,11 @@ function Write-Log($m) { "$(Get-Date -Format s)  $m" | Out-File -FilePath $log -
 
 try {
   Set-Location $repo
-  $dirty = & $git status --porcelain
+  # On ne s'abstient que s'il y a des modifs de fichiers SUIVIS (vrai risque de
+  # conflit) ; les fichiers non suivis (ex. PDF de veille local) ne bloquent pas.
+  $dirty = & $git status --porcelain --untracked-files=no
   if ($dirty) {
-    Write-Log 'SKIP: modifications locales non commitees, pull manuel requis'
+    Write-Log 'SKIP: modifications locales non commitees (fichiers suivis), pull manuel requis'
     exit 0
   }
   $out = & $git pull --rebase 2>&1
