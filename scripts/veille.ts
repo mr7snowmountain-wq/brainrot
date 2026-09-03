@@ -88,9 +88,12 @@ function collectConfirmed(config: Record<string, any>) {
   return out;
 }
 
-/** Entités des articles déjà publiés (pour écarter les doublons). */
-function publishedEntities(): string[] {
-  const out: string[] = [];
+interface Pub { titre: string; ents: string[]; category: string; published: number; modified: number; }
+const toMs = (x: any) => (x ? new Date(x).getTime() || 0 : 0);
+
+/** Articles publiés (pour la dédup ET le contrôle de fraîcheur, 5.4). */
+function readPublished(): Pub[] {
+  const out: Pub[] = [];
   const walk = (d: string) => {
     if (!existsSync(d)) return;
     for (const e of readdirSync(d, { withFileTypes: true })) {
@@ -99,8 +102,16 @@ function publishedEntities(): string[] {
       if (!/\.mdx?$/.test(e.name)) continue;
       try {
         const { data } = matter(readFileSync(p, 'utf8'));
-        if (data?.titre_h1) out.push(norm(String(data.titre_h1)));
-        out.push(norm(basename(e.name).replace(/\.mdx?$/, '').replace(/-/g, ' ')));
+        if (data?.draft === true) continue;
+        const slugTokens = norm(basename(e.name).replace(/\.mdx?$/, '').replace(/-/g, ' '));
+        const ents = [norm(String(data?.titre_h1 ?? '')), slugTokens].filter((s) => s.length >= 3);
+        out.push({
+          titre: String(data?.titre_h1 ?? basename(e.name)),
+          ents,
+          category: String(data?.category ?? ''),
+          published: toMs(data?.publishDate ?? data?.datePublished),
+          modified: toMs(data?.dateModified),
+        });
       } catch { /* ignore */ }
     }
   };
@@ -157,8 +168,17 @@ async function main() {
       entityFeeds.get(e)!.add(it.feed);
     }
 
-  const published = publishedEntities();
+  const pubs = readPublished();
+  const published = pubs.flatMap((a) => a.ents);
   const isPublished = (ents: string[]) => ents.some((e) => published.some((p) => p.includes(e) || e.includes(p)));
+
+  // 5.4 — contrôle de fraîcheur : articles publiés depuis +6 mois, non retouchés.
+  const FRESH_DAYS = 180;
+  const now = Date.now();
+  const aRafraichir = pubs
+    .filter((a) => a.published && a.published <= now && a.modified && (now - a.modified) / 86400000 > FRESH_DAYS)
+    .map((a) => ({ ...a, age: Math.floor((now - a.modified) / 86400000) }))
+    .sort((a, b) => b.age - a.age);
 
   // Score de chaque item.
   const scored = items.map((it) => {
@@ -232,6 +252,18 @@ async function main() {
     for (const s of surveiller) {
       doc.font('Helvetica').fontSize(9.5).fillColor(INK).text(`•  ${s.it.title}`, { indent: 4, continued: true });
       doc.fillColor(SOFT).text(`  — ${s.it.feed}, ${fmtDate(s.it.date)}`);
+    }
+
+    // 5.4 — tes articles à rafraîchir.
+    section('Tes articles à rafraîchir (+6 mois sans retouche)', ACCENT);
+    if (!aRafraichir.length) {
+      doc.font('Helvetica-Oblique').fontSize(10).fillColor(SOFT).text('Aucun — ton contenu est à jour.');
+    } else {
+      for (const a of aRafraichir) {
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(INK).text(`•  ${a.titre}`, { indent: 4 });
+        doc.font('Helvetica').fontSize(8.5).fillColor(SOFT).text(`${a.category}  ·  dernière retouche il y a ${a.age} jours`, { indent: 16 });
+        doc.moveDown(0.15);
+      }
     }
 
     if (unreachable.length) {
