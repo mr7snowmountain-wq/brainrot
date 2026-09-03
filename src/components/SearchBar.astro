@@ -1,0 +1,42 @@
+---
+/**
+ * Barre de recherche par mots-clés (site statique). Charge /search-index.json
+ * au premier focus, puis filtre côté client (titre + sous-titre + cluster).
+ */
+interface Props {
+  placeholder?: string;
+}
+const { placeholder = 'Rechercher un article, un perso, un jeu…' } = Astro.props;
+---
+<div class="search" data-search>
+  <input type="search" class="search-input" placeholder={placeholder} aria-label="Rechercher" autocomplete="off" />
+  <ul class="search-results" hidden></ul>
+</div>
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-search]');
+    if (!root) return;
+    const input = root.querySelector('.search-input');
+    const list = root.querySelector('.search-results');
+    let data = null, loaded = false;
+    const norm = (s) => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const esc = (s) => (s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    async function load() {
+      if (loaded) return; loaded = true;
+      try { data = await (await fetch('/search-index.json')).json(); } catch { data = []; }
+    }
+    function render(q) {
+      const nq = norm(q).trim();
+      if (!nq || !data) { list.hidden = true; list.innerHTML = ''; return; }
+      const hits = data.filter((a) => norm(a.t + ' ' + a.d + ' ' + a.k).includes(nq)).slice(0, 8);
+      list.innerHTML = hits.length
+        ? hits.map((a) => `<li><a href="${esc(a.u)}"><span class="sr-c">${esc(a.c)}</span><span class="sr-t">${esc(a.t)}</span></a></li>`).join('')
+        : '<li class="sr-empty">Aucun résultat</li>';
+      list.hidden = false;
+    }
+    input.addEventListener('focus', load);
+    input.addEventListener('input', (e) => render(e.target.value));
+    input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { list.hidden = true; input.blur(); } });
+    document.addEventListener('click', (e) => { if (!root.contains(e.target)) list.hidden = true; });
+  })();
+</script>

@@ -4,6 +4,7 @@ import JsonLd from '@/components/JsonLd.astro';
 import { buildEntityGraph } from '@/lib/jsonld';
 import { getPublishedArticles, categoryOf, shortSlug } from '@/lib/articles';
 import { CATEGORY_SLUGS, CATEGORY_META, categoryLabel } from '@/config/taxonomy';
+import SearchBar from '@/components/SearchBar.astro';
 
 const arts = await getPublishedArticles();
 const latest = arts.slice(0, 9);
@@ -31,6 +32,7 @@ function thumb(a: (typeof arts)[number]): string | undefined {
       <a class="btn-primary" href="/jeux-video">Explorer les jeux</a>
       <a class="btn-secondary" href="/culture-web">Décoder la culture web</a>
     </div>
+    <div class="home-search"><SearchBar /></div>
   </section>
 
   <section class="home-cats">

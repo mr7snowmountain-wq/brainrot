@@ -4,6 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getPublishedArticles, shortSlug } from '@/lib/articles';
 import { CATEGORY_SLUGS, CATEGORY_META, type Category } from '@/config/taxonomy';
 import { brand } from '@/config/brand';
+import SearchBar from '@/components/SearchBar.astro';
 
 export const getStaticPaths = (async () => {
   return CATEGORY_SLUGS.map((category) => ({ params: { category } }));
@@ -11,12 +12,9 @@ export const getStaticPaths = (async () => {
 
 const category = Astro.params.category as Category;
 const meta = CATEGORY_META[category];
+// Grille mélangée : par récence (pas de regroupement par type d'article).
 const articles = await getPublishedArticles(category);
-// Piliers en tête (mise en avant), puis le reste — une seule grille de cartes.
-const ordered = [
-  ...articles.filter((a) => a.data.type === 'pilier'),
-  ...articles.filter((a) => a.data.type !== 'pilier'),
-];
+const ordered = articles;
 
 /** Vignette d'un article : son image hero (ou la première déclarée). */
 function thumb(a: (typeof articles)[number]): string | undefined {
@@ -36,6 +34,8 @@ function thumb(a: (typeof articles)[number]): string | undefined {
     <p class="eyebrow">{meta.label}</p>
     <h1>{meta.titre}</h1>
     <p class="hub-lede">{meta.description}</p>
+
+    <SearchBar />
 
     {ordered.length > 0 && (
       <ul class="card-grid">
