@@ -1,0 +1,135 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Quiz de débat (SPEC-QUIZ-DEBAT-VOTE) — Étape 1 : flux de réponses, SANS vote
+// enregistré ni répartition affichée. On valide l'ergonomie. Le stockage des
+// votes (Supabase/serverless) et l'affichage des % viennent en étape 2-3.
+const QUESTIONS = [
+  { q: 'Gojo est-il surcoté ?', o: ['Oui, il est trop puissant, ça casse tous les enjeux', 'Non, sa puissance est justement le sujet de la série', 'Il était bien écrit avant Shibuya', 'La question ne se pose même pas'] },
+  { q: 'La saison 3 aurait dû faire 24 épisodes', o: ["Évidemment, 12 c'est du foutage de gueule", 'Non, mieux vaut 12 bien animés que 24 bâclés', "Le problème c'est l'attente, pas le nombre", 'Ils auraient dû faire un film'] },
+  { q: 'MAPPA maltraite-t-il ses animateurs ?', o: ['Oui, et ça se voit dans les délais', "C'est toute l'industrie, pas juste MAPPA", 'Le résultat justifie les moyens', "On n'en sait rien, ce sont des rumeurs"] },
+  { q: 'La fin du manga est-elle ratée ?', o: ["Complètement, c'est précipité", 'Non, elle est cohérente avec ce qui précède', 'Elle est correcte mais décevante', 'Je ne l\'ai pas lue, arrêtez de spoiler'] },
+  { q: 'Nobara méritait mieux', o: ['Largement, son traitement est scandaleux', 'Elle avait fait son temps narrativement', "Le problème c'est comment, pas quand", 'Elle est surcotée par le fandom'] },
+  { q: 'Yuji est-il un bon protagoniste ?', o: ['Non, il est passif et sans personnalité', 'Oui, sa banalité est justement le propos', "Il est bon mais mal servi par l'écriture", 'C\'est le meilleur MC de sa génération'] },
+  { q: 'Sukuna est-il un bon antagoniste ?', o: ['Le meilleur du shonen moderne', 'Non, il est juste puissant, pas intéressant', 'Il a été gâché sur la fin', 'Kenjaku est bien plus intéressant'] },
+  { q: "Faut-il avoir lu le manga pour apprécier l'anime ?", o: ["Non, l'anime se suffit", "Oui, l'anime coupe trop de choses", "Le manga est meilleur mais l'anime est plus accessible", "Lire le manga gâche l'anime"] },
+  { q: 'Jujutsu Kaisen est-il meilleur que Demon Slayer ?', o: ['Sans hésiter', 'Non, Demon Slayer est plus maîtrisé', 'Ils ne jouent pas dans la même catégorie', 'Les deux sont surcotés'] },
+  { q: "L'arc de Shibuya est-il le meilleur de la série ?", o: ['Oui, et de loin', 'Non, Hidden Inventory est supérieur', 'Le Culling Game le dépassera', 'Il est bon mais trop long'] },
+  { q: 'Megumi est-il mieux écrit que Yuji ?', o: ['Oui, largement', 'Non, il est juste plus stylé', 'Les deux sont sous-exploités', 'Megumi est le vrai protagoniste'] },
+  { q: 'Le Culling Game est-il trop compliqué ?', o: ['Oui, les règles sont indigestes', "Non, c'est ce qui fait sa richesse", "Le problème c'est le rythme, pas les règles", 'Il faut juste faire attention'] },
+  { q: 'Toji est-il le meilleur personnage de la série ?', o: ['Oui, et il est apparu trois épisodes', 'Non, il est surcoté par le fandom', 'Il est excellent mais pas le meilleur', "Il est la preuve qu'on n'a pas besoin de pouvoirs"] },
+  { q: 'Kenjaku est-il plus intéressant que Sukuna ?', o: ['Oui, son plan est ce qui tient toute la série', 'Non, Sukuna a plus de charisme', 'Ils ne servent pas la même fonction', 'Kenjaku est mal exploité'] },
+  { q: 'La VF de Jujutsu Kaisen est-elle bonne ?', o: ['Oui, elle est très correcte', 'Non, la VOSTFR est incomparable', 'Elle est bonne sur certains personnages', 'Je ne regarde jamais en VF'] },
+  { q: 'Faut-il regarder le film 0 avant la saison 1 ?', o: ['Non, après la saison 1', 'Oui, c\'est chronologique', "Avant la saison 2, c'est l'idéal", 'Peu importe'] },
+  { q: 'Gege Akutami a-t-il tué trop de personnages ?', o: ['Oui, ça devient gratuit', "Non, c'est ce qui rend la série tendue", "Le problème c'est le manque d'impact", "Il n'en a pas tué assez"] },
+  { q: 'Maki est-elle devenue trop forte ?', o: ['Oui, sa montée en puissance est absurde', 'Non, elle est parfaitement construite', "C'est le meilleur arc de personnage de la série", 'Elle est bien mais trop rapide'] },
+  { q: 'Le power scaling gâche-t-il Jujutsu Kaisen ?', o: ['Oui, le fandom ne parle que de ça', "Non, c'est ce qui rend les combats intéressants", "Le problème vient du fandom, pas de l'œuvre", "Le power scaling c'est la moitié du plaisir"] },
+  { q: "L'animation de la saison 3 est-elle au niveau de la saison 2 ?", o: ["Non, c'est en dessous", 'Oui, voire meilleure', 'Ça dépend des épisodes', 'La saison 2 était déjà inégale'] },
+  { q: 'Yuta est-il plus fort que Gojo ?', o: ['Non, personne n\'est plus fort que Gojo', 'Oui, avec Rika il le dépasse', "C'est débattu et ça le restera", "La question n'a pas de sens"] },
+  { q: 'Jujutsu Kaisen est-il devenu trop sombre ?', o: ["Oui, il n'y a plus aucun moment de respiration", "Non, c'est ce qui fait sa force", 'La saison 1 avait un meilleur équilibre', "Ce n'est pas assez sombre"] },
+  { q: 'Le fandom Jujutsu Kaisen est-il toxique ?', o: ["Oui, c'est un des pires", 'Non, il est passionné, c\'est différent', 'Comme tous les gros fandoms', 'Le problème ce sont les réseaux, pas les fans'] },
+  { q: 'Nanami est-il le personnage le plus aimé de la série ?', o: ['Oui, sans discussion', "Non, c'est Gojo", 'C\'est le plus respecté, pas le plus aimé', 'Il est surcoté'] },
+  { q: 'La saison 4 sortira-t-elle en 2027 ?', o: ['Oui, janvier 2027', 'Non, ce sera plus tard', 'Fin 2026, ils vont nous surprendre', '2028, soyons réalistes'] },
+  { q: 'Les extensions de territoire sont-elles trop utilisées ?', o: ['Oui, ça a perdu tout son impact', 'Non, chacune est différente', "Le problème c'est qu'on les explique trop", 'Il en faudrait plus'] },
+  { q: "Jujutsu Kaisen aurait dû s'arrêter après Shibuya", o: ["Oui, c'était le sommet", 'Non, le Culling Game est excellent', 'Il aurait fallu couper ailleurs', "La série n'a pas assez duré"] },
+  { q: 'Le manga est-il mal dessiné ?', o: ['Oui, les combats sont illisibles', 'Non, le style est volontaire', "Ça s'est amélioré avec le temps", "C'est le meilleur trait du Jump"] },
+  { q: 'Faut-il regarder Jujutsu Kaisen en simulcast ou attendre ?', o: ['Simulcast, sinon on se fait spoiler', 'Attendre et tout enchaîner', 'Simulcast puis rewatch', 'Peu importe, les spoilers sont partout'] },
+  { q: 'Quel est le meilleur combat de toute la série ?', o: ['Gojo contre Sukuna', 'Yuji et Todo contre Hanami', 'Toji contre Gojo', 'Un autre'] },
+];
+---
+<BaseLayout
+  title="Quiz Jujutsu Kaisen : 30 questions qui divisent le fandom"
+  description="Tu penses quoi, vraiment ? 30 questions d'opinion sur Jujutsu Kaisen, sans bonne réponse. Réponds et découvre bientôt où te situe la communauté."
+  canonicalPath="/quiz/jujutsu-kaisen"
+  category="anime"
+>
+  <div class="quiz" data-quiz>
+    <p class="eyebrow">Quiz débat · Jujutsu Kaisen</p>
+    <h1>Tu penses quoi, vraiment ?</h1>
+    <p class="quiz-lede">30 questions qui divisent le fandom. Aucune bonne réponse — juste ton avis. Réponds à tout et découvre où tu te situes.</p>
+
+    <div class="quiz-stage" data-stage>
+      <div class="quiz-progress"><span data-bar></span></div>
+      <p class="quiz-count" data-count></p>
+      <p class="quiz-q" data-q></p>
+      <div class="quiz-options" data-options></div>
+      <p class="quiz-hint" data-hint hidden>Réponse enregistrée. <em>La répartition des votes s'affichera ici bientôt.</em></p>
+      <button class="btn-primary quiz-next" data-next hidden>Question suivante →</button>
+    </div>
+
+    <div class="quiz-end" data-end hidden>
+      <h2>Terminé 🎉</h2>
+      <p>Tu as donné ton avis sur les <strong data-total></strong> questions.</p>
+      <p class="quiz-note">Le comparatif avec la majorité du fandom arrivera dès que le vote sera activé — c'est ce qui rendra ton résultat partageable.</p>
+      <button class="btn-secondary" data-restart>Recommencer</button>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ QUESTIONS }}>
+    (() => {
+      const root = document.querySelector('[data-quiz]');
+      if (!root) return;
+      const $ = (s) => root.querySelector(s);
+      const stage = $('[data-stage]'), end = $('[data-end]');
+      const bar = $('[data-bar]'), count = $('[data-count]'), qEl = $('[data-q]');
+      const optWrap = $('[data-options]'), hint = $('[data-hint]'), next = $('[data-next]');
+      const answers = new Array(QUESTIONS.length).fill(-1);
+      let i = 0;
+
+      function render() {
+        const Q = QUESTIONS[i];
+        bar.style.width = ((i) / QUESTIONS.length * 100) + '%';
+        count.textContent = 'Question ' + (i + 1) + ' / ' + QUESTIONS.length;
+        qEl.textContent = Q.q;
+        optWrap.innerHTML = '';
+        hint.hidden = true; next.hidden = true;
+        Q.o.forEach((opt, k) => {
+          const b = document.createElement('button');
+          b.className = 'quiz-opt';
+          b.textContent = opt;
+          b.addEventListener('click', () => choose(k, b));
+          optWrap.appendChild(b);
+        });
+      }
+      function choose(k, btn) {
+        answers[i] = k;
+        [...optWrap.children].forEach((c) => { c.classList.remove('is-chosen'); c.disabled = true; });
+        btn.classList.add('is-chosen');
+        hint.hidden = false; next.hidden = false;
+      }
+      next.addEventListener('click', () => {
+        i++;
+        if (i >= QUESTIONS.length) { stage.hidden = true; end.hidden = false; $('[data-total]').textContent = QUESTIONS.length; }
+        else render();
+      });
+      $('[data-restart]').addEventListener('click', () => { i = 0; answers.fill(-1); end.hidden = true; stage.hidden = false; render(); });
+      render();
+    })();
+  </script>
+
+  <style>
+    .quiz { max-width: 42rem; margin: 1.5rem auto 3rem; padding: 0 1.25rem; }
+    .quiz h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.7rem); letter-spacing: -.02em; margin: .4rem 0 .5rem; }
+    .quiz-lede { color: var(--fg-soft); margin: 0 0 1.6rem; }
+    .quiz-stage { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem 1.4rem 1.6rem; }
+    .quiz-progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 1rem; }
+    .quiz-progress span { display: block; height: 100%; background: var(--grad); transition: width .3s; }
+    .quiz-count { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-dim); margin: 0 0 .6rem; }
+    .quiz-q { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; line-height: 1.25; margin: 0 0 1.1rem; }
+    .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+    .quiz-opt {
+      text-align: left; padding: .85rem 1.1rem; border-radius: 14px; border: 1px solid var(--line-strong);
+      background: var(--card-solid); color: var(--fg); font: inherit; font-size: 1rem; cursor: pointer;
+      transition: border-color .15s, background .15s, transform .1s;
+    }
+    .quiz-opt:hover:not(:disabled) { border-color: var(--violet); background: rgba(255,255,255,.06); }
+    .quiz-opt:disabled { cursor: default; opacity: .6; }
+    .quiz-opt.is-chosen { opacity: 1; border-color: transparent; background: var(--grad); color: #14101f; font-weight: 700; }
+    .quiz-hint { margin: 1rem 0 0; font-size: .9rem; color: var(--fg-soft); }
+    .quiz-hint em { color: var(--fg-dim); }
+    .quiz-next { margin-top: 1.1rem; }
+    .quiz-end { text-align: center; background: var(--grad-soft); border: 1px solid var(--line-strong); border-radius: 20px; padding: 2rem 1.5rem; margin-top: 1rem; }
+    .quiz-end h2 { font-family: var(--font-display); font-weight: 800; margin: 0 0 .6rem; }
+    .quiz-note { color: var(--fg-soft); max-width: 32rem; margin: .8rem auto 1.4rem; font-size: .95rem; }
+  </style>
+</BaseLayout>
