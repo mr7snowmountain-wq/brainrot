@@ -233,9 +233,8 @@ img { max-width: 100%; }
 .art-card {
   display: flex;
   flex-direction: column;
-  gap: .4rem;
   height: 100%;
-  padding: 1.2rem 1.3rem;
+  overflow: hidden;
   border-radius: 18px;
   background: var(--card);
   border: 1px solid var(--line);
@@ -244,6 +243,9 @@ img { max-width: 100%; }
   transition: transform .16s, border-color .16s, background .16s;
 }
 .art-card:hover { transform: translateY(-3px); border-color: var(--line-strong); background: rgba(255,255,255,.07); color: var(--fg); }
+.art-thumb { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--card-solid); }
+.art-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+.art-body { display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.2rem 1.2rem; }
 .art-cat { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); }
 .art-titre { font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; line-height: 1.2; }
 .art-dek { color: var(--fg-soft); font-size: .92rem; }
@@ -353,7 +355,7 @@ img { max-width: 100%; }
 .media img, .media video, .media-ph {
   display: block; width: 100%; height: auto; aspect-ratio: var(--ratio, 16 / 9); border-radius: 16px;
 }
-.media img, .media video { object-fit: cover; background: var(--card-solid); border: 1px solid var(--line); }
+.media img, .media video { object-fit: cover; object-position: center 20%; background: var(--card-solid); border: 1px solid var(--line); }
 .media-ph {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .45rem;
   border: 2px dashed var(--line-strong); background: var(--grad-soft); color: var(--fg-soft);

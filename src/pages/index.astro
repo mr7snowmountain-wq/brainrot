@@ -8,6 +8,12 @@ import { CATEGORY_SLUGS, CATEGORY_META, categoryLabel } from '@/config/taxonomy'
 const arts = await getPublishedArticles();
 const latest = arts.slice(0, 9);
 const graph = buildEntityGraph();
+
+function thumb(a: (typeof arts)[number]): string | undefined {
+  const imgs = a.data.images ?? [];
+  const hero = a.data.heroImage ? imgs.find((i) => i.id === a.data.heroImage) : imgs[0];
+  return hero?.src;
+}
 ---
 <BaseLayout
   title="Brainrot — le média de la Gen Z qui joue"
@@ -46,9 +52,14 @@ const graph = buildEntityGraph();
         {latest.map((a) => (
           <li>
             <a class="art-card" href={`/${categoryOf(a)}/${shortSlug(a)}`}>
-              <span class="art-cat">{categoryLabel(categoryOf(a))}</span>
-              <span class="art-titre">{a.data.titre_h1}</span>
-              <span class="art-dek">{a.data.soustitre}</span>
+              <span class={`art-thumb cat-${categoryOf(a)}`}>
+                {thumb(a) && <img src={thumb(a)} alt="" loading="lazy" width="400" height="225" decoding="async" />}
+              </span>
+              <span class="art-body">
+                <span class="art-cat">{categoryLabel(categoryOf(a))}</span>
+                <span class="art-titre">{a.data.titre_h1}</span>
+                <span class="art-dek">{a.data.soustitre}</span>
+              </span>
             </a>
           </li>
         ))}

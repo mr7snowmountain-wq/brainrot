@@ -12,8 +12,18 @@ export const getStaticPaths = (async () => {
 const category = Astro.params.category as Category;
 const meta = CATEGORY_META[category];
 const articles = await getPublishedArticles(category);
-const piliers = articles.filter((a) => a.data.type === 'pilier');
-const autres = articles.filter((a) => a.data.type !== 'pilier');
+// Piliers en tête (mise en avant), puis le reste — une seule grille de cartes.
+const ordered = [
+  ...articles.filter((a) => a.data.type === 'pilier'),
+  ...articles.filter((a) => a.data.type !== 'pilier'),
+];
+
+/** Vignette d'un article : son image hero (ou la première déclarée). */
+function thumb(a: (typeof articles)[number]): string | undefined {
+  const imgs = a.data.images ?? [];
+  const hero = a.data.heroImage ? imgs.find((i) => i.id === a.data.heroImage) : imgs[0];
+  return hero?.src;
+}
 ---
 <BaseLayout
   title={`${meta.titre} — ${brand.name}`}
@@ -27,36 +37,22 @@ const autres = articles.filter((a) => a.data.type !== 'pilier');
     <h1>{meta.titre}</h1>
     <p class="hub-lede">{meta.description}</p>
 
-    {piliers.length > 0 && (
-      <>
-        <h2>Les guides</h2>
-        <ul class="liste-articles">
-          {piliers.map((a) => (
-            <li>
-              <a href={`/${category}/${shortSlug(a)}`}>
-                <span class="li-titre">{a.data.titre_h1}</span>
-                <span class="li-dek">{a.data.soustitre}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
-    )}
-
-    {autres.length > 0 && (
-      <>
-        <h2>À lire aussi</h2>
-        <ul class="liste-articles">
-          {autres.map((a) => (
-            <li>
-              <a href={`/${category}/${shortSlug(a)}`}>
-                <span class="li-titre">{a.data.titre_h1}</span>
-                <span class="li-dek">{a.data.soustitre}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
+    {ordered.length > 0 && (
+      <ul class="card-grid">
+        {ordered.map((a) => (
+          <li>
+            <a class="art-card" href={`/${category}/${shortSlug(a)}`}>
+              <span class={`art-thumb cat-${category}`}>
+                {thumb(a) && <img src={thumb(a)} alt="" loading="lazy" width="400" height="225" decoding="async" />}
+              </span>
+              <span class="art-body">
+                <span class="art-titre">{a.data.titre_h1}</span>
+                <span class="art-dek">{a.data.soustitre}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
     )}
 
     {articles.length === 0 && <p class="hub-vide"><em>Les premiers articles arrivent très vite.</em></p>}
