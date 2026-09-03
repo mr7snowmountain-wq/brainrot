@@ -11,6 +11,7 @@
     "validate": "tsx scripts/validate-articles.ts",
     "validate:prod": "cross-env SITE_ENV=production tsx scripts/validate-articles.ts",
     "schedule": "tsx scripts/schedule.ts",
+    "veille": "tsx scripts/veille.ts",
     "status": "tsx scripts/dashboard.ts",
     "media:ingest": "tsx scripts/media-ingest.ts",
     "media:audit": "tsx scripts/media-audit.ts",

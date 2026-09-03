@@ -1,0 +1,360 @@
+{
+  "_README": {
+    "objet": "Sources de veille pour le site Gen Z. Fichier lu par le script de veille quotidien.",
+    "AVERTISSEMENT": "Les URL ci-dessous proviennent d'annuaires et de pages publiques. Elles N'ONT PAS ÉTÉ TESTÉES une par une. Avant la première exécution, le script doit vérifier chaque flux et désactiver ceux qui ne renvoient pas de XML valide. Ne jamais laisser un flux mort dans la config sans le marquer.",
+    "annuaire_de_reference": {
+      "nom": "Atlas des flux",
+      "urls": [
+        "https://atlasflux.saynete.com/atlas_des_flux_rss_fra_culture_cinema.htm",
+        "https://atlasflux.saynete.com/atlas_des_flux_rss_fra_informatique_jeuvideo.htm",
+        "https://atlasflux.saynete.net/atlas_des_flux_rss_fra_manga.htm",
+        "https://atlasflux.saynete.net/atlas_des_flux_rss_fra_combat_libre.htm",
+        "https://atlasflux.saynete.net/atlas_des_flux_rss_fra_artsmartiaux.htm",
+        "https://atlasflux.saynete.net/atlas_des_flux_rss_fra_sport.htm"
+      ],
+      "note": "Annuaire français de flux RSS classés par thème, avec fréquence d'actualisation et date de dernière vérification. C'est la meilleure source pour compléter cette liste. À consulter tous les six mois pour ajouter ou retirer des flux."
+    },
+    "astuce_wordpress": "La majorité des médias français tournent sur WordPress, qui expose un flux à l'adresse /feed/ par défaut. Pour tout site sans flux connu, tester d'abord https://LE-SITE.fr/feed/ puis /rss/ puis /rss.xml. Le script doit tester automatiquement ces trois motifs avant de conclure qu'un site n'a pas de flux.",
+    "champ_statut": "Chaque source porte un champ statut : 'confirme' (URL relevée dans un annuaire ou sur le site), 'a_tester' (motif WordPress à essayer), 'mort' (testé, ne répond pas). Le script met ce champ à jour."
+  },
+  "musique_urbaine": {
+    "priorite": 1,
+    "description": "Rap FR et US, R&B, afro, amapiano, drill, shatta, bouyon. Cœur de la verticale musique.",
+    "sources": [
+      {
+        "nom": "Grizzmine — actu rap français",
+        "url": "https://www.grizzmine.com/rss/actu-rap-francais.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Grizzmine — clips",
+        "url": "https://www.grizzmine.com/rss/clip-rap-francais.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Grizzmine — sons",
+        "url": "https://www.grizzmine.com/rss/sons-rap.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Booska-P",
+        "url": "https://www.booska-p.com/feed/",
+        "statut": "a_tester",
+        "note": "Site majeur du rap FR. Motif WordPress à vérifier."
+      },
+      {
+        "nom": "Rap2France",
+        "url": "https://www.rap2france.com/feed/",
+        "statut": "a_tester"
+      },
+      {
+        "nom": "13OR du Hip Hop",
+        "url": "https://www.13or-du-hiphop.com/feed/",
+        "statut": "a_tester"
+      },
+      {
+        "nom": "Gentsu — rap FR",
+        "url": "https://www.gentsu.fr/rap-fr/feed/",
+        "statut": "a_tester"
+      }
+    ],
+    "a_completer": "Chercher des flux pour le rap US en français, l'amapiano et l'afrobeat, et les scènes shatta et bouyon — aucune source confirmée à ce jour sur ces trois derniers."
+  },
+  "anime_manga": {
+    "priorite": 1,
+    "description": "Verticale prioritaire. Sorties, saisons, licences, streaming.",
+    "sources": [
+      {
+        "nom": "Manga Sanctuary — news",
+        "url": "https://www.manga-sanctuary.com/RSS/news.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Aggregator Sama",
+        "url": "https://sama.animint.com/",
+        "statut": "confirme",
+        "type": "agregateur",
+        "note": "Agrège déjà des dizaines de blogs anime et manga francophones. Une seule source qui en vaut vingt. À traiter en priorité."
+      },
+      {
+        "nom": "ADN — Animation Digital Network",
+        "url": "https://news.animationdigitalnetwork.com/fr/feed/",
+        "statut": "a_tester",
+        "note": "Plateforme de streaming anime française. Source officielle pour les annonces de licences et de dates."
+      },
+      {
+        "nom": "Japanim News",
+        "url": "https://news.japanim.com/feed/",
+        "statut": "a_tester"
+      },
+      {
+        "nom": "Manga News",
+        "url": "https://www.manga-news.com/index.php/rss",
+        "statut": "a_tester"
+      }
+    ],
+    "a_completer": "Consulter l'atlas manga pour élargir. Chercher aussi un flux Crunchyroll France si disponible."
+  },
+  "jeux_video": {
+    "priorite": 1,
+    "sources": [
+      {
+        "nom": "Le Monde — jeux vidéo",
+        "url": "https://www.lemonde.fr/jeux-video/rss_full.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Libération — jeux vidéo",
+        "url": "https://www.liberation.fr/arc/outboundfeeds/rss/category/culture/jeux-video/?outputType=xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "AFJV — Agence Française pour le Jeu Vidéo",
+        "url": "https://afjv.com/rss.xml",
+        "statut": "confirme",
+        "note": "Source professionnelle. Annonces de studios, sorties, chiffres d'industrie."
+      },
+      {
+        "nom": "Factornews",
+        "url": "https://www.factornews.com/rss.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Betanews — gaming",
+        "url": "https://www.betanews.fr/gaming/feed/",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Jeuxvideo.com",
+        "url": "https://www.jeuxvideo.com/rss/rss.xml",
+        "statut": "a_tester",
+        "note": "Le plus gros média FR du secteur. Concurrent direct sur les requêtes de test, mais indispensable pour la veille."
+      },
+      {
+        "nom": "Gamekult",
+        "url": "https://www.gamekult.com/feed.xml",
+        "statut": "a_tester"
+      }
+    ]
+  },
+  "cinema_series": {
+    "priorite": 2,
+    "sources": [
+      {
+        "nom": "Boxoffice Pro",
+        "url": "https://www.boxofficepro.fr/feed/",
+        "statut": "confirme",
+        "note": "Chiffres de fréquentation et sorties. Source utile pour les données chiffrées."
+      },
+      {
+        "nom": "Cinemateaser",
+        "url": "https://cinemateaser.com/chroniques/feed/",
+        "statut": "confirme"
+      },
+      {
+        "nom": "La Croix — cinéma",
+        "url": "https://www.la-croix.com/feeds/rss/Culture/Cinema.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "20 Minutes — séries",
+        "url": "https://www.20minutes.fr/feeds/rss-serie.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Le NouvelObs — Prime Video",
+        "url": "https://www.nouvelobs.com/prime-video/rss.xml",
+        "statut": "confirme"
+      },
+      {
+        "nom": "Allociné",
+        "url": "https://www.allocine.fr/rss/news.xml",
+        "statut": "a_tester",
+        "note": "Concurrent direct sur les requêtes film. Indispensable en veille."
+      }
+    ],
+    "a_completer": "Ajouter un calendrier de sorties salle et streaming. L'atlas cinéma en liste plusieurs dizaines."
+  },
+  "sport": {
+    "priorite": 2,
+    "description": "Sport de combat en priorité — UFC, MMA, boxe. Volumes vérifiés élevés en difficulté facile : UFC 319, UFC 328, UFC 325 et le classement UFC sont tous à plus de 10 000 recherches mensuelles en KD easy.",
+    "sources": [
+      {
+        "nom": "La Sueur — section fight",
+        "url": "https://lasueur.com/feed/",
+        "statut": "a_tester",
+        "note": "Média MMA et UFC francophone le plus actif. Fréquence d'actualisation maximale dans l'Atlas des flux. Source prioritaire."
+      },
+      {
+        "nom": "Le Monde — MMA",
+        "url": "",
+        "statut": "a_recuperer",
+        "note": "Flux listé dans l'Atlas mais URL non relevée. À récupérer sur la page combat_libre de l'Atlas."
+      },
+      {
+        "nom": "Le Parisien — MMA",
+        "url": "",
+        "statut": "a_recuperer",
+        "note": "Listé dans l'Atlas, URL à récupérer."
+      },
+      {
+        "nom": "Gentsu — boxe MMA",
+        "url": "https://www.gentsu.fr/boxe-mma/feed/",
+        "statut": "a_tester",
+        "note": "Même éditeur que la source rap FR de la verticale musique."
+      },
+      {
+        "nom": "Hexagone MMA",
+        "url": "https://hexagone-mma.com/feed/",
+        "statut": "a_tester",
+        "note": "Organisation française de MMA. Source officielle pour les événements nationaux."
+      },
+      {
+        "nom": "FFMMA — Fédération Française de MMA",
+        "url": "",
+        "statut": "a_recuperer",
+        "note": "Source officielle. URL à récupérer sur l'Atlas."
+      },
+      {
+        "nom": "Ouest-France — BoxeMag MMA",
+        "url": "",
+        "statut": "a_recuperer",
+        "note": "Fréquence d'actualisation élevée d'après l'Atlas."
+      },
+      {
+        "nom": "ActuMMA — YouTube",
+        "url": "",
+        "statut": "a_recuperer",
+        "type": "youtube",
+        "note": "Les flux YouTube suivent le motif https://www.youtube.com/feeds/videos.xml?channel_id=XXX — récupérer l'identifiant de chaîne sur l'Atlas."
+      }
+    ],
+    "calendrier_officiel": {
+      "note": "Le plus important pour cette verticale n'est pas l'actualité mais le CALENDRIER. Les requêtes à fort volume sont les numéros d'événements — UFC 319, UFC 328 — et elles se cherchent dans les deux à trois semaines qui précèdent. Il faut donc une source qui liste les événements à venir avec leur date. À identifier : le calendrier officiel UFC, et un équivalent pour la boxe."
+    }
+  },
+  "mode_lifestyle": {
+    "priorite": 3,
+    "description": "Sneakers et streetwear. La donnée est structurée et publique : modèle, coloris, prix, SKU, date de sortie. C'est la verticale la plus facile à automatiser de tout le site.",
+    "sources_francophones": [
+      {
+        "nom": "Sneakers.fr — Releases",
+        "url": "https://www.sneakers.fr/category/releases/",
+        "flux_a_tester": "https://www.sneakers.fr/feed/",
+        "statut": "confirme_page",
+        "note": "SOURCE PRIORITAIRE. Page de releases structurée : modèle, coloris, prix en euros, SKU, date de sortie. Exactement le format dont le site a besoin. Motif WordPress à tester pour le flux."
+      },
+      {
+        "nom": "Sneakers-actus.fr",
+        "url": "https://www.sneakers-actus.fr/",
+        "flux_a_tester": "https://www.sneakers-actus.fr/feed/",
+        "statut": "confirme_page",
+        "note": "Publie des guides de sortie par modèle, avec tableaux date / prix / SKU. Format proche de ce qu'on veut produire."
+      },
+      {
+        "nom": "Project X Paris — Le Radar",
+        "url": "https://www.projectxparis.com/blogs/le-radar",
+        "flux_a_tester": "https://www.projectxparis.com/blogs/le-radar.atom",
+        "statut": "confirme_page",
+        "note": "Publie des calendriers saisonniers. Boutique Shopify, donc flux Atom disponible sur le motif /blogs/NOM.atom."
+      }
+    ],
+    "calendriers_officiels": [
+      {
+        "nom": "Nike SNKRS FR — sorties à venir",
+        "url": "https://www.nike.com/fr/launch/upcoming",
+        "statut": "confirme_page",
+        "note": "SOURCE OFFICIELLE, prix et dates en euros, heure de drop précise. Pas de flux RSS — à scraper ou consulter à la main."
+      },
+      {
+        "nom": "SNIPES — calendrier des sorties",
+        "url": "https://www.snipes.com/fr-fr/s/releasecalendar",
+        "statut": "confirme_page",
+        "note": "Distributeur, calendrier en français avec prix en euros et statut de disponibilité."
+      }
+    ],
+    "sources_anglophones_de_reference": [
+      {
+        "nom": "Sneaker News — calendrier Jordan",
+        "url": "https://sneakernews.com/air-jordan-release-dates/",
+        "statut": "confirme_page",
+        "note": "Mis à jour quotidiennement. Référence mondiale. Les sites français reprennent avec du retard — être le premier à documenter en français est l'avantage."
+      },
+      {
+        "nom": "Sneaker Files",
+        "url": "https://www.sneakerfiles.com/release-dates/",
+        "statut": "confirme_page",
+        "note": "Calendrier 2026 et 2027, avec coloris, style code et prix."
+      },
+      {
+        "nom": "Sneaker Bar Detroit",
+        "url": "https://sneakerbardetroit.com/sneaker-release-dates/",
+        "statut": "confirme_page",
+        "note": "Archives depuis 2021, utile pour les articles rétrospectifs."
+      }
+    ],
+    "pourquoi_cette_verticale_est_la_plus_facile": {
+      "note": "Chaque sortie de paire produit une entité parfaitement structurée : nom du modèle, coloris exact, prix en euros, SKU, date. Ce sont des faits vérifiables sur une source officielle — exactement ce que les IA citent et ce que le validateur exige. Le gabarit MODE se remplit presque mécaniquement, et les dates de sortie donnent la fenêtre de publication.",
+      "attention_marques": "Les noms de modèles et de marques peuvent être cités dans le corps des articles — c'est de l'éditorial. Ils ne doivent PAS apparaître dans le nom d'un pack de jeu ni dans les mots-clés du store."
+    }
+  },
+  "culture_web": {
+    "priorite": 2,
+    "description": "Memes, sons viraux, tendances TikTok. Contenu tres perissable — la vitesse prime. Aucun flux RSS n'existe sur ce sujet : ce sont des outils a consulter, pas des flux a parser.",
+    "outils_a_consulter": [
+      {
+        "nom": "TikTok Creative Center",
+        "url": "https://ads.tiktok.com/business/creativecenter",
+        "statut": "confirme",
+        "type": "outil",
+        "gratuit": true,
+        "note": "SOURCE PRIORITAIRE de la verticale. Outil gratuit de TikTok, accessible dans le navigateur, sans installation. Donne les tendances par REGION, donc filtrable sur la France. Quatre categories analysees en temps reel : hashtags, musiques, createurs, videos. Interface en anglais uniquement, mais les donnees sont bien francaises.",
+        "acces": "La majorite des donnees est consultable sans etre connecte. L'acces complet demande un compte TikTok Business, gratuit.",
+        "limite_importante": "Le Creative Center n'analyse QUE la musique officielle d'artistes. Les sons issus de contenus d'utilisateurs (extraits de films, repliques, bruitages) n'y apparaissent pas. Or ce sont souvent eux qui deviennent viraux. Une seconde source est necessaire."
+      },
+      {
+        "nom": "TokChart",
+        "url": "https://tokchart.com",
+        "statut": "a_verifier",
+        "type": "outil",
+        "gratuit": "version gratuite limitee",
+        "note": "Montre les sons qui montent le plus vite sur les dernieres 24 heures. Complete le Creative Center sur les sons non officiels."
+      },
+      {
+        "nom": "Onglet Tendance dans l'app TikTok",
+        "url": "",
+        "statut": "confirme",
+        "type": "manuel",
+        "note": "Dans l'application, au moment d'ajouter un son, l'onglet Tendance liste les sons populaires. Ceux qui portent une icone de courbe montante sont en progression rapide. Source la plus fraiche, et elle est manuelle."
+      },
+      {
+        "nom": "Compte Spotify officiel de TikTok",
+        "url": "",
+        "statut": "a_verifier",
+        "type": "playlist",
+        "note": "TikTok maintient des playlists publiques regroupant les musiques tendance. Utile aussi pour la verticale musique."
+      },
+      {
+        "nom": "Know Your Meme",
+        "url": "https://knowyourmeme.com/newsfeed.rss",
+        "flux_a_tester": "https://knowyourmeme.com/newsfeed.rss",
+        "statut": "a_tester",
+        "type": "flux",
+        "note": "Seule source de cette verticale qui pourrait avoir un flux RSS. En anglais, mais source primaire mondiale sur les memes. Les sites francais reprennent avec plusieurs jours de retard : documenter en premier en francais est l'avantage."
+      }
+    ],
+    "consequence_pour_le_script": {
+      "note": "Cette verticale ne s'automatise PAS comme les autres. Il n'y a pas de flux a parser, ce sont des interfaces a consulter. Deux options : un rappel dans le fichier de veille quotidien invitant a consulter le Creative Center, ou un scraping leger si la structure le permet. Ne pas essayer de forcer un flux qui n'existe pas.",
+      "rythme_recommande": "Consultation manuelle deux a trois fois par semaine, dix minutes. Sur un contenu qui dure trois semaines, deux jours de decalage passent ; une semaine, non."
+    }
+  },
+  "_taches_de_completion": [
+    "Tester chaque URL de flux marquee 'flux_a_tester'. Les pages sont confirmees, les flux ne le sont pas.",
+    "Recuperer les URL marquees 'a_recuperer' directement sur les pages de l'Atlas des flux.",
+    "Creer un compte TikTok Business gratuit pour debloquer l'acces complet au Creative Center.",
+    "Culture web : ne pas chercher de flux RSS, il n'y en a pas. Prevoir un rappel de consultation manuelle dans le fichier de veille, deux a trois fois par semaine.",
+    "Mode : les calendriers officiels Nike SNKRS et SNIPES n'ont pas de flux. Scraping leger ou consultation hebdomadaire.",
+    "Sport : identifier le calendrier officiel UFC. Ce sont les numeros d'evenements qui portent le volume mesure.",
+    "Revoir cette liste tous les six mois via l'Atlas des flux."
+  ]
+}
