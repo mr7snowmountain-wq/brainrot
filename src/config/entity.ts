@@ -27,12 +27,17 @@ export const REQUIRED_ENTITY_KEYS = [
 
 export type EntityKey = (typeof REQUIRED_ENTITY_KEYS)[number];
 
-/** Valeurs de repli en développement (jamais utilisées en prod). */
+/**
+ * Valeurs d'entité. Sur GitHub Pages, le build tourne SANS `.env` : ces valeurs
+ * committées sont donc la source de vérité pour les données PUBLIQUES du site
+ * (nom, URL, email de contact). Rien de secret ici — tout s'affiche sur le site.
+ * Les réseaux restent des placeholders tant que les comptes n'existent pas.
+ */
 export const ENTITY_DEFAULTS: Record<EntityKey, string> = {
   BRAND_NAME: 'Brainrot',
   SITE_URL: 'https://brainrotstudio.app',
   AUTHOR_NAME: 'La rédaction Brainrot',
-  CONTACT_EMAIL: '__CONTACT_EMAIL__',
+  CONTACT_EMAIL: 'Terence@insmk.com',
   LOGO_PATH: '/logo.png',
   INSTAGRAM_URL: '__INSTAGRAM_URL__',
   TIKTOK_URL: '__TIKTOK_URL__',

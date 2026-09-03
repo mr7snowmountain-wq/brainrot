@@ -1,28 +1,65 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { brand } from '@/config/brand';
+
+const maj = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <BaseLayout
-  title="Confidentialité (RGPD)"
-  description="Politique de confidentialité de Brainrot : lecture anonyme, cookies, affiliation et droits RGPD."
+  title="Politique de confidentialité (RGPD)"
+  description="Politique de confidentialité de Brainrot : données, cookies, publicité, affiliation et droits RGPD."
   canonicalPath="/confidentialite"
   robots="noindex,follow"
 >
   <div class="prose">
-    <h1>Confidentialité</h1>
-    <p><em>Contenu à compléter avant mise en ligne.</em></p>
+    <h1>Politique de confidentialité</h1>
+    <p class="prose-note">Dernière mise à jour : {maj}.</p>
+
+    <h2>Responsable du traitement</h2>
+    <p>
+      Terence Brocorens, éditeur du site {brand.name}.
+      Contact : <a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>.
+    </p>
+
     <h2>Lecture anonyme</h2>
-    <p>La lecture du site ne demande aucun compte. Aucune donnée sensible n'est
-    collectée à la lecture.</p>
-    <h2>Cookies & mesure d'audience</h2>
-    <p>Le site utilise des cookies de mesure d'audience et, le cas échéant, de
-    publicité (AdMob/display). Un bandeau de consentement te laisse accepter ou
-    refuser les cookies non essentiels. Détail des finalités à préciser.</p>
-    <h2>Affiliation</h2>
-    <p>Certains liens sortants sont affiliés. Cliquer dessus peut déposer un
-    cookie du partenaire marchand, soumis à sa propre politique.</p>
-    <h2>Tes droits (RGPD)</h2>
-    <p>Accès, rectification, effacement, opposition. Écris-nous à
-    <a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>.</p>
+    <p>
+      La consultation du site ne nécessite aucun compte et ne demande aucune
+      donnée personnelle. Nous ne collectons pas de nom, d'adresse ni d'identifiant
+      lors de la simple lecture.
+    </p>
+
+    <h2>Cookies et mesure d'audience</h2>
+    <p>
+      Le site peut utiliser des cookies de <strong>mesure d'audience</strong> (pour
+      comprendre ce qui est lu) et, à terme, de <strong>publicité</strong> (régies
+      display / AdMob). Ces cookies non essentiels ne sont déposés qu'avec votre
+      accord : un bandeau de consentement vous laisse accepter ou refuser. Vous
+      pouvez modifier votre choix à tout moment.
+    </p>
+
+    <h2>Liens d'affiliation</h2>
+    <p>
+      Certains liens sortants sont affiliés. En cliquant dessus, le site marchand
+      partenaire peut déposer ses propres cookies, soumis à <em>sa</em> politique
+      de confidentialité, sur laquelle nous n'avons pas la main.
+    </p>
+
+    <h2>Hébergement</h2>
+    <p>
+      Le site est hébergé par GitHub Pages. L'hébergeur peut conserver des journaux
+      techniques (adresses IP, en-têtes) à des fins de sécurité et de bon
+      fonctionnement, conformément à sa propre politique.
+    </p>
+
+    <h2>Vos droits (RGPD)</h2>
+    <p>
+      Conformément au RGPD, vous disposez d'un droit d'accès, de rectification,
+      d'effacement, d'opposition et de portabilité concernant vos données. Pour
+      l'exercer, écrivez à
+      <a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>. Vous pouvez
+      aussi saisir la CNIL (<a href="https://www.cnil.fr" rel="noopener" target="_blank">cnil.fr</a>).
+    </p>
+
+    <h2>Contact</h2>
+    <p><a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a></p>
   </div>
 </BaseLayout>

@@ -1,22 +1,61 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { brand } from '@/config/brand';
+
+const annee = new Date().getFullYear();
 ---
 <BaseLayout
   title="Mentions légales"
-  description="Mentions légales du média Brainrot."
+  description="Mentions légales du média Brainrot : éditeur, hébergeur, propriété intellectuelle et affiliation."
   canonicalPath="/mentions-legales"
   robots="noindex,follow"
 >
   <div class="prose">
     <h1>Mentions légales</h1>
-    <p><em>Contenu à compléter avant mise en ligne.</em></p>
-    <h2>Éditeur</h2>
-    <p>{brand.name} — {brand.author}. Contact : <a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>.</p>
+
+    <h2>Éditeur du site</h2>
+    <p>
+      Le présent site <strong>{brand.name}</strong> (<a href={brand.siteUrl}>{brand.siteUrl}</a>)
+      est édité par <strong>Terence Brocorens</strong>, particulier.<br />
+      Contact : <a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>
+    </p>
+
+    <h2>Directeur de la publication</h2>
+    <p>Terence Brocorens.</p>
+
     <h2>Hébergement</h2>
-    <p>À préciser (Cloudflare Pages / Vercel).</p>
-    <h2>Nature du contenu & affiliation</h2>
-    <p>Média éditorial de divertissement. Certains liens sont affiliés et
-    signalés comme tels ; ils n'influencent pas la ligne éditoriale.</p>
+    <p>
+      Le site est hébergé par <strong>GitHub Pages</strong> — GitHub, Inc.,
+      88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.
+      <br />Site : <a href="https://github.com" rel="noopener" target="_blank">github.com</a>
+    </p>
+
+    <h2>Nature du contenu</h2>
+    <p>
+      {brand.name} est un média éditorial de divertissement (jeux vidéo, séries,
+      anime, musique, tech, culture web). Les informations sont fournies à titre
+      indicatif ; malgré le soin apporté, des erreurs peuvent subsister.
+    </p>
+
+    <h2>Liens affiliés</h2>
+    <p>
+      Certains liens sortants sont des liens d'affiliation : si vous passez par
+      eux pour un achat, l'éditeur peut percevoir une commission, sans surcoût
+      pour vous. Ces liens sont signalés dans les articles et n'influencent pas
+      la ligne éditoriale.
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      Les textes et éléments graphiques originaux du site sont la propriété de
+      leur éditeur. Toute reproduction sans autorisation est interdite. Les noms
+      de marques, jeux, films ou œuvres cités restent la propriété de leurs
+      titulaires respectifs et ne sont mentionnés qu'à titre éditorial.
+    </p>
+
+    <h2>Contact</h2>
+    <p><a href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a></p>
+
+    <p class="prose-note">© {annee} {brand.name}. Voir aussi la <a href="/confidentialite">politique de confidentialité</a>.</p>
   </div>
 </BaseLayout>

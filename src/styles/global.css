@@ -374,6 +374,7 @@ img { max-width: 100%; }
 .prose h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; margin: 2rem 0 .6rem; }
 .prose p { color: var(--fg-soft); }
 .prose strong { color: var(--fg); }
+.prose-note { color: var(--fg-dim); font-size: .9rem; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
 
 /* ── Footer ──────────────────────────────────────── */
