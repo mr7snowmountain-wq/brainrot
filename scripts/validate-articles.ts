@@ -9,7 +9,8 @@
  * Sort en code 1 dès qu'une ERREUR est trouvée. Réutilisable :
  * `validateArticle()` est exporté pour le tableau de bord.
  */
-import { relative, basename, dirname } from 'node:path';
+import { relative, basename, dirname, join } from 'node:path';
+import { existsSync, readdirSync } from 'node:fs';
 import {
   classifyH2,
   countWords,
@@ -37,6 +38,74 @@ const CADENCE_MIN_DAYS = 30;
 
 const ENV = loadEnv();
 const SITE_URL = ENV.SITE_URL || 'https://brainrotstudio.app';
+
+/**
+ * Ensemble des chemins internes VALIDES : articles publiables, hubs de catégorie,
+ * pages Astro (quiz, statiques). Sert à interdire tout lien interne mort (404).
+ */
+/** Liste TOUS les fichiers d'un dossier (walk() de util est limité au markdown). */
+function walkAll(dir: string): string[] {
+  if (!existsSync(dir)) return [];
+  const out: string[] = [];
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) out.push(...walkAll(p));
+    else out.push(p);
+  }
+  return out;
+}
+
+function buildValidPaths(): Set<string> {
+  const paths = new Set<string>(['/', ...CATEGORY_SLUGS.map((c) => `/${c}`)]);
+  for (const f of walk(ARTICLES_DIR)) {
+    if (!/\.mdx?$/.test(f)) continue;
+    const noext = relative(ARTICLES_DIR, f).replace(/\\/g, '/').replace(/\.mdx?$/, '');
+    paths.add(`/${noext}`);
+  }
+  const PAGES = join(SITE_ROOT, 'src', 'pages');
+  for (const f of walkAll(PAGES)) {
+    const rel = relative(PAGES, f).replace(/\\/g, '/');
+    if (/\[[^\]]+\]/.test(rel)) continue; // routes dynamiques (déjà couvertes par les articles/hubs)
+    if (!/\.(astro|md|mdx|ts|js)$/.test(rel)) continue;
+    const route = rel
+      .replace(/\.(astro|md|mdx|ts|js)$/, '')
+      .replace(/\/index$/, '')
+      .replace(/^index$/, '');
+    paths.add(route ? `/${route}` : '/');
+  }
+  return paths;
+}
+const VALID_PATHS = buildValidPaths();
+
+/** Normalise un href interne pour comparaison (retire query/ancre + slash final). */
+function internalPath(href: string): string {
+  return (href.split(/[?#]/)[0] || '').replace(/\/+$/, '') || '/';
+}
+
+/** Chemin public d'un fichier article : /<dossier>/<basename>. */
+function articlePath(f: string): string {
+  return `/${relative(ARTICLES_DIR, f).replace(/\\/g, '/').replace(/\.mdx?$/, '')}`;
+}
+
+/**
+ * cluster -> chemins des articles publiés du cluster. La section « À lire dans la
+ * même série » rend ces frères automatiquement : on les crédite donc dans le
+ * comptage des liens internes (un article en cluster n'a plus à forcer ses liens).
+ */
+function buildClusterMembers(): Map<string, string[]> {
+  const m = new Map<string, string[]>();
+  for (const f of walk(ARTICLES_DIR)) {
+    if (!/\.mdx?$/.test(f)) continue;
+    const a = readArticle(f);
+    const cl = (a.data as { cluster?: string; draft?: boolean }).cluster;
+    if (!cl || (a.data as { draft?: boolean }).draft) continue;
+    const list = m.get(cl) ?? [];
+    list.push(articlePath(f));
+    m.set(cl, list);
+  }
+  return m;
+}
+const CLUSTER_MEMBERS = buildClusterMembers();
 
 export interface Report {
   file: string;
@@ -146,14 +215,28 @@ export function validateArticle(file: string): Report {
     }
   }
 
-  // 4. Au moins 3 liens internes — BLOQUANT
+  // 4. Au moins 3 liens internes — BLOQUANT. On crédite les frères de cluster
+  //    (rendus automatiquement par la section « À lire dans la même série »).
+  const thisPath = articlePath(file);
+  const siblings = (CLUSTER_MEMBERS.get(d.cluster) ?? []).filter((p) => p !== thisPath);
   const allHrefs: string[] = [
     ...bodyLinks(content),
     ...(Array.isArray(d.liens_internes) ? d.liens_internes.map((l: any) => l?.href) : []),
     d.pilier_ref?.href,
+    ...siblings,
   ].filter(Boolean);
   const nInternes = countInternalLinks(allHrefs, SITE_URL);
   if (nInternes < LIENS_MIN) errors.push(`${nInternes} lien(s) interne(s) (minimum ${LIENS_MIN})`);
+
+  // 4 bis. AUCUN LIEN INTERNE MORT — BLOQUANT (Google déteste les 404 internes).
+  //   Toute ancre "/…" (corps, liens_internes, pilier, CTA) doit viser une page
+  //   existante. Les "#", externes, mailto/tel sont ignorés.
+  for (const h of [...allHrefs, d.cta?.href]) {
+    if (!h || !h.startsWith('/')) continue;
+    if (!VALID_PATHS.has(internalPath(h))) {
+      errors.push(`lien interne mort : ${h} (aucune page ne répond — crée la cible ou retire le lien)`);
+    }
+  }
 
   // 5. FAQ 5-9 — BLOQUANT sur le nombre ; doublons = avertissement.
   const nFaq = Array.isArray(d.faq) ? d.faq.length : 0;

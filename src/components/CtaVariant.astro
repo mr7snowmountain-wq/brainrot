@@ -19,20 +19,23 @@ interface Props {
 }
 const { cta } = Astro.props;
 const external = /^https?:\/\//.test(cta.href);
-const pending = cta.href === '#' || cta.href.startsWith('TODO');
+// Cible pas encore en ligne (ex. le jeu) : on rend le bouton SANS href — pas de
+// lien mort vers "#", et Google ne voit aucune ancre cassée.
+const pending = !cta.href || cta.href === '#' || cta.href.startsWith('TODO');
 ---
 <aside class="cta-fin">
   {cta.titre && <p class="cta-titre">{cta.titre}</p>}
   {cta.texte && <p class="cta-texte">{cta.texte}</p>}
   <a
-    class="cta-hero"
-    href={cta.href}
+    class:list={['cta-hero', { 'is-pending': pending }]}
+    href={pending ? undefined : cta.href}
     data-track={cta.track}
-    rel={external ? 'sponsored noopener' : undefined}
-    target={external ? '_blank' : undefined}
+    rel={!pending && external ? 'sponsored noopener' : undefined}
+    target={!pending && external ? '_blank' : undefined}
     aria-disabled={pending ? 'true' : undefined}
   >
     {cta.label}
-    {cta.soustitre && <small>{cta.soustitre}</small>}
+    {pending && <small>bientôt</small>}
+    {!pending && cta.soustitre && <small>{cta.soustitre}</small>}
   </a>
 </aside>

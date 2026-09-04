@@ -12,7 +12,7 @@ import Maillage from '@/components/Maillage.astro';
 import CtaVariant from '@/components/CtaVariant.astro';
 import Media from '@/components/Media.astro';
 import { buildArticleGraph, articleUrl } from '@/lib/jsonld';
-import { categoryOf, shortSlug } from '@/lib/articles';
+import { categoryOf, shortSlug, getPublishedArticles } from '@/lib/articles';
 import { categoryLabel } from '@/config/taxonomy';
 
 interface Props {
@@ -27,6 +27,16 @@ const path = `/${category}/${slug}`;
 const url = articleUrl(category, slug);
 const graph = buildArticleGraph(d, url);
 const heroImg = d.heroImage ? d.images.find((i) => i.id === d.heroImage) : undefined;
+
+// « À lire dans la même série » = frères de cluster, remplis AUTOMATIQUEMENT
+// (plus tout lien du frontmatter), dédupliqués. La section se masque si vide.
+const seen = new Set<string>();
+const liens = [
+  ...((d.liens_internes ?? []) as { href: string; label: string }[]),
+  ...(await getPublishedArticles())
+    .filter((a) => a.data.cluster && a.data.cluster === d.cluster && shortSlug(a) !== slug)
+    .map((a) => ({ href: `/${categoryOf(a)}/${shortSlug(a)}`, label: a.data.titre_h1 })),
+].filter((l) => l.href && !seen.has(l.href) && seen.add(l.href));
 ---
 <BaseLayout
   title={d.title_tag}
@@ -65,6 +75,6 @@ const heroImg = d.heroImage ? d.images.find((i) => i.id === d.heroImage) : undef
 
     <Sources sources={d.sources} />
 
-    <Maillage pilier={d.pilier_ref} liens={d.liens_internes} />
+    <Maillage pilier={d.pilier_ref} liens={liens} />
   </article>
 </BaseLayout>

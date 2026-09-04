@@ -9,8 +9,11 @@ interface Props {
 }
 const { pilier, liens } = Astro.props;
 // On ne duplique pas le pilier s'il figure déjà dans les liens.
-const autres = liens.filter((l) => !pilier || l.href !== pilier.href);
+const autres = (liens ?? []).filter((l) => !pilier || l.href !== pilier.href);
+// Section masquée si rien à montrer — pas de boîte vide.
+const show = Boolean(pilier) || autres.length > 0;
 ---
+{show && (
 <nav class="articles-lies" aria-label="À lire ensuite">
   <h2 class="maillage-titre">À lire dans la même série</h2>
   <div class="maillage-grid">
@@ -29,3 +32,4 @@ const autres = liens.filter((l) => !pilier || l.href !== pilier.href);
     ))}
   </div>
 </nav>
+)}
