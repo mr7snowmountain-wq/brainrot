@@ -12,6 +12,7 @@ export const CATEGORY_SLUGS = [
   'jeux-video',
   'anime',
   'streaming-series',
+  'cinema',
   'musique',
   'tech',
   'culture-web',
@@ -43,6 +44,12 @@ export const CATEGORY_META: Record<Category, CategoryMeta> = {
     titre: 'Séries & streaming',
     description:
       'Netflix, Prime, Disney+ : quoi regarder, quand ça sort, ce qui vaut le coup. Séries, films, plateformes.',
+  },
+  cinema: {
+    label: 'Cinéma',
+    titre: 'Cinéma',
+    description:
+      'Sorties ciné, casting, critiques et box-office : ce qui vaut le déplacement et ce qui peut attendre le streaming.',
   },
   musique: {
     label: 'Musique',
