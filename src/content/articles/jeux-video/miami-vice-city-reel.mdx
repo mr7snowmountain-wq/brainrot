@@ -60,8 +60,20 @@ cta:
   label: Faire le quiz
   href: "#"
   track: cta-gta7-quiz
+images:
+  - id: hero
+    src: /img/gta-6-avion-vice-city-aeroport-miami.webp
+    widths: [400, 800, 1200, 1600]
+    pinImage: /img/gta-6-avion-vice-city-aeroport-miami-pin.webp
+    ratio: "16/9"
+    width: 1600
+    height: 900
+    alt: "Avion aux couleurs de GTA 6 Vice City devant l'aéroport international de Miami"
+    pinDescription: "GTA 6 : Miami rêve de devenir Vice City, jusqu'à son aéroport"
+heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Qu'est-ce qu'il y avait dans le dossier envoyé à Rockstar ?
 
@@ -78,6 +90,8 @@ Dedans, des idées qui ne s'inventent pas.
 **Des plaques d'égout customisées** dans tout le centre-ville.
 
 Des plaques d'égout.
+
+<Media src="/img/gta-6-plaque-egout-vice-city-miami.webp" widths={[400, 800, 1200]} ratio="4/3" alt="Plaque d'égout personnalisée Miami Vice City aux couleurs de GTA 6" pinDescription="GTA 6 : même les plaques d'égout de Miami passeraient en Vice City" />
 
 Et un festival automobile avec lowriders et motos, présenté comme familial — pour un jeu interdit aux moins de dix-huit ans.
 
