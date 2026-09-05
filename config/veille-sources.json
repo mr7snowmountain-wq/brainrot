@@ -19,8 +19,9 @@
   },
   "musique_urbaine": {
     "priorite": 1,
-    "description": "Rap FR et US, R&B, afro, amapiano, drill, shatta, bouyon. Cœur de la verticale musique.",
-    "sources": [
+    "description": "Rap FR ET US, R&B, afro trap, afro house, amapiano, dancehall, dancehall latino (reggaeton), shatta, bouyon, drill. Cœur de la verticale musique.",
+    "strategie_us": "Les tendances de musique urbaine PARTENT des États-Unis (rap US) et des scènes afro/caribéennes, puis arrivent en France avec du retard. On lit donc des flux ANGLOPHONES en priorité pour détecter tôt, et on PRODUIT l'article en français (traduction/adaptation éditoriale). Être le premier à documenter en français = l'avantage SEO/GEO.",
+    "sources_francophones": [
       {
         "nom": "Grizzmine — actu rap français",
         "url": "https://www.grizzmine.com/rss/actu-rap-francais.xml",
@@ -58,7 +59,115 @@
         "statut": "mort"
       }
     ],
-    "a_completer": "Chercher des flux pour le rap US en français, l'amapiano et l'afrobeat, et les scènes shatta et bouyon — aucune source confirmée à ce jour sur ces trois derniers."
+    "sources_us_rap": [
+      {
+        "nom": "HotNewHipHop",
+        "url": "https://www.hotnewhiphop.com/rss/all.xml",
+        "flux_a_tester": "https://www.hotnewhiphop.com/rss/all.xml",
+        "statut": "mort",
+        "note": "Média rap US majeur (sorties, clashs, charts). Anglophone — détecter tôt, traduire ensuite."
+      },
+      {
+        "nom": "HipHopDX — news",
+        "url": "https://hiphopdx.com/rss/news.xml",
+        "flux_a_tester": "https://hiphopdx.com/rss/news.xml",
+        "statut": "confirme",
+        "note": "Référence rap US. Flux news historique."
+      },
+      {
+        "nom": "XXL Magazine",
+        "url": "https://www.xxlmag.com/feed/",
+        "flux_a_tester": "https://www.xxlmag.com/feed/",
+        "statut": "confirme",
+        "note": "Freshman class, actualité rap US."
+      },
+      {
+        "nom": "Rap-Up",
+        "url": "https://www.rap-up.com/feed/",
+        "flux_a_tester": "https://www.rap-up.com/feed/",
+        "statut": "mort"
+      },
+      {
+        "nom": "AllHipHop",
+        "url": "https://allhiphop.com/feed/",
+        "flux_a_tester": "https://allhiphop.com/feed/",
+        "statut": "confirme"
+      },
+      {
+        "nom": "2DOPEBOYZ",
+        "url": "https://2dopeboyz.com/feed/",
+        "flux_a_tester": "https://2dopeboyz.com/feed/",
+        "statut": "perime"
+      },
+      {
+        "nom": "Pitchfork — actus",
+        "url": "https://pitchfork.com/rss/news/",
+        "flux_a_tester": "https://pitchfork.com/rss/news/",
+        "statut": "confirme",
+        "note": "Large (pas que rap) mais couvre le rap US de tête d'affiche et les sorties majeures."
+      },
+      {
+        "nom": "The FADER",
+        "url": "https://www.thefader.com/rss",
+        "flux_a_tester": "https://www.thefader.com/rss",
+        "statut": "mort",
+        "note": "Rap US, culture urbaine, découvertes."
+      },
+      {
+        "nom": "Billboard",
+        "url": "https://www.billboard.com/feed/",
+        "flux_a_tester": "https://www.billboard.com/feed/",
+        "statut": "confirme",
+        "note": "Charts et industrie — utile pour les données chiffrées (n°1, records)."
+      }
+    ],
+    "sources_afro_amapiano": [
+      {
+        "nom": "Notjustok",
+        "url": "https://notjustok.com/feed/",
+        "flux_a_tester": "https://notjustok.com/feed/",
+        "statut": "confirme",
+        "note": "Afrobeats/afro trap nigérian, source primaire de la scène."
+      },
+      {
+        "nom": "TooXclusive",
+        "url": "https://tooxclusive.com/feed/",
+        "flux_a_tester": "https://tooxclusive.com/feed/",
+        "statut": "confirme",
+        "note": "Afrobeats/amapiano, sorties et classements Nigeria."
+      },
+      {
+        "nom": "OkayAfrica",
+        "url": "https://www.okayafrica.com/rss/",
+        "flux_a_tester": "https://www.okayafrica.com/rss/",
+        "statut": "mort",
+        "note": "Afro house, amapiano, culture panafricaine (anglophone)."
+      }
+    ],
+    "sources_dancehall_reggaeton": [
+      {
+        "nom": "DancehallMag",
+        "url": "https://www.dancehallmag.com/feed",
+        "flux_a_tester": "https://www.dancehallmag.com/feed",
+        "statut": "mort",
+        "note": "Dancehall jamaïcain, source dédiée."
+      },
+      {
+        "nom": "Urban Islandz",
+        "url": "https://urbanislandz.com/feed/",
+        "flux_a_tester": "https://urbanislandz.com/feed/",
+        "statut": "mort",
+        "note": "Dancehall + rap caribéen."
+      },
+      {
+        "nom": "Remezcla",
+        "url": "https://remezcla.com/feed/",
+        "flux_a_tester": "https://remezcla.com/feed/",
+        "statut": "confirme",
+        "note": "Reggaeton / dancehall latino, culture latino-US."
+      }
+    ],
+    "a_completer": "Après `pnpm veille:test`, garder les flux passés en 'confirme' et retirer/annoter ceux marqués 'mort'. SHATTA et BOUYON (Antilles françaises, Guadeloupe/Martinique/Dominique) : aucune source RSS fiable identifiée à ce jour — scènes très portées par YouTube/Insta. Piste : flux YouTube (motif videos.xml?channel_id=) de chaînes shatta/bouyon de référence, à récupérer manuellement. AMAPIANO Afrique du Sud : chercher un flux dédié type SA Hip Hop Mag si le générique afro ne suffit pas."
   },
   "anime_manga": {
     "priorite": 1,
