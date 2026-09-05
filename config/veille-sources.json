@@ -119,6 +119,13 @@
         "flux_a_tester": "https://www.billboard.com/feed/",
         "statut": "confirme",
         "note": "Charts et industrie — utile pour les données chiffrées (n°1, records)."
+      },
+      {
+        "nom": "WorldStarHipHop (WSHH)",
+        "url": "https://www.worldstarhiphop.com/rss.php",
+        "flux_a_tester": "https://www.worldstarhiphop.com/rss.php",
+        "statut": "confirme",
+        "note": "Culture urbaine virale US (clips, buzz, drama rap). ATTENTION : le flux ne porte PAS de dates -> pas de bonus de fraîcheur, remonte en 'à surveiller'. WSHH publie en continu, donc le haut du flux est toujours du jour. Contenu parfois choc/NSFW : filtrer à l'usage."
       }
     ],
     "sources_afro_amapiano": [
