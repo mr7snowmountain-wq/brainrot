@@ -69,6 +69,18 @@ const imageDecl = z.object({
   label: z.string().optional(), // libellé du placeholder tant qu'il n'y a pas de src
 });
 
+// Vidéo YouTube (embed façade + Schema VideoObject). Hébergée chez YouTube,
+// jamais sur le serveur (cf. SPECS-MEDIAS). `short` = format vertical 9:16.
+const video = z.object({
+  youtubeId: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  uploadDate: z.coerce.date().optional(),
+  duration: z.string().optional(), // ISO 8601, ex. PT20S
+  transcript: z.string().optional(), // texte indexable (SEO)
+  short: z.boolean().default(false),
+});
+
 const articles = defineCollection({
   type: 'content',
   schema: z
@@ -120,6 +132,9 @@ const articles = defineCollection({
       // Média — toutes les images déclarées ici (source unique de vérité)
       images: z.array(imageDecl).default([]),
       heroImage: z.string().optional(), // id d'une image de `images`, affichée en tête
+
+      // Vidéo YouTube optionnelle (embed + VideoObject).
+      video: video.optional(),
 
       draft: z.boolean().default(false),
     })

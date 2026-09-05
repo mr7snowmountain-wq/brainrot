@@ -1,0 +1,57 @@
+---
+/**
+ * Embed YouTube en FAÇADE : on n'affiche qu'une miniature + un bouton lecture ;
+ * l'iframe (lourde) n'est chargée qu'au clic. Domaine youtube-nocookie.
+ * `short` = format vertical 9:16 (YouTube Shorts), largeur plafonnée.
+ * Le référencement vidéo passe par le Schema VideoObject (cf. frontmatter `video`).
+ */
+interface Props {
+  id: string;
+  title?: string;
+  short?: boolean;
+}
+const { id, title = 'Vidéo', short = false } = Astro.props;
+const thumb = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const ratio = short ? '9 / 16' : '16 / 9';
+const maxw = short ? '340px' : '100%';
+---
+<div class="yt-embed" style={`--yt-ratio:${ratio}; --yt-maxw:${maxw}`} data-yt-id={id}>
+  <button class="yt-facade" type="button" aria-label={`Lire la vidéo : ${title}`}>
+    <img src={thumb} alt={`Miniature de la vidéo : ${title}`} loading="lazy" width="480" height="360" />
+    <span class="yt-play" aria-hidden="true">►</span>
+  </button>
+</div>
+<script is:inline>
+  document.querySelectorAll('.yt-embed').forEach((el) => {
+    const btn = el.querySelector('.yt-facade');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const id = el.getAttribute('data-yt-id');
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      f.title = btn.getAttribute('aria-label') || 'YouTube';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.setAttribute('allowfullscreen', '');
+      f.loading = 'lazy';
+      el.replaceChildren(f);
+    });
+  });
+</script>
+<style>
+  .yt-embed {
+    position: relative; width: 100%; max-width: var(--yt-maxw);
+    margin: 1.6rem auto; aspect-ratio: var(--yt-ratio);
+    border-radius: 18px; overflow: hidden; border: 1px solid var(--line-strong); background: #000;
+  }
+  .yt-embed :global(iframe), .yt-facade { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .yt-facade { padding: 0; cursor: pointer; background: #000; display: block; }
+  .yt-facade img { width: 100%; height: 100%; object-fit: cover; opacity: .82; transition: opacity .2s; }
+  .yt-facade:hover img { opacity: 1; }
+  .yt-play {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 68px; height: 68px; border-radius: 999px; background: var(--grad); color: #14101f;
+    display: grid; place-items: center; font-size: 1.5rem; padding-left: 4px;
+    box-shadow: 0 10px 32px -8px rgba(0, 0, 0, .6); transition: transform .12s;
+  }
+  .yt-facade:hover .yt-play { transform: translate(-50%, -50%) scale(1.06); }
+</style>
