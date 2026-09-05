@@ -1,0 +1,155 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Quiz de CONNAISSANCE — cinéma. La question porte le contexte, la bonne réponse
+// porte la claque, les distracteurs sont écrits pour être drôles (NE PAS les
+// aplatir). Ordre FIGÉ : Q4 et Q5 s'enchaînent, la 5 n'a de sens qu'après la 4.
+// c = index de la bonne réponse. `note` = complément affiché à la révélation.
+const QUESTIONS = [
+  { q: "Gladiator 2 s'est planté. Ridley Scott a désigné un coupable en public. Qui ?", o: ['Paul Mescal, son propre acteur principal', "Le public, qui n'a rien compris", 'Denzel Washington, qui lui a volé le film', 'Lui-même, en pleine crise existentielle'], c: 0 },
+  { q: "Andy Serkis a bossé dix ans sur son adaptation d'Animal Farm. Il a mis quoi dedans ?", o: ['Un rap en générique et des blagues de pets', 'Une romance entre deux cochons', 'Une fin où les animaux votent démocratiquement', 'Un caméo de lui en âne'], c: 0 },
+  { q: "Gal Gadot a tourné un film sur le Bitcoin fabriqué par une IA. Elle en a pensé quoi ?", o: ['Elle était à peu près la seule au monde à trouver ça génial', "Elle a demandé si l'IA avait un agent", "Elle a dit l'avoir compris seulement à la première", "Elle a refusé d'en parler en promo"], c: 0 },
+  { q: "Ridley Scott a fait Alien. Il a fait Blade Runner. En 2025, un studio lui a dit non. Sur quoi ?", o: ['Un film sur les Bee Gees', 'Un remake de son propre Alien', 'Un biopic sur lui-même', 'Un film muet'], c: 0 },
+  { q: "Du coup il a fait quoi à la place ?", o: ['Un film à 110 millions sur un mec et son chien', 'Une série pour Apple', 'Rien pendant deux ans', 'Une pub pour une voiture électrique'], c: 0 },
+  { q: "Jacob Elordi a eu le premier rôle de The Dog Stars comment ?", o: ["Paul Mescal s'est barré tourner les Beatles", 'Il a envoyé une audition depuis sa cuisine', 'Ridley Scott l\'a vu dans Euphoria', 'Il était le seul à savoir piloter'], c: 0 },
+  { q: "Le biopic sur Michael Jackson est sorti en avril. Qu'est-ce qui n'est pas dedans ?", o: ['Les accusations de pédocriminalité', 'Thriller', 'La Motown', 'Le gant'], c: 0 },
+  { q: "Aux Razzies 2026, un duo a été nominé pour « pire duo à l'écran ». C'était Ice Cube et qui ?", o: ['Sa caméra Zoom', 'Son propre fils', 'Un alien en images de synthèse', 'Personne, il jouait seul'], c: 0 },
+  { q: "Toujours aux Razzies, The Weeknd a été nominé pour pire duo avec quoi ?", o: ['Son ego colossal', 'Sa doublure', 'Sa propre voix off', 'Un mannequin'], c: 0, note: "C'est écrit comme ça sur la liste officielle." },
+  { q: "Qui a remporté le Razzie du pire acteur secondaire en 2026 ?", o: ['Les sept nains artificiels de Blanche-Neige', 'Jared Leto', 'Rudy Giuliani', 'Robert De Niro'], c: 0, note: "Des images de synthèse ont gagné un prix d'interprétation." },
+  { q: "Robert De Niro a été nominé pour pire duo à l'écran. Avec qui ?", o: ['Avec lui-même', 'Al Pacino', 'Sa fille', 'Un chien'], c: 0, note: "Il joue deux mafieux dans le même film." },
+  { q: "Kate Hudson a reçu un prix spécial aux Razzies. Pourquoi ?", o: ["Pour s'être rachetée après trois nominations de pire actrice", 'Pour son humour', 'Pour avoir assisté à la cérémonie', 'Pour avoir refusé un rôle'], c: 0 },
+  { q: "War of the Worlds avec Ice Cube a raflé combien de Razzies ?", o: ['Cinq', 'Deux', 'Un seul', 'Sept, un record'], c: 0 },
+  { q: "Guy Pearce a revu Memento en 2025. Son verdict sur sa propre performance ?", o: ['« Je suis nul dans ce film »', '« J\'ai vieilli »', '« Je ne me souviens de rien »', '« C\'était mon meilleur rôle »'], c: 0 },
+  { q: "Dakota Johnson a parlé de Madame Web après le massacre critique. Elle a dit quoi ?", o: ["Qu'elle n'avait rien à faire dans cet univers", "Qu'elle en était fière", "Qu'elle n'avait pas lu le scénario", 'Rien du tout'], c: 0 },
+  { q: "La sœur des Wachowski a expliqué pourquoi son film ne se fera pas. Le blocage ?", o: ['Aucun studio ne finance un casting entièrement trans', 'Elle a refusé de le faire en anglais', 'Le budget dépassait 400 millions', "Netflix l'a racheté pour l'enterrer"], c: 0 },
+  { q: "Un film de 2026 raconte une accusation d'agression dans une troupe d'opéra. Le truc dingue sur son tournage ?", o: ["L'équipe suivait une formation anti-agression pendant qu'elle tournait le film dessus", 'Il a été tourné dans un vrai opéra en activité', 'Aucun homme derrière la caméra', 'Les acteurs ne connaissaient pas la fin'], c: 0 },
+  { q: "Un acteur mort apparaîtra dans l'adaptation de Zelda. Lequel ?", o: ['Sam Neill', 'Donald Sutherland', 'James Earl Jones', 'Michael Gambon'], c: 0 },
+  { q: "Vin Diesel a dit d'un scénario : « J'en pleure encore. » C'était lequel ?", o: ['Fast Forever', 'Riddick 4', "Un projet qu'il n'a jamais nommé", 'Sa propre autobiographie'], c: 0 },
+  { q: "Star Wars a disparu des salles pendant sept ans. Ça faisait suite à quoi ?", o: ['La fin de la troisième trilogie en 2019', 'Un procès', 'Le rachat par Disney', 'Une grève'], c: 0 },
+  { q: "Spielberg a sorti un film en 2026 dont personne ne savait rien. Le sujet ?", o: ['Une rencontre avec des extraterrestres', 'Sa propre enfance, encore', 'Un remake des Dents de la mer', "Un film sur l'IA"], c: 0 },
+  { q: "Le Diable s'habille en Prada 2 arrive vingt ans après. Anne Hathaway avait quel âge sur le premier ?", o: ['23 ans', '30 ans', '19 ans', '28 ans'], c: 0 },
+  { q: "Sept millions de Français sont allés voir un film sur un plombier moustachu. C'était quand ?", o: ['2023', '2019', '2021', 'Jamais'], c: 0 },
+  { q: "Toy Story 5 est sorti. Si Andy vieillissait comme nous, il aurait quoi maintenant ?", o: ['La quarantaine et un crédit', 'Vingt ans', "Le même âge, c'est un dessin animé", 'Un fils qui joue à Roblox'], c: 0 },
+  { q: "Deux catastrophes ont mis Hollywood par terre avant 2026. Lesquelles ?", o: ['Les grèves de scénaristes et les incendies de Los Angeles', 'La pandémie et une cyberattaque', 'Une crise bancaire et les grèves', 'Un boycott et les incendies'], c: 0 },
+  { q: "The Dog Stars se passe au Colorado. Il a été tourné où ?", o: ['En Italie', 'Au Colorado', 'En Nouvelle-Zélande', 'En studio'], c: 0 },
+  { q: "Un acteur de The Dog Stars a failli claquer la porte. Il a dit quoi ?", o: ['« Ça m\'a énervé »', '« Je ne recommencerai jamais »', '« J\'ai appelé mon agent le soir même »', '« Scott ne m\'a jamais parlé »'], c: 0 },
+  { q: "Dans The Dog Stars, deux mecs et un chien survivent deux heures. Où ?", o: ['Sur une base aérienne abandonnée', 'Dans un centre commercial', 'Sur un bateau', 'Dans un Ikea'], c: 0 },
+  { q: "Des acteurs déguisés en Beatles ont été filmés en train de rejouer une scène culte. Où ?", o: ['À Londres', 'À Liverpool', 'À Hambourg', 'Sur un toit, comme les vrais'], c: 0 },
+  { q: "Michael 2 est prévu. Il contiendra quoi que le premier avait soigneusement évité ?", o: ['Les accusations de pédocriminalité', 'Les concerts des années 90', 'Le procès de 2005', "Rien, c'est un remontage"], c: 0 },
+];
+---
+<BaseLayout
+  title="Quiz cinéma : 30 questions que tes potes vont rater"
+  description="Ridley Scott, les Razzies, The Dog Stars, Michael Jackson : 30 questions de culture ciné avec des mauvaises réponses écrites pour te faire rire. Tu situes quoi, vraiment ?"
+  canonicalPath="/quiz/cinema"
+  category="cinema"
+>
+  <div class="quiz" data-quiz>
+    <p class="eyebrow">Quiz cinéma</p>
+    <h1>Tu situes quoi, vraiment ?</h1>
+    <p class="quiz-lede">30 questions de culture ciné. La bonne réponse est cachée au milieu de trois qui vont te faire hésiter. On compte les points.</p>
+
+    <div class="quiz-stage" data-stage>
+      <div class="quiz-progress"><span data-bar></span></div>
+      <p class="quiz-count" data-count></p>
+      <p class="quiz-q" data-q></p>
+      <div class="quiz-options" data-options></div>
+      <p class="quiz-note-line" data-note hidden></p>
+      <button class="btn-primary quiz-next" data-next hidden>Question suivante →</button>
+    </div>
+
+    <div class="quiz-end" data-end hidden>
+      <h2>Terminé 🎬</h2>
+      <p>Ton score : <strong data-score></strong> / <strong data-total></strong></p>
+      <p class="quiz-verdict" data-verdict></p>
+      <button class="btn-secondary" data-restart>Recommencer</button>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ QUESTIONS }}>
+    (() => {
+      const root = document.querySelector('[data-quiz]');
+      if (!root) return;
+      const $ = (s) => root.querySelector(s);
+      const stage = $('[data-stage]'), end = $('[data-end]');
+      const bar = $('[data-bar]'), count = $('[data-count]'), qEl = $('[data-q]');
+      const optWrap = $('[data-options]'), noteEl = $('[data-note]'), next = $('[data-next]');
+      let i = 0, score = 0, locked = false;
+
+      function render() {
+        const Q = QUESTIONS[i];
+        bar.style.width = (i / QUESTIONS.length * 100) + '%';
+        count.textContent = 'Question ' + (i + 1) + ' / ' + QUESTIONS.length;
+        qEl.textContent = Q.q;
+        optWrap.innerHTML = '';
+        noteEl.hidden = true; noteEl.textContent = ''; next.hidden = true;
+        locked = false;
+        Q.o.forEach((opt, k) => {
+          const b = document.createElement('button');
+          b.className = 'quiz-opt';
+          b.textContent = opt;
+          b.addEventListener('click', () => choose(k));
+          optWrap.appendChild(b);
+        });
+      }
+      function choose(k) {
+        if (locked) return;
+        locked = true;
+        const Q = QUESTIONS[i];
+        const btns = [...optWrap.children];
+        btns.forEach((b, idx) => {
+          b.disabled = true;
+          if (idx === Q.c) b.classList.add('is-correct');
+          else if (idx === k) b.classList.add('is-wrong');
+        });
+        if (k === Q.c) score++;
+        noteEl.hidden = false;
+        noteEl.textContent = (k === Q.c ? 'Bien vu. ' : 'Raté. ') + (Q.note || '');
+        next.hidden = false;
+        next.textContent = (i + 1 >= QUESTIONS.length) ? 'Voir mon score →' : 'Question suivante →';
+      }
+      next.addEventListener('click', () => {
+        i++;
+        if (i >= QUESTIONS.length) {
+          stage.hidden = true; end.hidden = false;
+          $('[data-score]').textContent = score;
+          $('[data-total]').textContent = QUESTIONS.length;
+          const pct = score / QUESTIONS.length;
+          $('[data-verdict]').textContent =
+            pct === 1 ? 'Parfait. Tu fais peur.' :
+            pct >= 0.8 ? "Grosse cinéphilie. Tes potes n'ont aucune chance." :
+            pct >= 0.5 ? 'Correct. Mais il y a des trous.' :
+            "Aïe. Va falloir réviser avant la prochaine soirée.";
+        } else render();
+      });
+      $('[data-restart]').addEventListener('click', () => { i = 0; score = 0; end.hidden = true; stage.hidden = false; render(); });
+      render();
+    })();
+  </script>
+
+  <style>
+    .quiz { max-width: 42rem; margin: 1.5rem auto 3rem; padding: 0 1.25rem; }
+    .quiz h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.7rem); letter-spacing: -.02em; margin: .4rem 0 .5rem; }
+    .quiz-lede { color: var(--fg-soft); margin: 0 0 1.6rem; }
+    .quiz-stage { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem 1.4rem 1.6rem; }
+    .quiz-progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 1rem; }
+    .quiz-progress span { display: block; height: 100%; background: var(--grad); transition: width .3s; }
+    .quiz-count { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-dim); margin: 0 0 .6rem; }
+    .quiz-q { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; line-height: 1.25; margin: 0 0 1.1rem; }
+    .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+    .quiz-opt {
+      text-align: left; padding: .85rem 1.1rem; border-radius: 14px; border: 1px solid var(--line-strong);
+      background: var(--card-solid); color: var(--fg); font: inherit; font-size: 1rem; cursor: pointer;
+      transition: border-color .15s, background .15s, transform .1s;
+    }
+    .quiz-opt:hover:not(:disabled) { border-color: var(--violet); background: rgba(255,255,255,.06); }
+    .quiz-opt:disabled { cursor: default; }
+    .quiz-opt.is-correct { border-color: transparent; background: var(--grad); color: #14101f; font-weight: 700; }
+    .quiz-opt.is-wrong { border-color: #ef4444; background: rgba(239,68,68,.12); opacity: .9; }
+    .quiz-note-line { margin: 1rem 0 0; font-size: .9rem; color: var(--fg-soft); }
+    .quiz-next { margin-top: 1.1rem; }
+    .quiz-end { text-align: center; background: var(--grad-soft); border: 1px solid var(--line-strong); border-radius: 20px; padding: 2rem 1.5rem; margin-top: 1rem; }
+    .quiz-end h2 { font-family: var(--font-display); font-weight: 800; margin: 0 0 .6rem; }
+    .quiz-verdict { color: var(--fg-soft); max-width: 32rem; margin: .8rem auto 1.4rem; font-size: 1rem; }
+  </style>
+</BaseLayout>
