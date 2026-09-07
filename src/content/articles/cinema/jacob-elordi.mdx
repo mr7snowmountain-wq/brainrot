@@ -76,9 +76,28 @@ images:
     height: 711
     alt: "Portrait de Jacob Elordi, acteur australien tête d'affiche de The Dog Stars"
     pinDescription: "Jacob Elordi : de Euphoria à la tête d'affiche de Ridley Scott"
+  - id: jacob-elordi-portrait-editorial
+    src: /img/jacob-elordi-portrait-editorial.webp
+    widths: [400]
+    pinImage: /img/jacob-elordi-portrait-editorial-pin.webp
+    ratio: "9/16"
+    width: 400
+    height: 711
+    alt: "Jacob Elordi en t-shirt blanc, portrait éditorial, la tête posée sur le bras"
+    pinDescription: "Jacob Elordi : du feuilleton Netflix au cinéma d'auteur"
+  - id: jacob-elordi-cigarette-noir-blanc
+    src: /img/jacob-elordi-cigarette-noir-blanc.webp
+    widths: [400]
+    pinImage: /img/jacob-elordi-cigarette-noir-blanc-pin.webp
+    ratio: "2/3"
+    width: 400
+    height: 609
+    alt: "Jacob Elordi en noir et blanc, t-shirt blanc et cigarette, penché en avant"
+    pinDescription: "Jacob Elordi : l'allure à la James Dean d'une nouvelle génération"
 heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Il a eu le rôle comment ?
 
@@ -105,6 +124,8 @@ Il a fait l'inverse. Il a pris des projets qui n'avaient rien à voir, avec des 
 Six ans plus tard il est au générique d'un [Ridley Scott](/cinema/ridley-scott), aux côtés de Josh Brolin, Margaret Qualley, Guy Pearce et Allison Janney.
 
 C'est pas rien.
+
+<Media id="jacob-elordi-portrait-editorial" images={frontmatter.images} />
 
 ## Il joue quoi dans The Dog Stars ?
 
@@ -149,6 +170,8 @@ C'est la vraie question, et elle est ouverte.
 Un acteur qui vient d'échouer commercialement a deux chemins. Soit il retourne vers des projets sûrs et il redevient interchangeable. Soit il continue à choisir des trucs bizarres avec des réalisateurs qui ont quelque chose à dire.
 
 Il a fait le second choix jusqu'ici. C'est ce qui l'a amené là.
+
+<Media id="jacob-elordi-cigarette-noir-blanc" images={frontmatter.images} />
 
 Le fait qu'il ait porté un film qui a raté ne dit rien sur ce qu'il vaut. Ce n'est pas lui qui a écrit le scénario.
 

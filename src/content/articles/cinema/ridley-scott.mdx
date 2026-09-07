@@ -72,9 +72,19 @@ images:
     height: 800
     alt: "Ridley Scott derrière une caméra Panavision sur un tournage"
     pinDescription: "Ridley Scott : 88 ans, un film par an, et un studio qui dit non"
+  - id: ridley-scott-portrait-cigare
+    src: /img/ridley-scott-portrait-cigare.webp
+    widths: [400]
+    pinImage: /img/ridley-scott-portrait-cigare-pin.webp
+    ratio: "3/4"
+    width: 400
+    height: 517
+    alt: "Ridley Scott en noir et blanc, un cigare aux lèvres, portrait de près"
+    pinDescription: "Ridley Scott, 88 ans : le réalisateur qui tourne encore un film par an"
 heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Attends, on lui a dit non ?
 
@@ -131,6 +141,8 @@ C'est LA question, et elle divise.
 Les deux se tiennent. Et honnêtement, les deux sont probablement vraies en même temps.
 
 Ce qui est sûr, c'est que le rythme n'est pas un accident. C'est une méthode. Scott tourne vite, il l'a toujours fait, et ça lui a donné Alien comme ça lui a donné des films qu'on a oubliés.
+
+<Media id="ridley-scott-portrait-cigare" images={frontmatter.images} />
 
 ## Pourquoi le studio a refusé les Bee Gees ?
 
