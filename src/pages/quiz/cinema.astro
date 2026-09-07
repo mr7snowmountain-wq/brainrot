@@ -139,12 +139,12 @@ const QUESTIONS = [
     .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
     .quiz-opt {
       text-align: left; padding: .9rem 1.15rem; border-radius: 16px; border: 1px solid var(--line-strong);
-      background: var(--card); color: var(--fg); font: inherit; font-size: 1rem; cursor: pointer;
+      background: var(--grad-soft); color: var(--fg); font: inherit; font-size: 1rem; cursor: pointer;
       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
       transition: border-color .15s, background .15s, transform .12s, box-shadow .15s;
     }
     .quiz-opt:hover:not(:disabled) {
-      border-color: var(--violet); background: rgba(255,255,255,.08);
+      border-color: var(--violet); background: rgba(166,121,255,.18);
       transform: translateY(-1px); box-shadow: 0 6px 20px -12px rgba(166,121,255,.7);
     }
     .quiz-opt:disabled { cursor: default; }
