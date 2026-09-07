@@ -66,6 +66,16 @@ images:
     height: 852
     alt: "Le casting de Jujutsu Kaisen réuni autour de Sukuna et du Culling Game"
     pinDescription: "Personnages Jujutsu Kaisen : qui est qui après le Culling Game"
+  - id: jujutsu-kaisen-ecole-tokyo
+    src: /img/jujutsu-kaisen-ecole-tokyo.webp
+    widths: [400]
+    ratio: "16/9"
+    alt: "L'école de sorcellerie de Tokyo dans Jujutsu Kaisen : Yuji, Gojo, Megumi, Nobara et Panda"
+  - id: gojo-energie-violette-jujutsu-kaisen
+    src: /img/gojo-energie-violette-jujutsu-kaisen.webp
+    widths: [400]
+    ratio: "16/9"
+    alt: "Satoru Gojo déchaînant une énergie violette dans Jujutsu Kaisen"
 heroImage: hero
 draft: false
 ---
@@ -75,7 +85,7 @@ import Media from '@/components/Media.astro';
 
 Tu n'as rien raté. C'est la série qui a changé de format.
 
-<Media src="/img/jujutsu-kaisen-ecole-tokyo.webp" widths={[400]} ratio="16/9" alt="L'école de sorcellerie de Tokyo dans Jujutsu Kaisen : Yuji, Gojo, Megumi, Nobara et Panda" />
+<Media id="jujutsu-kaisen-ecole-tokyo" images={frontmatter.images} />
 
 
 Jusqu'à Shibuya, tout tenait sur quatre noms : Yuji, Megumi, Nobara, Gojo. Hiérarchie simple, personne à confondre.
@@ -158,7 +168,7 @@ Si tu as suivi la diffusion, tu sais pourquoi. Si tu rattrapes, on ne va pas te 
 
 **Toujours enfermé dans le Prison Realm.**
 
-<Media src="/img/gojo-energie-violette-jujutsu-kaisen.webp" widths={[400]} ratio="16/9" alt="Satoru Gojo déchaînant une énergie violette dans Jujutsu Kaisen" />
+<Media id="gojo-energie-violette-jujutsu-kaisen" images={frontmatter.images} />
 
 
 Le libérer est un des objectifs affichés du Culling Game, aux côtés de la survie au jeu et de la lutte contre Kenjaku.
