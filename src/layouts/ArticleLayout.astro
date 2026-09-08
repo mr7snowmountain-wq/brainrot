@@ -10,6 +10,7 @@ import Faq from '@/components/Faq.astro';
 import Sources from '@/components/Sources.astro';
 import Maillage from '@/components/Maillage.astro';
 import CtaVariant from '@/components/CtaVariant.astro';
+import CtaHook from '@/components/CtaHook.astro';
 import Media from '@/components/Media.astro';
 import { buildArticleGraph, articleUrl } from '@/lib/jsonld';
 import { categoryOf, shortSlug, getPublishedArticles } from '@/lib/articles';
@@ -62,6 +63,8 @@ const liens = [
     />
 
     {heroImg && <Media id={heroImg.id} images={d.images} />}
+
+    {d.cta_hook && <CtaHook cta={d.cta_hook} />}
 
     <Sommaire headings={headings} />
 

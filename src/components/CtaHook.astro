@@ -1,0 +1,59 @@
+---
+/**
+ * CTA COMPACT « accroche », rendu HAUT dans l'article (après le hero, avant le
+ * sommaire). Complète le CtaVariant de pied de page — même destination possible
+ * (app via sentinel "APP", ou un quiz /quiz/…). Style bandeau, distinct du gros
+ * CTA du bas. Jamais de lien mort : href absent/"#"/TODO → bouton sans href.
+ */
+import { brand } from '@/config/brand';
+interface Cta {
+  titre?: string;
+  texte?: string;
+  label: string;
+  href: string;
+  soustitre?: string;
+  track: string;
+}
+const { cta } = Astro.props as { cta: Cta };
+const href = cta.href === 'APP' ? brand.appUrl : cta.href;
+const external = /^https?:\/\//.test(href);
+const pending = !href || href === '#' || href.startsWith('TODO');
+---
+<aside class="cta-hook">
+  <div class="cta-hook-txt">
+    {cta.titre && <strong>{cta.titre}</strong>}
+    {cta.texte && <span>{cta.texte}</span>}
+  </div>
+  <a
+    class="cta-hook-btn"
+    href={pending ? undefined : href}
+    data-track={cta.track}
+    rel={!pending && external ? 'sponsored noopener' : undefined}
+    target={!pending && external ? '_blank' : undefined}
+    aria-disabled={pending ? 'true' : undefined}
+  >
+    <span>{cta.label}</span>
+    {pending && <small>bientôt</small>}
+  </a>
+</aside>
+<style>
+  .cta-hook {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between;
+    margin: 1.5rem 0; padding: .9rem 1.1rem; border-radius: 16px;
+    background: var(--grad-soft); border: 1px solid rgba(166, 121, 255, .5);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  }
+  .cta-hook-txt { display: flex; flex-direction: column; gap: .15rem; min-width: 12rem; flex: 1; }
+  .cta-hook-txt strong { font-family: var(--font-display); font-weight: 800; font-size: 1.02rem; line-height: 1.2; }
+  .cta-hook-txt span { font-size: .9rem; color: var(--fg-soft); }
+  .cta-hook-btn {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: .4rem;
+    padding: .6rem 1.15rem; border-radius: 999px; background: var(--grad); color: #14101f;
+    font-weight: 800; font-size: .95rem; text-decoration: none; white-space: nowrap;
+    box-shadow: 0 8px 24px -12px rgba(255, 111, 179, .6); transition: transform .12s;
+  }
+  .cta-hook-btn::after { content: "→"; }
+  .cta-hook-btn:hover { transform: translateY(-1px); }
+  .cta-hook-btn small { font-weight: 600; opacity: .7; }
+  @media (max-width: 560px) { .cta-hook-btn { width: 100%; justify-content: center; } }
+</style>

@@ -128,6 +128,9 @@ const articles = defineCollection({
 
       // Pied d'article (promo app / affiliation) — 0 ou 1.
       cta: cta.optional(),
+      // 2e CTA COMPACT, rendu HAUT dans l'article (accroche marketeur). Même
+      // forme que `cta` ; href supporte le sentinel "APP" et les chemins /quiz/…
+      cta_hook: cta.optional(),
 
       // Média — toutes les images déclarées ici (source unique de vérité)
       images: z.array(imageDecl).default([]),
