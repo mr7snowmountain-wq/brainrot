@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+
+<!-- ============================================================= -->
+<!--  À PERSONNALISER APRÈS HÉBERGEMENT (2 lignes) :               -->
+<!--  1) Remplace  https://brainrotstudio.app/ziid  par ton URL réelle -->
+<!--  2) Dépose une image  cover.jpg  (1200x630) à côté de ce fichier -->
+<!--     (tu peux réutiliser le poster GTA / une belle capture)      -->
+<!-- ============================================================= -->
+
+<title>ZIID — Le jeu de soirée à filmer</title>
+<meta name="description" content="Quiz, défis & gages entre potes. Packs GTA & anime. Français + Darija. Joue, filme, partage." />
+
+<!-- Open Graph (WhatsApp, Facebook, Messenger, LinkedIn) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Ziid!" />
+<meta property="og:title" content="ZIID — Le jeu de soirée à filmer 🎬" />
+<meta property="og:description" content="Quiz, défis & gages entre potes. Packs GTA & anime. Français + Darija. Joue, filme, partage." />
+<meta property="og:url" content="https://brainrotstudio.app/ziid/" />
+<meta property="og:image" content="https://brainrotstudio.app/ziid/cover.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="fr_FR" />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="ZIID — Le jeu de soirée à filmer 🎬" />
+<meta name="twitter:description" content="Quiz, défis & gages entre potes. Packs GTA & anime. FR + Darija. Joue, filme, partage." />
+<meta name="twitter:image" content="https://brainrotstudio.app/ziid/cover.jpg" />
+
+<meta name="theme-color" content="#2A1638" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg:#241132;
+    --bg2:#3A1A56;
+    --card:rgba(255,255,255,.06);
+    --stroke:rgba(255,255,255,.12);
+    --ink:#F6EEFF;
+    --muted:#C9B6E0;
+    --orange:#FF8A3D;
+    --orange2:#FFB24D;
+    --pink:#FF5CA8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:Inter,system-ui,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1100px 700px at 50% -10%, #5A2A86 0%, rgba(90,42,134,0) 60%),
+      radial-gradient(800px 600px at 85% 20%, rgba(255,92,168,.22) 0%, rgba(255,92,168,0) 55%),
+      linear-gradient(180deg,var(--bg2) 0%, var(--bg) 55%, #1A0B26 100%);
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:28px 20px;
+  }
+  .wrap{width:100%;max-width:520px;text-align:center}
+
+  .logo-img{
+    width:clamp(170px,46vw,240px);height:auto;display:block;margin:0 auto;
+    filter:drop-shadow(0 12px 34px rgba(0,0,0,.5));
+  }
+
+  .tag{
+    font-family:Inter,system-ui,sans-serif;font-weight:800;
+    letter-spacing:-.5px;
+    font-size:clamp(22px,6vw,32px);
+    margin:14px 0 6px;
+  }
+  .slogan{
+    color:var(--muted);font-size:16px;font-weight:500;
+    margin:0 0 26px;letter-spacing:.2px;
+  }
+
+  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:0 0 30px}
+  .chip{
+    background:var(--card);border:1px solid var(--stroke);
+    border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;
+    color:var(--ink);backdrop-filter:blur(6px);
+  }
+  .chip b{color:var(--orange2);font-weight:700}
+
+  .cta{
+    display:inline-flex;align-items:center;gap:12px;
+    text-decoration:none;
+    background:linear-gradient(180deg,var(--orange2),var(--orange));
+    color:#2A1206;font-family:Inter,system-ui,sans-serif;font-weight:800;
+    font-size:18px;padding:16px 28px;border-radius:16px;
+    box-shadow:0 12px 30px rgba(255,138,61,.4);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(255,138,61,.5)}
+  .cta:active{transform:translateY(0)}
+  .cta svg{width:22px;height:22px;flex:none}
+
+  .sub{margin-top:16px;color:var(--muted);font-size:13px}
+  .sub b{color:var(--ink)}
+  .foot{margin-top:34px;color:rgba(201,182,224,.55);font-size:12px}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <img class="logo-img" src="logo.png" alt="Ziid!" />
+    <p class="tag">Le jeu de soirée à filmer</p>
+    <p class="slogan">Quiz, défis &amp; gages entre potes — FR + Darija.</p>
+
+    <div class="chips">
+      <span class="chip"><b>GTA</b> · Quizz &amp; Défis</span>
+      <span class="chip"><b>JJK</b> · Quizz &amp; Défis</span>
+    </div>
+
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.ziid.ziid">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#2A1206" d="M47 27c-6 4-9 11-9 20v418c0 9 3 16 9 20l238-229L47 27zm263 204 62-60L98 12C84 4 71 3 61 9l249 222zm0 50L61 503c10 6 23 5 37-3l274-158-62-61zM406 216l-58 34 58 56 58-33c17-12 17-31 0-43l-58-34z"/></svg>
+      Télécharger sur Google&nbsp;Play
+    </a>
+
+    <p class="sub">Gratuit · Android · <b>Joue, filme, partage.</b></p>
+    <p class="foot">© Ziid! — Jeu de soirée</p>
+  </main>
+</body>
+</html>
