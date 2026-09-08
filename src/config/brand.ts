@@ -23,6 +23,9 @@ export const brand = {
   tagline:
     env.BRAND_TAGLINE ??
     'Le média de la Gen Z qui joue : gaming, séries, anime, musique et culture web. Repères clairs, tests et classements, sources à l’appui.',
+  // URL de l'app (jeu ZIID) — SOURCE UNIQUE. Les CTA `href: "APP"` la résolvent
+  // ici, jamais l'URL en dur dans un article. Override possible par env APP_URL.
+  appUrl: env.APP_URL ?? 'https://play.google.com/store/apps/details?id=com.ziid.ziid',
   sameAs: {
     tiktok: read('TIKTOK_URL'),
     instagram: read('INSTAGRAM_URL'),

@@ -17,18 +17,21 @@ interface Cta {
 interface Props {
   cta: Cta;
 }
+import { brand } from '@/config/brand';
 const { cta } = Astro.props;
-const external = /^https?:\/\//.test(cta.href);
+// Sentinel `"APP"` → URL de l'app (source unique dans brand.appUrl).
+const href = cta.href === 'APP' ? brand.appUrl : cta.href;
+const external = /^https?:\/\//.test(href);
 // Cible pas encore en ligne (ex. le jeu) : on rend le bouton SANS href — pas de
 // lien mort vers "#", et Google ne voit aucune ancre cassée.
-const pending = !cta.href || cta.href === '#' || cta.href.startsWith('TODO');
+const pending = !href || href === '#' || href.startsWith('TODO');
 ---
 <aside class="cta-fin">
   {cta.titre && <p class="cta-titre">{cta.titre}</p>}
   {cta.texte && <p class="cta-texte">{cta.texte}</p>}
   <a
     class:list={['cta-hero', { 'is-pending': pending }]}
-    href={pending ? undefined : cta.href}
+    href={pending ? undefined : href}
     data-track={cta.track}
     rel={!pending && external ? 'sponsored noopener' : undefined}
     target={!pending && external ? '_blank' : undefined}
