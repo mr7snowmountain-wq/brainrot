@@ -73,9 +73,28 @@ images:
     height: 255
     alt: "Visuel officiel de la Gamescom 2026 à Cologne, du 26 au 30 août"
     pinDescription: "Gamescom 2026 : les chiffres et le bilan du plus gros salon du jeu vidéo"
+  - id: gamescom-affluence-visiteurs-sega
+    src: /img/gamescom-affluence-visiteurs-sega.webp
+    widths: [400, 800, 1200, 1600]
+    pinImage: /img/gamescom-affluence-visiteurs-sega-pin.webp
+    ratio: "16/9"
+    width: 1600
+    height: 899
+    alt: "Foule dense de visiteurs devant le stand SEGA à la Gamescom"
+    pinDescription: "Gamescom : 368 000 visiteurs, l'affluence record en images"
+  - id: gamescom-stand-one-piece-odyssey
+    src: /img/gamescom-stand-one-piece-odyssey.webp
+    widths: [400, 800, 1200]
+    pinImage: /img/gamescom-stand-one-piece-odyssey-pin.webp
+    ratio: "1/1"
+    width: 1200
+    height: 1200
+    alt: "Ballon géant de Luffy (One Piece Odyssey) au-dessus de la foule à la Gamescom"
+    pinDescription: "Gamescom : les stands géants qui dominent les halls"
 heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Le paradoxe que personne ne veut nommer
 
@@ -103,6 +122,8 @@ C'est la **troisième meilleure fréquentation de toute l'histoire** de la Games
 
 Le record absolu n'est pas tombé — il faut le dire, parce que plusieurs articles laissent entendre le contraire. Mais la fréquentation internationale, elle, est en hausse de **6 %**.
 
+<Media id="gamescom-affluence-visiteurs-sega" images={frontmatter.images} />
+
 ## C'était vraiment plein ?
 
 **Complet. Totalement. Pour la première fois de son histoire.**
@@ -116,6 +137,8 @@ Le record absolu n'est pas tombé — il faut le dire, parce que plusieurs artic
 Et le chiffre le plus parlant : **72 % des exposants ont leur siège hors d'Allemagne.**
 
 La Gamescom a longtemps été vue comme un truc allemand. C'est fini. C'est aujourd'hui l'événement le plus international du secteur, et les organisateurs ne s'en cachent pas.
+
+<Media id="gamescom-stand-one-piece-odyssey" images={frontmatter.images} />
 
 ## Et ceux qui n'y étaient pas ?
 

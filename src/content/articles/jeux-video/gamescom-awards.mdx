@@ -65,9 +65,19 @@ images:
     height: 255
     alt: "Visuel officiel de la Gamescom 2026 à Cologne, du 26 au 30 août"
     pinDescription: "Gamescom Awards : le palmarès du plus gros salon du jeu vidéo"
+  - id: gamescom-cosplay-geralt-witcher
+    src: /img/gamescom-cosplay-geralt-witcher.webp
+    widths: [400, 800]
+    pinImage: /img/gamescom-cosplay-geralt-witcher-pin.webp
+    ratio: "3/2"
+    width: 800
+    height: 534
+    alt: "Cosplay de Geralt (The Witcher 3) tenant un trophée sur le stand CD Projekt Red à la Gamescom"
+    pinDescription: "Gamescom Awards : CD Projekt Red et The Witcher primés"
 heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Qui a gagné, concrètement ?
 
@@ -100,6 +110,8 @@ Regarde ce qu'ils sont venus présenter, ça explique tout.
 **CD Projekt Red** est arrivé avec **The Witcher 3: Songs of the Past** à l'[Opening Night Live](/jeux-video/gamescom-annonces-opening-night-live) — du nouveau contenu sur un jeu de 2015. Le studio a aussi diffusé ses propres **REDStreams** tous les jours du salon, du matin au soir.
 
 Autrement dit, ils n'ont pas seulement exposé. Ils ont occupé la semaine entière.
+
+<Media id="gamescom-cosplay-geralt-witcher" images={frontmatter.images} />
 
 **Sega** joue une autre partition, avec un catalogue étendu et une présence sur plusieurs segments à la fois.
 
