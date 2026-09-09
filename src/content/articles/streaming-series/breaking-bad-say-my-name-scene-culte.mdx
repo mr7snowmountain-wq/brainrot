@@ -62,9 +62,38 @@ liens_internes:
     label: Street Fighter 2026, le pari du casting improbable
   - href: /streaming-series
     label: Toutes les séries & le streaming sur Brainrot
-images: []
+images:
+  - id: hero
+    src: /img/breaking-bad-heisenberg-chapeau-paysage.webp
+    widths: [400, 800]
+    pinImage: /img/breaking-bad-heisenberg-chapeau-paysage-pin.webp
+    ratio: "800/425"
+    width: 800
+    height: 425
+    alt: "Walter White en Heisenberg, chapeau et lunettes, face au paysage dans Breaking Bad"
+    pinDescription: "Breaking Bad : Walter White devenu Heisenberg, la bascule en trois mots"
+  - id: say-my-name-poster
+    src: /img/breaking-bad-say-my-name-poster.webp
+    widths: [400]
+    pinImage: /img/breaking-bad-say-my-name-poster-pin.webp
+    ratio: "3/4"
+    width: 400
+    height: 548
+    alt: "Poster typographique « Say My Name » sur le visage de Walter White dans Breaking Bad"
+    pinDescription: "« Say My Name » : la réplique culte de Breaking Bad en poster"
+  - id: crew
+    src: /img/breaking-bad-walter-saul-mike-jesse.webp
+    widths: [400]
+    pinImage: /img/breaking-bad-walter-saul-mike-jesse-pin.webp
+    ratio: "2/3"
+    width: 400
+    height: 600
+    alt: "Walter White en combinaison jaune entouré de Saul, Mike et Jesse, univers Breaking Bad"
+    pinDescription: "L'univers de Breaking Bad : Walt, Saul, Mike et Jesse"
+heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Ça se passe dans quel contexte, cette scène ?
 
@@ -84,6 +113,8 @@ Ce n'est pas la première fois que le personnage bascule dans la série — Brea
 
 Declan hésite, comprend, et finit par prononcer le nom que Walter attendait. À cet instant précis, ce n'est plus un chimiste devenu dealer par nécessité qui parle. C'est Heisenberg, et il vient de l'imposer sans lever le petit doigt.
 
+<Media id="say-my-name-poster" images={frontmatter.images} />
+
 L'épisode fait partie de la sélection officielle des dix épisodes essentiels de Breaking Bad établie par Netflix Tudum — une reconnaissance qui confirme ce que les fans répètent depuis des années.
 
 ## C'est la seule scène culte de ce genre dans la série ?
@@ -93,6 +124,8 @@ L'épisode fait partie de la sélection officielle des dix épisodes essentiels 
 Il existe une autre scène, tout aussi silencieuse, tout aussi dévastatrice : la toute fin de l'épisode « Un nouveau jour se lève », où Hank, le beau-frère de Walter et agent de la DEA, comprend enfin qui se cache derrière Heisenberg. Pas de cri là non plus. Juste un carnet, une écriture reconnue, et un souvenir qui remonte.
 
 **Les deux scènes fonctionnent sur le même principe** : le silence porte plus de poids que n'importe quelle explosion. Breaking Bad a construit une bonne partie de sa réputation sur cette économie de moyens — dire énormément avec très peu.
+
+<Media id="crew" images={frontmatter.images} />
 
 C'est probablement pour ça que la série continue d'être analysée, citée et redécouverte des années après sa diffusion — un peu comme [ces films qu'on ne juge plus, qu'on redécouvre juste](/cinema/tortues-ninja-1990-film-culte), pendant que d'autres titres de la même époque sont largement oubliés.
 
