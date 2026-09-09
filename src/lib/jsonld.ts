@@ -33,6 +33,28 @@ function absUrl(src: string): string {
 }
 
 /**
+ * Objet `itemReviewed` d'un nœud Review. Google REFUSE `Thing` (« Type d'objet
+ * non valide pour le champ itemReviewed ») : il faut un type spécifique. On
+ * réutilise le `about` du frontmatter (VideoGame / Movie / TVSeries…) quand il
+ * existe, sinon on dérive un type précis de la catégorie. Jamais `Thing`.
+ */
+function reviewedItem(data: ArticleData): Record<string, unknown> {
+  const about = (data as { about?: Record<string, unknown> }).about;
+  if (about && typeof about === 'object' && about['@type']) {
+    return { name: data.titre_h1, ...about };
+  }
+  const byCategory: Record<string, string> = {
+    'jeux-video': 'VideoGame',
+    gaming: 'VideoGame',
+    cinema: 'Movie',
+    'streaming-series': 'TVSeries',
+    anime: 'TVSeries',
+    musique: 'MusicRecording',
+  };
+  return { '@type': byCategory[data.category] ?? 'CreativeWork', name: data.titre_h1 };
+}
+
+/**
  * Construit le @graph schema.org d'un article.
  *  - Le nœud principal prend le @type de `jsonld_type` (Article par défaut ;
  *    Review, ItemList, HowTo, VideoObject selon le contenu).
@@ -81,7 +103,7 @@ export function buildArticleGraph(data: ArticleData, url: string) {
       bestRating: 10,
       worstRating: 0,
     };
-    main.itemReviewed = { '@type': 'Thing', name: data.titre_h1 };
+    main.itemReviewed = reviewedItem(data);
   }
 
   if (data.faq.length > 0) {

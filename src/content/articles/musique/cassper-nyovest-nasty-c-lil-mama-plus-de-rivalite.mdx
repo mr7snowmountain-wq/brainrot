@@ -57,10 +57,57 @@ cta_hook:
   label: "Je me teste"
   href: "/quiz/wu-tang-clan"
   track: cta-hook-cassper-quiz
-images: []
+images:
+  - id: hero
+    src: /img/cassper-nyovest-nasty-c-diptyque-portraits.webp
+    widths: [400, 800, 1200]
+    pinImage: /img/cassper-nyovest-nasty-c-diptyque-portraits-pin.webp
+    ratio: "1200/630"
+    width: 1200
+    height: 630
+    alt: "Diptyque de Cassper Nyovest en veste en jean à gauche et Nasty C en veste verte à droite"
+    pinDescription: "Cassper Nyovest & Nasty C : Lil Mama, la fin d'une rivalité"
+  - id: cassper-vert
+    src: /img/cassper-nyovest-veste-verte-interview.webp
+    widths: [400, 800]
+    pinImage: /img/cassper-nyovest-veste-verte-interview-pin.webp
+    ratio: "886/1200"
+    width: 800
+    height: 1084
+    alt: "Cassper Nyovest de profil en veste verte satinée, gros pendentif doré, en interview"
+    pinDescription: "Cassper Nyovest : le virage R&B doux de Lil Mama"
+  - id: nasty-live
+    src: /img/nasty-c-concert-scene-live.webp
+    widths: [400, 800]
+    pinImage: /img/nasty-c-concert-scene-live-pin.webp
+    ratio: "2/3"
+    width: 800
+    height: 1200
+    alt: "Nasty C sur scène en concert, micro en main, un second artiste à ses côtés, foule illuminée par les téléphones"
+    pinDescription: "Nasty C & Cassper : de l'African Throne Tour à Lil Mama"
+  - id: cassper-bandana
+    src: /img/cassper-nyovest-bandana-nyovest-raye.webp
+    widths: [400, 800]
+    pinImage: /img/cassper-nyovest-bandana-nyovest-raye-pin.webp
+    ratio: "4/5"
+    width: 800
+    height: 1000
+    alt: "Cassper Nyovest de profil, bandana NYOVEST, t-shirt rayé et chaînes"
+    pinDescription: "Cassper Nyovest : le feuilleton de la sortie du clip de Lil Mama"
+  - id: cassper-tournage
+    src: /img/cassper-nyovest-casquette-tournage-voitures.webp
+    widths: [400, 800]
+    pinImage: /img/cassper-nyovest-casquette-tournage-voitures-pin.webp
+    ratio: "4/5"
+    width: 800
+    height: 1000
+    alt: "Cassper Nyovest souriant en casquette blanche sur un tournage, voitures vintage et figurants derrière lui"
+    pinDescription: "Lil Mama : l'esthétique disco années 70 réalisée par Cassper Nyovest"
+heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## C'est quoi ce commentaire exactement ?
 
@@ -78,6 +125,8 @@ Lil Mama est un hommage direct à une femme qui garde les choses simples et posi
 
 **Et c'est justement là que le virage est le plus visible.** Les deux rappeurs sont connus pour un registre généralement plus dur, plus agressif. Ici, ils vont vers un son R&B doux, mélodique, presque relax. Le morceau a été accueilli de façon largement positive, précisément parce qu'il assume ce changement de ton sans complexe.
 
+<Media id="cassper-vert" images={frontmatter.images} />
+
 ## C'est leur première collaboration ?
 
 **Non, loin de là. C'est le dernier chapitre d'une histoire qui dure depuis des années.**
@@ -85,6 +134,8 @@ Lil Mama est un hommage direct à une femme qui garde les choses simples et posi
 Cassper et Nasty C ont déjà uni leurs forces sur « Jump » et sur le remix de « Juice Back ». Ils ont aussi partagé la scène sur une tournée commune de douze dates, l'African Throne Tour.
 
 **Lil Mama n'est donc pas un coup marketing isolé.** C'est la continuité d'une relation qui s'est construite sur plusieurs années, et qui semble s'être transformée en vraie complicité plutôt qu'en simple partenariat business.
+
+<Media id="nasty-live" images={frontmatter.images} />
 
 ## Le clip a mis du temps à sortir, non ?
 
@@ -96,11 +147,15 @@ Il a d'abord évoqué une sortie possible un vendredi, puis a finalement annonc�
 
 **Ce genre de transparence sur les coulisses, les retards, les promesses pas encore tenues — ça humanise la sortie** bien plus qu'un simple communiqué de presse annonçant une date.
 
+<Media id="cassper-bandana" images={frontmatter.images} />
+
 ## Le clip lui-même, il ressemble à quoi ?
 
 **Une esthétique disco, très marquée années 70, entièrement dirigée par Cassper lui-même.**
 
 Le rappeur a pris la casquette de réalisateur à travers sa propre structure de production, Billiato Production, pour livrer un visuel coloré et festif qui met en avant l'alchimie entre les deux artistes.
+
+<Media id="cassper-tournage" images={frontmatter.images} />
 
 ## Le clip officiel
 
@@ -125,5 +180,5 @@ Lil Mama devrait figurer sur le prochain album de Cassper Nyovest, intitulé « 
   le plus liké) signalée comme interprétation du public, pas comme déclaration officielle.
   À VÉRIFIER : date de sortie de l'album 2 Seater et présence de Lil Mama dans la tracklist.
   CTA INTERIM : /quiz/wu-tang-clan en attendant /quiz/musique-urbaine.
-  IMAGES : le clip vidéo tient lieu de visuel principal.
+  IMAGES : 5 photos fournies par le client (diptyque + 3 Cassper + 1 Nasty C live), toutes placées.
 */}

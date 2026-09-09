@@ -63,10 +63,75 @@ cta_hook:
   label: "Je me teste"
   href: "/quiz/wu-tang-clan"
   track: cta-hook-roddygunna-quiz
-images: []
+images:
+  - id: hero
+    src: /img/roddy-ricch-gilet-pare-balles-pendentif-rr.webp
+    widths: [400]
+    pinImage: /img/roddy-ricch-gilet-pare-balles-pendentif-rr-pin.webp
+    ratio: "749/1172"
+    width: 400
+    height: 626
+    alt: "Le rappeur Roddy Ricch en gilet pare-balles, gros pendentif diamant RR autour du cou"
+    pinDescription: "Roddy Ricch & Gunna : Elevate, l'IA en commentaire et le vrai sujet"
+  - id: rr-live
+    src: /img/roddy-ricch-live-scene-pluie.webp
+    widths: [400]
+    pinImage: /img/roddy-ricch-live-scene-pluie-pin.webp
+    ratio: "742/1028"
+    width: 400
+    height: 554
+    alt: "Roddy Ricch en concert sous les lumières, micro en main, tatouages sur le bras"
+    pinDescription: "Roddy Ricch sur scène : le rap mélodique calibré pour le streaming"
+  - id: gunna-tweed
+    src: /img/gunna-lunettes-veste-tweed-chaines.webp
+    widths: [400, 800]
+    pinImage: /img/gunna-lunettes-veste-tweed-chaines-pin.webp
+    ratio: "4/5"
+    width: 800
+    height: 1000
+    alt: "Le rappeur Gunna en lunettes noires et veste en tweed, chaînes cubaines, cigarette à la main"
+    pinDescription: "Gunna : la controverse RICO qui refuse de mourir"
+  - id: gunna-falcons
+    src: /img/gunna-maillot-falcons-mains-jointes.webp
+    widths: [400, 800]
+    pinImage: /img/gunna-maillot-falcons-mains-jointes-pin.webp
+    ratio: "800/994"
+    width: 800
+    height: 994
+    alt: "Gunna en maillot des Atlanta Falcons numéro 21, mains jointes, bracelets et tatouages"
+    pinDescription: "Gunna : accusation vs défense après le plea de 2022"
+  - id: gunna-desert
+    src: /img/gunna-tenue-blanche-desert-pendentif.webp
+    widths: [400, 800]
+    pinImage: /img/gunna-tenue-blanche-desert-pendentif-pin.webp
+    ratio: "800/786"
+    width: 800
+    height: 786
+    alt: "Gunna en tenue blanche dans le désert, tenant un gros pendentif diamant, montre au poignet"
+    pinDescription: "Gunna et Young Thug : une rupture actée, une porte jamais fermée"
+  - id: rr-ambush
+    src: /img/roddy-ricch-bob-lunettes-ambush.webp
+    widths: [400]
+    pinImage: /img/roddy-ricch-bob-lunettes-ambush-pin.webp
+    ratio: "750/1004"
+    width: 400
+    height: 535
+    alt: "Roddy Ricch en bob et lunettes noires, pendentif RR, t-shirt AMBUSH sur fond sombre"
+    pinDescription: "Roddy Ricch : trois albums et un carton solo malgré tout"
+  - id: rr-bw
+    src: /img/roddy-ricch-noir-blanc-chemise-burberry.webp
+    widths: [400]
+    pinImage: /img/roddy-ricch-noir-blanc-chemise-burberry-pin.webp
+    ratio: "576/707"
+    width: 400
+    height: 491
+    alt: "Roddy Ricch en noir et blanc, chemise Burberry, micro en main sur scène"
+    pinDescription: "Roddy Ricch : ce qu'on lit de faux sur l'affaire RICO"
+heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## Ce commentaire sur l'IA, il vient d'où ?
 
@@ -84,6 +149,8 @@ En mai 2026, Roddy Ricch et Gunna avaient déjà uni leurs forces sur « VIP ».
 
 Produit par MIG et mixé par Kenneth Music, le morceau s'inscrit dans la continuité de ce que les deux artistes savent faire ensemble : un rap mélodique, référencé, calibré pour les plateformes de streaming.
 
+<Media id="rr-live" images={frontmatter.images} />
+
 ## Le clip officiel
 
 <YouTubeEmbed id="8HK-9c6IpB4" title="Roddy Ricch ft. Gunna - Elevate" />
@@ -98,6 +165,8 @@ En décembre 2022, alors que le procès RICO visant Young Thug et le label YSL b
 
 **Dans le cadre de cet accord, il a dû reconnaître publiquement que YSL constituait à la fois un label et un gang.** Cette déclaration a suffi à déclencher une vague d'accusations : une partie du public et plusieurs artistes proches de Young Thug l'ont qualifié de « snitch » — le mot le plus lourd qui existe dans ce milieu.
 
+<Media id="gunna-tweed" images={frontmatter.images} />
+
 ## Cette accusation, elle est fondée ?
 
 **C'est précisément là que les versions divergent, et il faut les présenter toutes les deux.**
@@ -110,6 +179,8 @@ En décembre 2022, alors que le procès RICO visant Young Thug et le label YSL b
 
 **Aucune version n'a définitivement tranché le débat dans l'opinion publique.** L'accusation continue de circuler, la défense continue de la contester.
 
+<Media id="gunna-falcons" images={frontmatter.images} />
+
 ## Et Young Thug, il en pense quoi ?
 
 **Leur relation ne s'est jamais totalement réparée, malgré des signes contradictoires.**
@@ -120,17 +191,23 @@ Après sa propre libération en 2024, Young Thug aurait exprimé, dans un appel 
 
 La situation reste donc ambiguë : une rupture actée dans les faits judiciaires, mais une porte qui n'est jamais complètement fermée sur le plan professionnel.
 
+<Media id="gunna-desert" images={frontmatter.images} />
+
 ## Malgré tout ça, sa carrière a continué ?
 
 **Sans ralentir, ce qui est peut-être le fait le plus notable de toute cette histoire.**
 
 Depuis son plea de 2022, Gunna a sorti trois albums, tous commercialement solides, dont son plus gros succès solo en carrière avec le titre « FukUMean ». Être publiquement accusé d'avoir enfreint le code de la rue ne l'a, dans les faits, jamais vraiment ralenti commercialement.
 
+<Media id="rr-ambush" images={frontmatter.images} />
+
 ## Ce qu'on lit de faux là-dessus
 
 **« Gunna a été condamné pour avoir témoigné contre Young Thug »** — inexact. Aucune source ne confirme qu'il ait témoigné directement contre lui. Son plea reconnaissait l'existence de YSL comme gang, sans viser nommément Young Thug dans un témoignage.
 
 **« L'accusation de snitch a été définitivement close »** — non. Malgré les démentis de son avocat et le revirement de Mondo, l'accusation continue de circuler régulièrement dans les discussions publiques autour de l'artiste.
+
+<Media id="rr-bw" images={frontmatter.images} />
 
 {/*
   SUJET SENSIBLE : affaire judiciaire réelle (RICO, Géorgie) + accusations publiques
@@ -140,5 +217,5 @@ Depuis son plea de 2022, Gunna a sorti trois albums, tous commercialement solide
   coopération de Gunna — présentées toutes deux, sans trancher.
   À VÉRIFIER : aucun nouvel élément judiciaire entre rédaction et publication.
   CTA INTERIM : /quiz/wu-tang-clan en attendant /quiz/musique-urbaine.
-  IMAGES : le clip vidéo tient lieu de visuel principal.
+  IMAGES : 7 photos fournies par le client (4 Roddy Ricch, 3 Gunna), toutes placées.
 */}
