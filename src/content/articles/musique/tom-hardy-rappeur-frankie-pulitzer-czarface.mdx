@@ -73,10 +73,39 @@ liens_internes:
     label: Le quiz Wu-Tang Clan & rap de New York
   - href: /quiz/tom-hardy-frankie-pulitzer
     label: Le quiz Tom Hardy en rappeur masqué
-images: []
+images:
+  - id: hero
+    src: /img/tom-hardy-portrait-veste-verte.webp
+    widths: [400, 800]
+    pinImage: /img/tom-hardy-portrait-veste-verte-pin.webp
+    ratio: "1/1"
+    width: 800
+    height: 800
+    alt: "Portrait de l'acteur Tom Hardy, veste verte, regard par-dessus l'épaule"
+    pinDescription: "Tom Hardy, l'acteur derrière le rappeur masqué Frankie Pulitzer"
+  - id: czarface-art
+    src: /img/czarface-artwork-frankie-pulitzer.webp
+    widths: [400, 800]
+    pinImage: /img/czarface-artwork-frankie-pulitzer-pin.webp
+    ratio: "1/1"
+    width: 800
+    height: 800
+    alt: "Artwork façon comic du personnage robotique de Czarface, le groupe de Frankie Pulitzer"
+    pinDescription: "Czarface : l'univers comic du groupe qui rappe avec Frankie Pulitzer"
+  - id: tom-hardy-sombre
+    src: /img/tom-hardy-portrait-sombre.webp
+    widths: [400]
+    pinImage: /img/tom-hardy-portrait-sombre-pin.webp
+    ratio: "4/5"
+    width: 400
+    height: 493
+    alt: "Portrait cinématographique sombre de Tom Hardy, la main tachée de rouge"
+    pinDescription: "Tom Hardy : l'aura sombre qui colle au personnage de Bane"
+heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## C'est vraiment Tom Hardy sous ce masque ?
 
@@ -85,6 +114,8 @@ import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
 Frankie Pulitzer porte une cagoule intégrale noire et blanche sur scène et dans les clips, visage totalement dissimulé. L'acteur n'a jamais publiquement admis que ce personnage était bien lui.
 
 Sauf que le mystère tient plus de la mise en scène que du vrai secret. Frankie Pulitzer est apparu pour la première fois en 2021, sur l'EP Good Guys, Bad Guys de Czarface, en lien direct avec la sortie du film Venom: Let There Be Carnage — dans lequel Tom Hardy tenait déjà le rôle principal. La coïncidence a suffi à convaincre à peu près tout le monde.
+
+<Media id="czarface-art" images={frontmatter.images} />
 
 ## Ça fait combien de temps qu'il fait ça en secret ?
 
@@ -117,6 +148,8 @@ Le morceau glisse aussi un clin d'œil à MF DOOM, une des figures les plus resp
 Plusieurs commentaires sous les vidéos de réaction pointent le même fait : Tom Hardy rappait déjà dans l'underground londonien vers 15 ans, à peu près à la même époque où il a commencé à chercher des rôles au cinéma. Ce n'est donc pas une lubie tardive de star qui s'ennuie — c'est une pratique plus ancienne que sa carrière d'acteur elle-même.
 
 Et le choix du Wu-Tang Clan n'a rien du hasard non plus. Hardy a publiquement dit que le groupe était son préféré, et qu'il rêvait de faire un titre avec eux. Sur Mad Technology, ce vœu est en partie réalisé.
+
+<Media id="tom-hardy-sombre" images={frontmatter.images} />
 
 ## Comment le public a réagi ?
 
