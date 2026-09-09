@@ -1,0 +1,146 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Quiz — Nemzzz, Travis Scott & ses Nike (19 questions du client, 20e « vibe
+// check » retirée). Position de la bonne réponse VARIÉE. c = index correct.
+const QUESTIONS = [
+  { q: "GASS sort officiellement quel jour ?", o: ['1er janvier', '4 septembre 2026', 'Halloween', 'Jamais officiellement'], c: 1 },
+  { q: "Nemzzz est originaire de quelle ville britannique ?", o: ['Londres', 'Liverpool', 'Manchester', 'Birmingham'], c: 2 },
+  { q: "L'album dont est extrait GASS s'appelle comment ?", o: ['LOCKED IN', 'GASS Deluxe', 'The Come Up', 'Aucun album, single isolé'], c: 0 },
+  { q: "Combien de vues le clip a-t-il dépassées en quelques jours ?", o: ['100', '1 million', '1 milliard', 'On sait pas, le compteur est caché'], c: 1 },
+  { q: "La tournée liée à l'album de Nemzzz s'appelle comment ?", o: ['La GASS Tour', 'La Locked In Tour', 'Aucune tournée annoncée', 'La World Cup Tour'], c: 1 },
+  { q: "Quelle Nike Travis Scott a-t-il sortie exactement le même jour que GASS ?", o: ["L'Air Jordan 1 Pink Pack", "L'Air Force 1 Low « Ice Blue »", 'Aucune sortie ce jour-là', 'Une Nike Total 90'], c: 1 },
+  { q: "La paire « Ice Blue » a été présentée en avant-première où ?", o: ['Un magasin à Paris', 'Sur Twitch uniquement', 'Un pop-up à New York', 'Nulle part, sortie surprise directe'], c: 2 },
+  { q: "Le pack Air Jordan 1 Low « Pink » de Travis Scott est sorti en quel mois de 2026 ?", o: ['Mai', 'Janvier', 'Décembre', "Il n'existe pas"], c: 0 },
+  { q: "Quel détail visuel signature revient sur presque toutes les collabs Nike de Travis Scott ?", o: ['Un logo doré', 'Le Swoosh inversé', 'Des lacets rouges obligatoires', 'Aucun détail récurrent'], c: 1 },
+  { q: "La ligne de crampons Nike liée à Travis Scott pour la Coupe du Monde 2026 ?", o: ['Nike Total 90 uniquement', 'Air Jordan Football', 'Nike Phantom 6', 'Aucune ligne de crampons'], c: 2 },
+  { q: "Le prix de la paire « Ice Blue » à sa sortie est d'environ combien ?", o: ['500 dollars', '120 dollars', '20 dollars', 'Gratuite pour les fans'], c: 1 },
+  { q: "Un commentaire viral sous le clip GASS demande quoi, façon fierté de fan ?", o: ["Une preuve d'avoir vu la vidéo avant 24h", 'Le prix des sneakers de Travis Scott', 'La date de la prochaine collab', 'Rien, aucun commentaire viral'], c: 0 },
+  { q: "La collection Nike Total 90 de Travis Scott est liée à quel sport ?", o: ['Le basketball uniquement', 'Le football', 'Le tennis', 'Le skateboard'], c: 1 },
+  { q: "Le style musical de Nemzzz est classé dans quelle catégorie principale ?", o: ['Musique classique', 'Reggae', 'Rap britannique', 'Country'], c: 2 },
+  { q: "Combien de pays étaient concernés par la collection Nike Total 90, environ ?", o: ['Un seul', 'Une dizaine', 'Cinquante', 'Aucun pays précis mentionné'], c: 1 },
+  { q: "Travis Scott a été aperçu dans une pub sneakers avec quel joueur de tennis ?", o: ['Novak Djokovic', 'Rafael Nadal', 'Carlos Alcaraz', 'Aucun joueur de tennis'], c: 2 },
+  { q: "La presse spécialisée qualifie le couplet de Travis Scott sur GASS comment ?", o: ['Un de ses meilleurs couplets invités depuis longtemps', 'Décevant', 'Inaudible', 'Absent, il ne chante pas'], c: 0 },
+  { q: "Le SKU du pack Air Jordan 1 Low Pink de Travis Scott commence par quelles lettres ?", o: ['TS0001', 'IQ7604', 'AJ2026', 'Aucun SKU connu'], c: 1 },
+  { q: "Combien de temps sépare la sortie de l'Air Jordan 1 Pink Pack et celle de l'Air Force 1 Ice Blue ?", o: ['Une semaine', 'Environ trois mois et demi', 'Un an', 'Le même jour'], c: 1 },
+];
+---
+<BaseLayout
+  title="Quiz Nemzzz, Travis Scott & ses Nike : 19 questions"
+  description="GASS, l'album LOCKED IN, l'Air Force 1 Ice Blue, la ligne Phantom 6 : 19 questions sur Nemzzz, Travis Scott et son calendrier sneaker. Tu suis vraiment, ou tu as juste vu le clip ?"
+  canonicalPath="/quiz/nemzzz-travis-scott"
+  category="musique"
+>
+  <div class="quiz" data-quiz>
+    <p class="eyebrow">Quiz musique</p>
+    <h1>Tu suis vraiment Travis Scott, ou t'as juste vu le clip ?</h1>
+    <p class="quiz-lede">19 questions sur GASS, Nemzzz et le calendrier sneaker de Trav. La bonne réponse est planquée au milieu de trois pièges. On compte les points.</p>
+
+    <div class="quiz-stage" data-stage>
+      <div class="quiz-progress"><span data-bar></span></div>
+      <p class="quiz-count" data-count></p>
+      <p class="quiz-q" data-q></p>
+      <div class="quiz-options" data-options></div>
+      <p class="quiz-note-line" data-note hidden></p>
+      <button class="btn-primary quiz-next" data-next hidden>Question suivante →</button>
+    </div>
+
+    <div class="quiz-end" data-end hidden>
+      <h2>Terminé 🔥</h2>
+      <p>Ton score : <strong data-score></strong> / <strong data-total></strong></p>
+      <p class="quiz-verdict" data-verdict></p>
+      <button class="btn-secondary" data-restart>Recommencer</button>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ QUESTIONS }}>
+    (() => {
+      const root = document.querySelector('[data-quiz]');
+      if (!root) return;
+      const $ = (s) => root.querySelector(s);
+      const stage = $('[data-stage]'), end = $('[data-end]');
+      const bar = $('[data-bar]'), count = $('[data-count]'), qEl = $('[data-q]');
+      const optWrap = $('[data-options]'), noteEl = $('[data-note]'), next = $('[data-next]');
+      let i = 0, score = 0, locked = false;
+
+      function render() {
+        const Q = QUESTIONS[i];
+        bar.style.width = (i / QUESTIONS.length * 100) + '%';
+        count.textContent = 'Question ' + (i + 1) + ' / ' + QUESTIONS.length;
+        qEl.textContent = Q.q;
+        optWrap.innerHTML = '';
+        noteEl.hidden = true; noteEl.textContent = ''; next.hidden = true;
+        locked = false;
+        Q.o.forEach((opt, k) => {
+          const b = document.createElement('button');
+          b.className = 'quiz-opt';
+          b.textContent = opt;
+          b.addEventListener('click', () => choose(k));
+          optWrap.appendChild(b);
+        });
+      }
+      function choose(k) {
+        if (locked) return;
+        locked = true;
+        const Q = QUESTIONS[i];
+        const btns = [...optWrap.children];
+        btns.forEach((b, idx) => {
+          b.disabled = true;
+          if (idx === Q.c) b.classList.add('is-correct');
+          else if (idx === k) b.classList.add('is-wrong');
+        });
+        if (k === Q.c) score++;
+        noteEl.hidden = false;
+        noteEl.textContent = (k === Q.c ? 'Bien vu. ' : 'Raté. ') + (Q.note || '');
+        next.hidden = false;
+        next.textContent = (i + 1 >= QUESTIONS.length) ? 'Voir mon score →' : 'Question suivante →';
+      }
+      next.addEventListener('click', () => {
+        i++;
+        if (i >= QUESTIONS.length) {
+          stage.hidden = true; end.hidden = false;
+          $('[data-score]').textContent = score;
+          $('[data-total]').textContent = QUESTIONS.length;
+          const pct = score / QUESTIONS.length;
+          $('[data-verdict]').textContent =
+            pct === 1 ? 'Parfait. T\'es un vrai, pas un touriste.' :
+            pct >= 0.8 ? 'Solide. Tu suis pour de vrai.' :
+            pct >= 0.5 ? 'Correct, mais t\'as loupé des sorties.' :
+            'Aïe. T\'as vu passer le clip et c\'est tout.';
+        } else render();
+      });
+      $('[data-restart]').addEventListener('click', () => { i = 0; score = 0; end.hidden = true; stage.hidden = false; render(); });
+      render();
+    })();
+  </script>
+
+  <style>
+    .quiz { max-width: 42rem; margin: 1.5rem auto 3rem; padding: 0 1.25rem; }
+    .quiz h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.7rem); letter-spacing: -.02em; margin: .4rem 0 .5rem; }
+    .quiz-lede { color: var(--fg-soft); margin: 0 0 1.6rem; }
+    .quiz-stage { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem 1.4rem 1.6rem; }
+    .quiz-progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 1rem; }
+    .quiz-progress span { display: block; height: 100%; background: var(--grad); transition: width .3s; }
+    .quiz-count { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-dim); margin: 0 0 .6rem; }
+    .quiz-q { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; line-height: 1.25; margin: 0 0 1.1rem; }
+    .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+    :global(.quiz-opt) {
+      text-align: left; padding: .9rem 1.15rem; border-radius: 16px; border: 1px solid rgba(166,121,255,.5);
+      background: linear-gradient(105deg, rgba(166,121,255,.28), rgba(255,111,179,.22), rgba(88,199,255,.26)); color: var(--fg); font: inherit; font-size: 1rem; cursor: pointer;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      transition: border-color .15s, background .15s, transform .12s, box-shadow .15s;
+    }
+    :global(.quiz-opt:hover:not(:disabled)) {
+      border-color: var(--violet); background: linear-gradient(105deg, rgba(166,121,255,.45), rgba(255,111,179,.36), rgba(88,199,255,.4));
+      transform: translateY(-1px); box-shadow: 0 6px 20px -12px rgba(166,121,255,.7);
+    }
+    :global(.quiz-opt:disabled) { cursor: default; }
+    :global(.quiz-opt.is-correct) { border-color: transparent; background: var(--grad); color: #14101f; font-weight: 700; box-shadow: 0 8px 24px -12px rgba(255,111,179,.6); }
+    :global(.quiz-opt.is-wrong) { border-color: rgba(239,68,68,.55); background: rgba(239,68,68,.14); }
+    .quiz-note-line { margin: 1rem 0 0; font-size: .9rem; color: var(--fg-soft); }
+    .quiz-next { margin-top: 1.1rem; }
+    .quiz-end { text-align: center; background: var(--grad-soft); border: 1px solid var(--line-strong); border-radius: 20px; padding: 2rem 1.5rem; margin-top: 1rem; }
+    .quiz-end h2 { font-family: var(--font-display); font-weight: 800; margin: 0 0 .6rem; }
+    .quiz-verdict { color: var(--fg-soft); max-width: 32rem; margin: .8rem auto 1.4rem; font-size: 1rem; }
+  </style>
+</BaseLayout>

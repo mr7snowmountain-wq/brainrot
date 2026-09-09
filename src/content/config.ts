@@ -140,6 +140,9 @@ const articles = defineCollection({
       video: video.optional(),
 
       draft: z.boolean().default(false),
+      // Article DÉLIBÉRÉMENT ISOLÉ (sujet sensible/judiciaire) : exempté de la
+      // règle « ≥3 liens internes » du validateur. Reste sans CTA/quiz/maillage.
+      standalone: z.boolean().default(false),
     })
     .refine((d) => d.dateModified >= d.datePublished, {
       message: 'dateModified doit être postérieure ou égale à datePublished.',

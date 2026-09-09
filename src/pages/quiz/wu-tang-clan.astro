@@ -1,0 +1,146 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Quiz — Wu-Tang Clan & rap de New York (19 questions du client, 20e « vibe
+// check » retirée). Position de la bonne réponse VARIÉE. c = index correct.
+const QUESTIONS = [
+  { q: "Le Wu-Tang Clan s'est formé dans quel borough de New York ?", o: ['Manhattan', 'Staten Island', 'Brooklyn', 'Le Bronx'], c: 1 },
+  { q: "Combien de membres fondateurs comptait le Wu-Tang Clan à l'origine ?", o: ['4', '9', '15', '2'], c: 1 },
+  { q: "Le tout premier album du groupe, celui qui a tout lancé ?", o: ['Wu-Tang Forever', 'Enter the Wu-Tang (36 Chambers)', 'Liquid Swords', 'Only Built 4 Cuban Linx'], c: 1 },
+  { q: "Method Man, son vrai nom civil, c'est quoi ?", o: ['Robert Diggs', 'Clifford Smith', 'Dennis Coles', 'Gary Grice'], c: 1 },
+  { q: "RZA, le producteur emblématique du groupe, est aussi connu pour quoi ?", o: ['Composer des musiques de films', 'Jouer au basket professionnellement', 'Être chef cuisinier', 'Aucune autre activité'], c: 0 },
+  { q: "MF DOOM, mentionné dans le morceau de Tom Hardy, portait quoi en permanence ?", o: ['Une cagoule noire', 'Un masque de métal', 'Des lunettes de soleil', 'Rien de spécial'], c: 1 },
+  { q: "Le style du Wu-Tang mélange le rap avec quelle autre passion assumée ?", o: ['La musique classique', 'Les films de kung-fu', 'La country', 'Le jazz uniquement'], c: 1 },
+  { q: "Method Man a gagné un Grammy dans quelle catégorie précise ?", o: ["Meilleur album de l'année", 'Meilleur nouvel artiste', 'Meilleure performance rap en duo ou groupe', 'Aucun Grammy'], c: 2 },
+  { q: "Le duo formé par Method Man avec un autre rappeur s'appelle comment ?", o: ['Method Man & Ghostface', 'Method Man & Redman', 'Method Man & RZA', "Il n'a jamais fait de duo"], c: 1 },
+  { q: "Staten Island est aussi surnommé comment, en lien direct avec le Wu-Tang ?", o: ['Gotham', 'Shaolin', 'La Mecque', 'Babylone'], c: 1 },
+  { q: "Le rap East Coast, dont le Wu-Tang fait partie, s'oppose historiquement à quoi ?", o: ['Le rap européen', 'Le rap West Coast', 'Le rap sudiste uniquement', 'Aucune rivalité historique'], c: 1 },
+  { q: "Method Man est aussi acteur. Dans quelle série récente l'a-t-on notamment vu ?", o: ['Breaking Bad', 'Power Book II: Ghost', 'The Wire', 'Aucune série'], c: 1 },
+  { q: "Le concept d'album solo par membre tout en restant un groupe, c'était l'idée de qui ?", o: ['Method Man', 'RZA', 'Ghostface Killah', 'Personne, par hasard'], c: 1 },
+  { q: "Le titre de l'album solo de Method Man sorti en 1994 ?", o: ['Meth Lab', 'Tical', 'Method Man Vol.1', "Jamais d'album solo"], c: 1 },
+  { q: "La chanson « I'll Be There for You / You're All I Need to Get By » est un duo avec qui ?", o: ['Beyoncé', 'Mary J. Blige', 'Alicia Keys', 'Aucun duo, c\'est un solo'], c: 1 },
+  { q: "Combien d'albums studio le Wu-Tang Clan a-t-il sorti en groupe, ordre de grandeur ?", o: ['Un seul', 'Plusieurs, au moins six', 'Vingt', 'Aucun album de groupe'], c: 1 },
+  { q: "Le rap boom-bap, style dans lequel s'inscrit Czarface, se caractérise par quoi ?", o: ['Des synthés futuristes uniquement', 'Des percussions lourdes et un son brut old-school', 'Aucune batterie', 'Un tempo très lent façon ballade'], c: 1 },
+  { q: "Tom Hardy a grandi et commencé à rapper dans quelle ville ?", o: ['New York', 'Londres', 'Los Angeles', 'Paris'], c: 1 },
+  { q: "Une référence à MF DOOM dans les textes de Hardy prouve quoi, selon les fans ?", o: ['Rien du tout, un hasard total', 'Une vraie connaissance de la culture rap', 'Que Tom Hardy a triché', 'Que MF DOOM a écrit le texte'], c: 1 },
+];
+---
+<BaseLayout
+  title="Quiz Wu-Tang Clan : 19 questions sur le rap de New York"
+  description="36 Chambers, Shaolin, RZA, Method Man, MF DOOM et le boom-bap : 19 questions sur le Wu-Tang Clan et la culture rap de New York. Tu connais le terrain, ou juste les noms ?"
+  canonicalPath="/quiz/wu-tang-clan"
+  category="musique"
+>
+  <div class="quiz" data-quiz>
+    <p class="eyebrow">Quiz musique</p>
+    <h1>Wu-Tang Clan : tu connais le terrain, ou juste les noms ?</h1>
+    <p class="quiz-lede">19 questions sur le Wu-Tang, Method Man et le rap de New York. La bonne réponse est planquée au milieu de trois pièges. On compte les points.</p>
+
+    <div class="quiz-stage" data-stage>
+      <div class="quiz-progress"><span data-bar></span></div>
+      <p class="quiz-count" data-count></p>
+      <p class="quiz-q" data-q></p>
+      <div class="quiz-options" data-options></div>
+      <p class="quiz-note-line" data-note hidden></p>
+      <button class="btn-primary quiz-next" data-next hidden>Question suivante →</button>
+    </div>
+
+    <div class="quiz-end" data-end hidden>
+      <h2>Terminé 🐝</h2>
+      <p>Ton score : <strong data-score></strong> / <strong data-total></strong></p>
+      <p class="quiz-verdict" data-verdict></p>
+      <button class="btn-secondary" data-restart>Recommencer</button>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ QUESTIONS }}>
+    (() => {
+      const root = document.querySelector('[data-quiz]');
+      if (!root) return;
+      const $ = (s) => root.querySelector(s);
+      const stage = $('[data-stage]'), end = $('[data-end]');
+      const bar = $('[data-bar]'), count = $('[data-count]'), qEl = $('[data-q]');
+      const optWrap = $('[data-options]'), noteEl = $('[data-note]'), next = $('[data-next]');
+      let i = 0, score = 0, locked = false;
+
+      function render() {
+        const Q = QUESTIONS[i];
+        bar.style.width = (i / QUESTIONS.length * 100) + '%';
+        count.textContent = 'Question ' + (i + 1) + ' / ' + QUESTIONS.length;
+        qEl.textContent = Q.q;
+        optWrap.innerHTML = '';
+        noteEl.hidden = true; noteEl.textContent = ''; next.hidden = true;
+        locked = false;
+        Q.o.forEach((opt, k) => {
+          const b = document.createElement('button');
+          b.className = 'quiz-opt';
+          b.textContent = opt;
+          b.addEventListener('click', () => choose(k));
+          optWrap.appendChild(b);
+        });
+      }
+      function choose(k) {
+        if (locked) return;
+        locked = true;
+        const Q = QUESTIONS[i];
+        const btns = [...optWrap.children];
+        btns.forEach((b, idx) => {
+          b.disabled = true;
+          if (idx === Q.c) b.classList.add('is-correct');
+          else if (idx === k) b.classList.add('is-wrong');
+        });
+        if (k === Q.c) score++;
+        noteEl.hidden = false;
+        noteEl.textContent = (k === Q.c ? 'Bien vu. ' : 'Raté. ') + (Q.note || '');
+        next.hidden = false;
+        next.textContent = (i + 1 >= QUESTIONS.length) ? 'Voir mon score →' : 'Question suivante →';
+      }
+      next.addEventListener('click', () => {
+        i++;
+        if (i >= QUESTIONS.length) {
+          stage.hidden = true; end.hidden = false;
+          $('[data-score]').textContent = score;
+          $('[data-total]').textContent = QUESTIONS.length;
+          const pct = score / QUESTIONS.length;
+          $('[data-verdict]').textContent =
+            pct === 1 ? 'Parfait. Protège ton cou, tu maîtrises.' :
+            pct >= 0.8 ? 'Solide. Vrai connaisseur.' :
+            pct >= 0.5 ? 'Correct, mais révise tes classiques.' :
+            'Aïe. T\'as le t-shirt, pas les disques.';
+        } else render();
+      });
+      $('[data-restart]').addEventListener('click', () => { i = 0; score = 0; end.hidden = true; stage.hidden = false; render(); });
+      render();
+    })();
+  </script>
+
+  <style>
+    .quiz { max-width: 42rem; margin: 1.5rem auto 3rem; padding: 0 1.25rem; }
+    .quiz h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.7rem); letter-spacing: -.02em; margin: .4rem 0 .5rem; }
+    .quiz-lede { color: var(--fg-soft); margin: 0 0 1.6rem; }
+    .quiz-stage { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem 1.4rem 1.6rem; }
+    .quiz-progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 1rem; }
+    .quiz-progress span { display: block; height: 100%; background: var(--grad); transition: width .3s; }
+    .quiz-count { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-dim); margin: 0 0 .6rem; }
+    .quiz-q { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; line-height: 1.25; margin: 0 0 1.1rem; }
+    .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+    :global(.quiz-opt) {
+      text-align: left; padding: .9rem 1.15rem; border-radius: 16px; border: 1px solid rgba(166,121,255,.5);
+      background: linear-gradient(105deg, rgba(166,121,255,.28), rgba(255,111,179,.22), rgba(88,199,255,.26)); color: var(--fg); font: inherit; font-size: 1rem; cursor: pointer;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      transition: border-color .15s, background .15s, transform .12s, box-shadow .15s;
+    }
+    :global(.quiz-opt:hover:not(:disabled)) {
+      border-color: var(--violet); background: linear-gradient(105deg, rgba(166,121,255,.45), rgba(255,111,179,.36), rgba(88,199,255,.4));
+      transform: translateY(-1px); box-shadow: 0 6px 20px -12px rgba(166,121,255,.7);
+    }
+    :global(.quiz-opt:disabled) { cursor: default; }
+    :global(.quiz-opt.is-correct) { border-color: transparent; background: var(--grad); color: #14101f; font-weight: 700; box-shadow: 0 8px 24px -12px rgba(255,111,179,.6); }
+    :global(.quiz-opt.is-wrong) { border-color: rgba(239,68,68,.55); background: rgba(239,68,68,.14); }
+    .quiz-note-line { margin: 1rem 0 0; font-size: .9rem; color: var(--fg-soft); }
+    .quiz-next { margin-top: 1.1rem; }
+    .quiz-end { text-align: center; background: var(--grad-soft); border: 1px solid var(--line-strong); border-radius: 20px; padding: 2rem 1.5rem; margin-top: 1rem; }
+    .quiz-end h2 { font-family: var(--font-display); font-weight: 800; margin: 0 0 .6rem; }
+    .quiz-verdict { color: var(--fg-soft); max-width: 32rem; margin: .8rem auto 1.4rem; font-size: 1rem; }
+  </style>
+</BaseLayout>

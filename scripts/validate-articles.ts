@@ -226,7 +226,10 @@ export function validateArticle(file: string): Report {
     ...siblings,
   ].filter(Boolean);
   const nInternes = countInternalLinks(allHrefs, SITE_URL);
-  if (nInternes < LIENS_MIN) errors.push(`${nInternes} lien(s) interne(s) (minimum ${LIENS_MIN})`);
+  // Un article `standalone: true` (sujet sensible délibérément isolé) est exempté.
+  if (!(d as { standalone?: boolean }).standalone && nInternes < LIENS_MIN) {
+    errors.push(`${nInternes} lien(s) interne(s) (minimum ${LIENS_MIN})`);
+  }
 
   // 4 bis. AUCUN LIEN INTERNE MORT — BLOQUANT (Google déteste les 404 internes).
   //   Toute ancre "/…" (corps, liens_internes, pilier, CTA) doit viser une page
