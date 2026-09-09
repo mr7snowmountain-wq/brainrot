@@ -83,10 +83,57 @@ liens_internes:
     label: Les Tortues Ninja de 1990, culte malgré tout
   - href: /cinema/the-dog-stars
     label: The Dog Stars, le Ridley Scott qui divise
-images: []
+images:
+  - id: hero
+    src: /img/street-fighter-2026-casting-ensemble.webp
+    widths: [400, 800, 1200, 1600]
+    pinImage: /img/street-fighter-2026-casting-ensemble-pin.webp
+    ratio: "16/9"
+    width: 1600
+    height: 900
+    alt: "Le casting de Street Fighter 2026 réuni : Ryu, Blanka, Balrog, Guile, Chun-Li et les autres"
+    pinDescription: "Street Fighter 2026 : le casting le plus improbable de l'année"
+  - id: chun-li
+    src: /img/street-fighter-2026-chun-li.webp
+    widths: [400]
+    pinImage: /img/street-fighter-2026-chun-li-pin.webp
+    ratio: "4/5"
+    width: 400
+    height: 500
+    alt: "Chun-Li dans une ambiance bleutée, personnage du film Street Fighter 2026"
+    pinDescription: "Street Fighter 2026 : Callina Liang incarne Chun-Li"
+  - id: affiche
+    src: /img/street-fighter-2026-affiche-officielle.webp
+    widths: [375]
+    pinImage: /img/street-fighter-2026-affiche-officielle-pin.webp
+    ratio: "2/3"
+    width: 375
+    height: 563
+    alt: "Affiche officielle du film Street Fighter, sortie annoncée le 16 octobre"
+    pinDescription: "Street Fighter : le film en salles le 14 octobre en France"
+  - id: dhalsim-art
+    src: /img/street-fighter-2026-dhalsim-artwork.webp
+    widths: [400]
+    pinImage: /img/street-fighter-2026-dhalsim-artwork-pin.webp
+    ratio: "3/4"
+    width: 400
+    height: 530
+    alt: "Illustration stylisée de Dhalsim hurlant, entouré de crânes, pour Street Fighter"
+    pinDescription: "Street Fighter : Dhalsim, incarné par Vidyut Jammwal"
+  - id: bison-art
+    src: /img/street-fighter-2026-bison-artwork.webp
+    widths: [400, 800]
+    pinImage: /img/street-fighter-2026-bison-artwork-pin.webp
+    ratio: "1/1"
+    width: 800
+    height: 800
+    alt: "Illustration stylisée de M. Bison, casquette rouge et sourire menaçant, Street Fighter"
+    pinDescription: "Street Fighter : M. Bison, le grand méchant du tournoi"
+heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## Ça raconte quoi, cette fois ?
 
@@ -108,9 +155,13 @@ Dévoilé le 16 avril, après un premier teaser présenté aux Game Awards 2025.
 
 Andrew Koji, déjà remarqué dans Warrior et Bullet Train, incarne Ryu. Noah Centineo joue Ken Masters. Callina Liang campe Chun-Li.
 
+<Media id="chun-li" images={frontmatter.images} />
+
 **Et c'est là que ça devient sérieusement fou.** Jason Momoa en Blanka. David Dastmalchian en M. Bison. Curtis « 50 Cent » Jackson en Balrog. Roman Reigns, catcheur vedette de la WWE, en Akuma. Cody Rhodes, autre grand nom du catch, en Guile. Orville Peck, chanteur country masqué, en Vega. Vidyut Jammwal, star des arts martiaux indiens, en Dhalsim.
 
 **Personne dans cette liste n'a l'air embarrassé d'être là.** Et c'est précisément ce qui fait dire à la presse spécialisée que le film pourrait fonctionner : chaque coiffure improbable, chaque grognement, chaque choix de costume est joué avec un sérieux total, sans clin d'œil ironique à la caméra.
+
+<Media id="bison-art" images={frontmatter.images} />
 
 ## Pourquoi une troisième tentative, après deux échecs ?
 
@@ -134,6 +185,8 @@ La France fait partie d'un petit groupe de pays — avec l'Argentine, l'Australi
 
 **Beaucoup de médias internationaux ne citent que la date américaine**, ce qui peut donner l'impression fausse que le film sort plus tard en France qu'en réalité.
 
+<Media id="affiche" images={frontmatter.images} />
+
 ## Le film a connu des soucis en amont ?
 
 **Un vrai chamboulement de studio, qui explique en partie le calendrier tardif.**
@@ -155,6 +208,8 @@ D'un côté, ceux qui trouvent le casting so-bad-it's-good, exactement dans l'es
 De l'autre, ceux qui restent sceptiques face à un choix de casting aussi éclaté, craignant que la superposition de célébrités prenne le pas sur l'histoire elle-même.
 
 **Le trailer complet a été dévoilé le 16 avril**, après un premier teaser présenté en décembre 2025 à l'occasion des Game Awards, où les premières affiches de personnages avaient déjà commencé à faire réagir.
+
+<Media id="dhalsim-art" images={frontmatter.images} />
 
 ## Ce qu'on lit de faux là-dessus
 
