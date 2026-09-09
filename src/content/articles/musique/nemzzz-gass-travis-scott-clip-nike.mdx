@@ -69,10 +69,84 @@ liens_internes:
     label: Le quiz Nemzzz, Travis Scott & ses Nike
   - href: /musique
     label: Toute la musique sur Brainrot
-images: []
+images:
+  - id: hero
+    src: /img/nemzzz-portrait-grill-dnd.webp
+    widths: [400]
+    pinImage: /img/nemzzz-portrait-grill-dnd-pin.webp
+    ratio: "4/5"
+    width: 400
+    height: 500
+    alt: "Le rappeur Nemzzz, dreads et grill, pendentif DND, en portrait"
+    pinDescription: "Nemzzz : le Mancunien qui a mis Travis Scott sur GASS"
+  - id: nemzzz-clip
+    src: /img/nemzzz-clip-dnd-bleu.webp
+    widths: [400]
+    pinImage: /img/nemzzz-clip-dnd-bleu-pin.webp
+    ratio: "1/1"
+    width: 400
+    height: 401
+    alt: "Nemzzz en débardeur noir et chaîne DND, ambiance bleutée de clip"
+    pinDescription: "Nemzzz sur le tournage, ambiance bleutée du clip GASS"
+  - id: nemzzz-cash
+    src: /img/nemzzz-liasses-cash-noir-blanc.webp
+    widths: [400]
+    pinImage: /img/nemzzz-liasses-cash-noir-blanc-pin.webp
+    ratio: "3/4"
+    width: 400
+    height: 548
+    alt: "Nemzzz en noir et blanc, bonnet Chrome Hearts, tenant des liasses de billets"
+    pinDescription: "Nemzzz : l'ascension d'un rappeur de Manchester en images"
+  - id: nemzzz-rue
+    src: /img/nemzzz-rue-signes-mains.webp
+    widths: [400]
+    pinImage: /img/nemzzz-rue-signes-mains-pin.webp
+    ratio: "2/3"
+    width: 400
+    height: 600
+    alt: "Nemzzz dans une rue, faisant des signes de la main, chaînes autour du cou"
+    pinDescription: "Nemzzz, la nouvelle voix du rap britannique"
+  - id: nemzzz-grill
+    src: /img/nemzzz-grill-gros-plan.webp
+    widths: [400]
+    pinImage: /img/nemzzz-grill-gros-plan-pin.webp
+    ratio: "9/10"
+    width: 400
+    height: 448
+    alt: "Gros plan noir et blanc sur un grill dentaire et un bandana"
+    pinDescription: "Nemzzz : le grill, la drill et le style de Manchester"
+  - id: travis-live
+    src: /img/travis-scott-concert-live.webp
+    widths: [400]
+    pinImage: /img/travis-scott-concert-live-pin.webp
+    ratio: "4/5"
+    width: 400
+    height: 500
+    alt: "Travis Scott en concert, micro en main, lunettes et chaînes en or"
+    pinDescription: "Travis Scott : le couplet de GASS salué comme un de ses meilleurs"
+  - id: travis-profil
+    src: /img/travis-scott-profil-chaine-or.webp
+    widths: [400, 800]
+    pinImage: /img/travis-scott-profil-chaine-or-pin.webp
+    ratio: "1/1"
+    width: 800
+    height: 792
+    alt: "Travis Scott de profil en noir et blanc, tresses et grosse chaîne en or"
+    pinDescription: "Travis Scott : entre musique et empire sneaker Nike"
+  - id: travis-veste
+    src: /img/travis-scott-veste-strass.webp
+    widths: [400]
+    pinImage: /img/travis-scott-veste-strass-pin.webp
+    ratio: "3/4"
+    width: 400
+    height: 533
+    alt: "Travis Scott en veste à strass et lunettes noires, regard baissé, noir et blanc"
+    pinDescription: "Travis Scott : chaque sortie musicale rime avec une sortie sneaker"
+heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## Ça parle de quoi, ce morceau ?
 
@@ -81,6 +155,8 @@ import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
 GASS mélange le rap britannique de Nemzzz à la présence bien connue de Travis Scott, sur un beat construit autour de percussions martelées et de touches atmosphériques qui accrochent l'oreille dès les premières secondes. Le rythme reste puissant sans jamais devenir brouillon.
 
 La presse spécialisée est unanime sur un point : c'est l'un des meilleurs couplets que Travis Scott ait posés en featuring depuis un moment.
+
+<Media id="travis-live" images={frontmatter.images} />
 
 ## Le clip officiel
 
@@ -96,13 +172,19 @@ Sous le clip officiel, un commentaire posté quelques heures après la mise en l
 
 **Ce genre de commentaire est devenu un indicateur informel de viralité** sur YouTube : quand les gens commencent à se vanter d'avoir été là « avant que ça explose », c'est que le morceau est déjà en train de devenir un phénomène.
 
+<Media id="nemzzz-cash" images={frontmatter.images} />
+
 ## C'est qui, Nemzzz, pour ceux qui découvrent ?
 
 **Un rappeur originaire de Manchester, en pleine ascension au Royaume-Uni.**
 
 GASS est extrait de son album LOCKED IN, sorti le 4 septembre 2026 — le même jour que le morceau. Le projet s'accompagne d'une tournée, la Locked In Tour, dont les billets étaient déjà en vente au moment de la sortie de l'album.
 
+<Media id="nemzzz-clip" images={frontmatter.images} />
+
 Nemzzz avait déjà collaboré avec d'autres noms connus de la scène par le passé, mais un featuring avec Travis Scott change clairement d'échelle pour sa carrière.
+
+<Media id="nemzzz-rue" images={frontmatter.images} />
 
 ## Et Travis Scott, pourquoi cette collab maintenant ?
 
@@ -110,13 +192,19 @@ Nemzzz avait déjà collaboré avec d'autres noms connus de la scène par le pas
 
 Exactement le même jour que la sortie de GASS, le 4 septembre 2026, Travis Scott lançait sa nouvelle Nike Air Force 1 Low « Ice Blue » — une paire tellement attendue qu'elle avait déjà été mise en avant quelques jours plus tôt lors d'un pop-up spécial à New York, avant sa sortie générale.
 
+<Media id="travis-profil" images={frontmatter.images} />
+
 **Un artiste dont le calendrier sneaker est aussi chargé que le calendrier musical ne laisse rien au hasard.** Travis Scott multiplie les collaborations Nike et Jordan depuis des années — Air Jordan 1 Low, Air Force 1, et même une ligne entière liée à la Coupe du Monde 2026 avec les crampons Nike Phantom 6. Chaque sortie musicale s'accompagne presque systématiquement d'une actualité sneaker en parallèle.
+
+<Media id="travis-veste" images={frontmatter.images} />
 
 ## Ce qu'on lit de faux là-dessus
 
 **« C'est la première collab entre les deux artistes »** — rien ne permet de l'affirmer avec certitude dans un sens ou dans l'autre, mais la presse spécialisée présente bien GASS comme LA collaboration attendue de l'album, ce qui suggère qu'il s'agit d'une première.
 
 **« Le morceau et la sortie Nike sont officiellement liés »** — aucune source ne confirme un lien officiel entre les deux événements. La coïncidence de date est réelle et documentée, le lien de cause à effet, lui, reste une hypothèse.
+
+<Media id="nemzzz-grill" images={frontmatter.images} />
 
 Tu suis vraiment la carrière sneaker de Trav, ou tu as juste vu passer le clip ? [Le quiz tranche](/quiz/nemzzz-travis-scott).
 
