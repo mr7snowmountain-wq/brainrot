@@ -60,10 +60,57 @@ cta_hook:
   label: "Je me teste"
   href: "/quiz/wu-tang-clan"
   track: cta-hook-gherbo-quiz
-images: []
+images:
+  - id: hero
+    src: /img/g-herbo-hoodie-rouge-150.webp
+    widths: [400, 800]
+    pinImage: /img/g-herbo-hoodie-rouge-150-pin.webp
+    ratio: "4/5"
+    width: 800
+    height: 1000
+    alt: "Le rappeur G Herbo en hoodie rouge, pendentif 150, dans une rue"
+    pinDescription: "G Herbo : de Lil Herb à How Can I Lose, l'archéologie d'un nom"
+  - id: gh-rue
+    src: /img/g-herbo-rue-veste-damier.webp
+    widths: [400]
+    pinImage: /img/g-herbo-rue-veste-damier-pin.webp
+    ratio: "2/3"
+    width: 400
+    height: 601
+    alt: "G Herbo en veste à damier dans la rue, en plein jour"
+    pinDescription: "G Herbo : la rue de Chicago au cœur de sa musique"
+  - id: gh-sombre
+    src: /img/g-herbo-portrait-sombre-mains.webp
+    widths: [400]
+    pinImage: /img/g-herbo-portrait-sombre-mains-pin.webp
+    ratio: "1/1"
+    width: 400
+    height: 400
+    alt: "Portrait sombre de G Herbo, mains jointes, chaînes en or"
+    pinDescription: "G Herbo : le deuil et le traumatisme au cœur de How Can I Lose"
+  - id: gh-nuit
+    src: /img/g-herbo-nuit-entourage.webp
+    widths: [400, 800]
+    pinImage: /img/g-herbo-nuit-entourage-pin.webp
+    ratio: "4/5"
+    width: 800
+    height: 996
+    alt: "G Herbo de nuit dans la rue, entouré de son crew"
+    pinDescription: "G Herbo : la loyauté et le crew, thèmes récurrents de sa musique"
+  - id: gh-studio
+    src: /img/g-herbo-studio-survet-gris.webp
+    widths: [400]
+    pinImage: /img/g-herbo-studio-survet-gris-pin.webp
+    ratio: "4/5"
+    width: 400
+    height: 500
+    alt: "G Herbo en studio, survêtement gris, assis près d'une console"
+    pinDescription: "G Herbo en studio : Lil Herb, Lil Heroin Edition en dix-sept titres"
+heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## D'où vient exactement ce nom, « Lil Heroin » ?
 
@@ -81,6 +128,8 @@ G Herbo y aborde frontalement la violence, la perte, la dépendance, et les effe
 
 Le refrain qui donne son titre au morceau fonctionne comme une déclaration de conviction : chaque victoire porte en elle le poids de tout ce qu'il a fallu surmonter pour l'obtenir.
 
+<Media id="gh-sombre" images={frontmatter.images} />
+
 ## Le clip officiel
 
 <YouTubeEmbed id="hWgOZQMqcvg" title="G Herbo - How Can I Lose" />
@@ -95,6 +144,8 @@ Le clip s'ouvre sur des scènes en coulisses, avant de basculer à l'extérieur 
 
 Ce n'est pas un clip de studio isolé du reste. C'est un prolongement visuel de ce que raconte le texte — la vraie vie derrière la musique, pas une mise en scène.
 
+<Media id="gh-rue" images={frontmatter.images} />
+
 ## Comment le public a réagi ?
 
 **Avec un enthousiasme presque cérémonial, dans un registre qu'on retrouve souvent sous ce type de morceau.**
@@ -103,6 +154,8 @@ Le commentaire le plus liké sous le clip officiel, avec plus de deux mille réa
 
 **Ce genre de commentaire ne parle pas vraiment du morceau lui-même.** Il montre plutôt comment une partie du public s'approprie ce type de titre — comme un mantra collectif, une formule qu'on répète pour se porter chance, au-delà de la simple écoute.
 
+<Media id="gh-nuit" images={frontmatter.images} />
+
 ## Ce projet s'inscrit dans quoi de plus large ?
 
 **Un rollout complet, pas un simple clip isolé.**
@@ -110,6 +163,8 @@ Le commentaire le plus liké sous le clip officiel, avec plus de deux mille réa
 Lil Herb: Lil Heroin Edition compte dix-sept titres, avec des morceaux comme « DND » avec Ty Dolla $ign, qui aborde la protection de sa tranquillité d'esprit, ou « Steel » et « Go », qui renouent avec la faim de reconnaissance qui avait fait de Lil Herb une voix de sa génération à ses débuts.
 
 **How Can I Lose vient conclure cette boucle.** Le projet oscille entre réflexion, survie, loyauté et évolution, avec la même honnêteté brute qui avait fait de G Herbo l'une des voix majeures de Chicago dès le départ.
+
+<Media id="gh-studio" images={frontmatter.images} />
 
 ## Ce qu'on lit de faux là-dessus
 
