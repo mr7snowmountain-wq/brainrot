@@ -60,9 +60,38 @@ liens_internes:
     label: The Dog Stars, le Ridley Scott qui divise
   - href: /quiz/cinema
     label: Le quiz cinéma — 30 questions
-images: []
+images:
+  - id: hero
+    src: /img/tortues-ninja-1990-affiche-neon.webp
+    widths: [400, 800, 1200]
+    pinImage: /img/tortues-ninja-1990-affiche-neon-pin.webp
+    ratio: "3/4"
+    width: 1200
+    height: 1607
+    alt: "Les quatre Tortues Ninja autour d'une plaque d'égout au logo TMNT, ambiance néon"
+    pinDescription: "Les Tortues Ninja de 1990 : 36 ans après, toujours culte"
+  - id: quatre-tortues-1990
+    src: /img/tortues-ninja-1990-quatre-tortues.webp
+    widths: [400]
+    pinImage: /img/tortues-ninja-1990-quatre-tortues-pin.webp
+    ratio: "3/2"
+    width: 400
+    height: 267
+    alt: "Les quatre Tortues Ninja en costumes dans le film culte de 1990"
+    pinDescription: "Les vraies Tortues Ninja du film de 1990, en costumes"
+  - id: blockbuster-vhs
+    src: /img/tortues-ninja-blockbuster-vhs.webp
+    widths: [400, 800]
+    pinImage: /img/tortues-ninja-blockbuster-vhs-pin.webp
+    ratio: "3/4"
+    width: 800
+    height: 1067
+    alt: "Les Tortues Ninja dans un vidéoclub Blockbuster devant des VHS des années 90"
+    pinDescription: "Nostalgie 90s : les Tortues Ninja au vidéoclub, entre deux VHS"
+heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## C'est quoi ce film, exactement ?
 
@@ -71,6 +100,8 @@ draft: false
 Réalisé par Steve Barron, sorti en 1990, avec Judith Hoag dans le rôle d'April O'Neil et Elias Koteas en Casey Jones. Le scénario adapte les personnages créés par Kevin Eastman et Peter Laird, ceux-là mêmes qui ont lancé le comic original avant l'explosion du dessin animé.
 
 Format court — 1h33 — action, comédie et fantastique mélangés sans complexe. Exactement le genre de film taillé pour tourner en boucle un dimanche après-midi.
+
+<Media id="quatre-tortues-1990" images={frontmatter.images} />
 
 ## La note est vraiment aussi basse que ça ?
 
@@ -89,6 +120,8 @@ Les Tortues Ninja de 1990 coche la deuxième case sans forcément cocher la prem
 1990, c'est l'apogée de la vague Tortues Ninja — dessin animé, jouets, céréales, tout l'écosystème merchandising qui va avec. Le film arrive pile dans cette fenêtre, avec des costumes physiques plutôt que de l'animation, ce qui donnait à l'époque une impression de réalisme inédite pour des enfants qui ne connaissaient les Tortues qu'en dessin animé.
 
 **Ce genre de film ne se rejuge pas avec les yeux d'aujourd'hui.** Il se regarde avec la mémoire de ce qu'il représentait à l'époque, et cette mémoire-là ne s'use pas avec le temps.
+
+<Media id="blockbuster-vhs" images={frontmatter.images} />
 
 ## Ce genre de film culte, c'est courant ?
 
