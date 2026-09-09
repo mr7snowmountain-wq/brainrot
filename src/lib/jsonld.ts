@@ -64,6 +64,10 @@ export function buildArticleGraph(data: ArticleData, url: string) {
   const hero = data.heroImage ? (data.images ?? []).find((i) => i.id === data.heroImage) : undefined;
   if (hero?.src) {
     main.image = [absUrl(hero.src), ...(hero.pinImage ? [absUrl(hero.pinImage)] : [])];
+  } else {
+    // Pas de hero mais une vidéo : la miniature YouTube sert d'image du rich result.
+    const vid0 = (data as { video?: { youtubeId?: string } }).video;
+    if (vid0?.youtubeId) main.image = [`https://i.ytimg.com/vi/${vid0.youtubeId}/hqdefault.jpg`];
   }
 
   // `about` fourni dans le frontmatter (TVSeason / Movie / VideoGame…) : injecté tel quel.

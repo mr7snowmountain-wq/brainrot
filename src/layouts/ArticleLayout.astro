@@ -28,6 +28,12 @@ const path = `/${category}/${slug}`;
 const url = articleUrl(category, slug);
 const graph = buildArticleGraph(d, url);
 const heroImg = d.heroImage ? d.images.find((i) => i.id === d.heroImage) : undefined;
+// Aperçu social (og:image) : le hero s'il existe, sinon la miniature du clip
+// YouTube (les articles à vidéo sans hero gardent ainsi un vrai aperçu de partage).
+const ogImage =
+  heroImg?.pinImage ??
+  heroImg?.src ??
+  (d.video?.youtubeId ? `https://i.ytimg.com/vi/${d.video.youtubeId}/hqdefault.jpg` : undefined);
 
 // « À lire dans la même série » = frères de cluster, remplis AUTOMATIQUEMENT
 // (plus tout lien du frontmatter), dédupliqués. La section se masque si vide.
@@ -45,7 +51,7 @@ const liens = [
   canonicalPath={path}
   category={category}
   ogType="article"
-  ogImage={heroImg?.pinImage ?? heroImg?.src}
+  ogImage={ogImage}
   publishedTime={d.datePublished.toISOString()}
 >
   <JsonLd slot="head" graph={graph} />

@@ -45,9 +45,38 @@ faq:
     a: À l'établissement pénitentiaire fédéral de Fort Dix, dans le New Jersey.
   - q: La procédure d'appel a-t-elle abouti ?
     a: Non, elle est toujours en cours à ce jour.
-images: []
+images:
+  - id: hero
+    src: /img/sean-combs-diddy-portrait.webp
+    widths: [400]
+    pinImage: /img/sean-combs-diddy-portrait-pin.webp
+    ratio: "2/3"
+    width: 400
+    height: 601
+    alt: "Portrait de Sean Combs, photographié lors d'un événement public"
+    pinDescription: "Sean Combs : le point factuel sur sa date de sortie de prison"
+  - id: evenement-public
+    src: /img/sean-combs-diddy-evenement-public.webp
+    widths: [400, 800]
+    pinImage: /img/sean-combs-diddy-evenement-public-pin.webp
+    ratio: "800/419"
+    width: 800
+    height: 419
+    alt: "Sean Combs photographié de profil lors d'un événement public en soirée"
+    pinDescription: "Sean Combs : où en est son dossier judiciaire"
+  - id: veste-cuir
+    src: /img/sean-combs-diddy-veste-cuir.webp
+    widths: [400, 800]
+    pinImage: /img/sean-combs-diddy-veste-cuir-pin.webp
+    ratio: "1/1"
+    width: 800
+    height: 800
+    alt: "Sean Combs en veste de cuir noire lors d'une soirée publique"
+    pinDescription: "Sean Combs : récapitulatif factuel de la procédure"
+heroImage: hero
 draft: false
 ---
+import Media from '@/components/Media.astro';
 
 ## Quelle est la date de sortie actuelle ?
 
@@ -77,6 +106,8 @@ La peine a été prononcée par le juge Arun Subramanian, accompagnée d'une ame
 
 Il est incarcéré depuis son arrestation en septembre 2024. Le temps déjà passé en détention avant le procès, notamment au centre de détention de Brooklyn, est pris en compte dans le calcul de sa peine.
 
+<Media id="evenement-public" images={frontmatter.images} />
+
 ## Pourquoi la date a-t-elle été avancée plusieurs fois ?
 
 **Deux facteurs principaux sont documentés.**
@@ -86,6 +117,8 @@ Il est incarcéré depuis son arrestation en septembre 2024. Le temps déjà pas
 **Le calcul du temps déjà passé en détention**, notamment la période précédant le procès, régulièrement réajusté par l'administration pénitentiaire.
 
 Un épisode a temporairement compliqué la situation : une bagarre avec un autre détenu, qui lui a valu un passage en isolement. Cet incident n'a cependant pas empêché la trajectoire générale d'avancement de la date de sortie de se poursuivre.
+
+<Media id="veste-cuir" images={frontmatter.images} />
 
 ## Où en est la procédure d'appel ?
 
