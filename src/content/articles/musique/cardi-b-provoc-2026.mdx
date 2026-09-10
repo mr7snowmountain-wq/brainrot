@@ -61,19 +61,37 @@ cta_hook:
   track: cta-hook-cardi
 images:
   - id: hero
-    src: /img/cardi-b-portrait-2021.webp
-    widths: [400]
-    pinImage: /img/cardi-b-portrait-2021-pin.webp
-    ratio: "474/720"
-    width: 400
-    height: 608
-    alt: "La rappeuse Cardi B, portrait de 2021"
-    caption: "Photo : Anthony Kane, CC BY-SA 3.0 / Wikimedia Commons"
+    src: /img/cardi-b-look-wap-gros-plan.webp
+    widths: [400, 800]
+    pinImage: /img/cardi-b-look-wap-gros-plan-pin.webp
+    ratio: "1080/1350"
+    width: 800
+    height: 1000
+    alt: "Cardi B en gros plan, boucle d'oreille WAP, maquillage rose et langue tirée"
     pinDescription: "Cardi B, le drama comme discipline olympique en 2026"
+  - id: cardi-combi
+    src: /img/cardi-b-combinaison-transparente-event.webp
+    widths: [400]
+    pinImage: /img/cardi-b-combinaison-transparente-event-pin.webp
+    ratio: "735/1020"
+    width: 400
+    height: 555
+    alt: "Cardi B en combinaison transparente ornée de dentelle et de strass, à un événement"
+    pinDescription: "Cardi B, look d'événement ultra-provoc"
+  - id: cardi-robe
+    src: /img/cardi-b-robe-grise-moulante.webp
+    widths: [400]
+    pinImage: /img/cardi-b-robe-grise-moulante-pin.webp
+    ratio: "736/964"
+    width: 400
+    height: 524
+    alt: "Cardi B en robe grise moulante et lunettes, lors d'une apparition publique"
+    pinDescription: "Cardi B, chaque apparition est un événement"
 heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## C'est quoi ce clip qui twerke dans Brooklyn ?
 
@@ -82,6 +100,8 @@ import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
 Premier single de Cardi B en 2026, *Ah Ha* la montre en train de **twerker dans les rues de Brooklyn** en tenues moulantes, avec des paroles qui **visent directement Donald Trump**. Provoc physique et provoc politique dans le même clip : elle ne choisit pas, elle prend les deux.
 
 C'est exactement le genre de move qui la place dans [notre top 10 des chanteuses les plus osées de 2026](/musique/chanteuses-les-plus-osees-2026).
+
+<Media id="cardi-combi" images={frontmatter.images} />
 
 ## La guerre avec BIA, c'est reparti ?
 
@@ -95,11 +115,29 @@ Après que BIA a réaffirmé sur X les accusations de son diss track, Cardi a r�
 
 Des piques visant Cardi ont été repérées sur l'album *Big Mama* de Latto (mai 2026). Résultat : Cardi se bat sur plusieurs fronts à la fois. Pendant que [d'autres rangent les couteaux](/musique/cassper-nyovest-nasty-c-lil-mama-plus-de-rivalite), elle, elle en a un dans chaque main.
 
+<Media id="cardi-robe" images={frontmatter.images} />
+
 ## Le clip officiel
 
 <YouTubeEmbed id="I-5e_J3LWS8" title="Cardi B - AH HA (clip officiel)" />
 
 **Cardi B**, avec *AH HA*, premier single de 2026 après l'album *Am I The Drama?* — un titre qui résume son année entière.
+
+## Ses 3 clips les plus hot
+
+**La provoc de Cardi, elle est d'abord dans ses clips.** Trois monuments qui ont fait grimper la température — et le compteur de vues :
+
+<YouTubeEmbed id="hsm4poTWjMs" title="Cardi B - WAP feat. Megan Thee Stallion (clip officiel)" />
+
+*WAP*, avec Megan Thee Stallion : LE clip qui a explosé tous les compteurs et scandalisé la moitié de l'Amérique.
+
+<YouTubeEmbed id="cJc7xWJbwJw" title="Cardi B - Press (clip officiel)" />
+
+*Press*, qu'elle a réalisé elle-même : un clip frontal où elle pousse la provoc visuelle à fond.
+
+<YouTubeEmbed id="Ux1f1Q8Zxhk" title="Cardi B - Bongos feat. Megan Thee Stallion (clip officiel)" />
+
+*Bongos*, encore avec Megan : la suite logique de WAP, plus colorée et plus démesurée.
 
 ## Ce qu'on lit de faux là-dessus
 
