@@ -62,19 +62,46 @@ cta_hook:
   track: cta-hook-bia
 images:
   - id: hero
-    src: /img/bia-rappeuse-portrait.webp
-    widths: [400, 800, 1200, 1600]
-    pinImage: /img/bia-rappeuse-portrait-pin.webp
-    ratio: "2525/3151"
-    width: 1600
-    height: 1997
-    alt: "La rappeuse BIA en portrait"
-    caption: "Photo : Emma, CC BY-SA 2.0 / Wikimedia Commons"
+    src: /img/bia-rappeuse-jean-lunettes-photoshoot.webp
+    widths: [400]
+    pinImage: /img/bia-rappeuse-jean-lunettes-photoshoot-pin.webp
+    ratio: "705/881"
+    width: 400
+    height: 500
+    alt: "La rappeuse BIA en ensemble en jean court et lunettes noires, mains en avant, en séance photo"
     pinDescription: "BIA, celle qui a défié Cardi B et refuse de lâcher"
+  - id: bia-cuir
+    src: /img/bia-rappeuse-cuir-beige-evenement.webp
+    widths: [400, 800]
+    pinImage: /img/bia-rappeuse-cuir-beige-evenement-pin.webp
+    ratio: "966/1200"
+    width: 800
+    height: 994
+    alt: "La rappeuse BIA en veste en cuir beige, longue queue-de-cheval et ongles longs, à un événement"
+    pinDescription: "BIA, look glam d'événement"
+  - id: bia-blonde
+    src: /img/bia-rappeuse-blonde-boucles-jaunes.webp
+    widths: [400]
+    pinImage: /img/bia-rappeuse-blonde-boucles-jaunes-pin.webp
+    ratio: "720/1272"
+    width: 400
+    height: 707
+    alt: "La rappeuse BIA en blonde platine, boucles d'oreilles jaunes et maquillage graphique"
+    pinDescription: "BIA, ère blonde platine"
+  - id: bia-noir
+    src: /img/bia-rappeuse-total-look-noir-beret.webp
+    widths: [400]
+    pinImage: /img/bia-rappeuse-total-look-noir-beret-pin.webp
+    ratio: "720/882"
+    width: 400
+    height: 490
+    alt: "La rappeuse BIA tout en noir, béret et chaîne ras-du-cou, assise"
+    pinDescription: "BIA, total look noir"
 heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## C'est reparti entre BIA et Cardi B ?
 
@@ -84,17 +111,23 @@ Le diss d'origine, « SUE MEEE? », date de 2024. Mais en 2026, BIA a **refusé 
 
 Attaquer l'une des rappeuses les plus puissantes du monde et **doubler la mise** au lieu de temporiser, c'est exactement ce qui vaut à BIA sa place dans [notre top 10 des chanteuses les plus osées de 2026](/musique/chanteuses-les-plus-osees-2026).
 
+<Media id="bia-cuir" images={frontmatter.images} />
+
 ## Elle a dit quoi, exactement ?
 
 **Des accusations lourdes — à prendre comme des allégations, pas des faits.**
 
 Le diss de BIA visait la vie privée et le niveau de Cardi ; plus tôt en 2026, selon la presse, elle a aussi raillé le compagnon de Cardi, ce qui a précédé l'annonce par Cardi de leur rupture. Ce sont des **échanges de clash relayés comme tels** — on rapporte la guerre, pas un verdict. Pour l'autre version de l'histoire, va voir [le portrait de Cardi B](/musique/cardi-b-provoc-2026).
 
+<Media id="bia-blonde" images={frontmatter.images} />
+
 ## Pourquoi c'est un move risqué ?
 
 **Parce que David contre Goliath, dans le rap, ça peut mal finir.**
 
 Cardi B a la puissance médiatique, les moyens, et une base de fans énorme. S'attaquer à elle frontalement, c'est prendre le risque de se faire enterrer. BIA, elle, tient sa ligne et transforme le clash en carburant pour sa propre carrière — [comme d'autres l'ont compris](/musique) : dans ce game, le silence ne fait pas vendre.
+
+<Media id="bia-noir" images={frontmatter.images} />
 
 ## Le clip officiel
 
