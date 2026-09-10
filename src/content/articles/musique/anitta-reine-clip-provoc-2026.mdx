@@ -58,19 +58,37 @@ cta_hook:
   track: cta-hook-anitta
 images:
   - id: hero
-    src: /img/anitta-portrait-2021.webp
-    widths: [400]
-    pinImage: /img/anitta-portrait-2021-pin.webp
-    ratio: "739/900"
-    width: 400
-    height: 487
-    alt: "La chanteuse brésilienne Anitta, portrait de 2021"
-    caption: "Photo : Tony Dandrades, CC BY 3.0 / Wikimedia Commons"
+    src: /img/anitta-top-franges-string-studio.webp
+    widths: [400, 800]
+    pinImage: /img/anitta-top-franges-string-studio-pin.webp
+    ratio: "1080/1440"
+    width: 800
+    height: 1067
+    alt: "La chanteuse Anitta en top à franges noires et string, chaîne sur la tête, en studio"
     pinDescription: "Anitta, la reine mondiale du clip provoc"
+  - id: anitta-cheval
+    src: /img/anitta-bodysuit-cheval-blanc.webp
+    widths: [400]
+    pinImage: /img/anitta-bodysuit-cheval-blanc-pin.webp
+    ratio: "1/1"
+    width: 400
+    height: 400
+    alt: "La chanteuse Anitta en bodysuit découpé et résille, aux côtés d'un cheval blanc"
+    pinDescription: "Anitta, provoc visuelle assumée"
+  - id: anitta-bikini
+    src: /img/anitta-bikini-fleuri-jardin.webp
+    widths: [400]
+    pinImage: /img/anitta-bikini-fleuri-jardin-pin.webp
+    ratio: "736/1308"
+    width: 400
+    height: 711
+    alt: "La chanteuse Anitta en bikini fleuri, allongée dans un fauteuil suspendu de jardin"
+    pinDescription: "Anitta, l'été et la provoc décomplexée"
 heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## C'est qui, la reine du clip provoc ?
 
@@ -79,6 +97,8 @@ import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
 La Brésilienne a fait du **quasi-nu assumé** et de la provoc décomplexée sa signature mondiale. Là où d'autres tâtonnent avec la ligne rouge, elle vit carrément dessus depuis des années — et à une échelle planétaire. C'est pour ça qu'elle entre dans [notre top 10 des chanteuses les plus osées de 2026](/musique/chanteuses-les-plus-osees-2026).
 
 Trois clips résument le truc.
+
+<Media id="anitta-cheval" images={frontmatter.images} />
 
 ## Envolver : la choré qui a cassé TikTok
 
@@ -103,6 +123,8 @@ Trois clips résument le truc.
 **Parce qu'elle est la référence vivante du genre.**
 
 Soyons honnêtes : ces trois clips ne datent pas de 2026 (2017, 2022, 2023). Mais quand on établit un classement des artistes les plus osées d'aujourd'hui, impossible de zapper celle qui a posé le standard mondial du clip provoc et qui n'a jamais rendu la couronne. Dans un game où [Cardi B met le feu chaque semaine](/musique/cardi-b-provoc-2026), Anitta, elle, règne sur l'image.
+
+<Media id="anitta-bikini" images={frontmatter.images} />
 
 ## Ce qu'on lit de faux là-dessus
 
