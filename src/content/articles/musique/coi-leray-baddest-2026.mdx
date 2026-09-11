@@ -19,9 +19,10 @@ datePublished: 2026-09-10
 dateModified: 2026-09-10
 publishDate: 2026-09-10
 video:
-  youtubeId: 9rfI1Q7F0EQ
-  title: "Coi Leray - Get Loud (clip officiel)"
-  description: "Un clip officiel de Coi Leray, rappeuse américaine."
+  youtubeId: NqLe3mk__kg
+  title: "Coi Leray - Better Than Yours ft. YoungBoy Never Broke Again (clip officiel)"
+  description: "Le clip officiel de Better Than Yours, single de Coi Leray avec NBA YoungBoy, sorti en mars 2026."
+  uploadDate: 2026-03-20
 sources:
   - titre: "Coi Leray démarre 2026 en se disant « the baddest », réactions"
     url: https://www.yahoo.com/entertainment/music/articles/coi-leray-starts-2026-calling-093512122.html
@@ -61,19 +62,37 @@ cta_hook:
   track: cta-hook-coileray
 images:
   - id: hero
-    src: /img/coi-leray-portrait-2023.webp
+    src: /img/coi-leray-ensemble-rose-abdos.webp
     widths: [400, 800]
-    pinImage: /img/coi-leray-portrait-2023-pin.webp
-    ratio: "972/1362"
+    pinImage: /img/coi-leray-ensemble-rose-abdos-pin.webp
+    ratio: "978/1200"
     width: 800
-    height: 1121
-    alt: "La rappeuse Coi Leray, portrait de 2023"
-    caption: "Photo : MILLION DOLLAZ WORTH OF GAME, CC BY 3.0 / Wikimedia Commons"
+    height: 982
+    alt: "Coi Leray en ensemble rose court, abdos apparents, sur un balcon de nuit"
     pinDescription: "Coi Leray, une des chanteuses les plus osées de 2026"
+  - id: coi-cap
+    src: /img/coi-leray-casquette-crop-top.webp
+    widths: [400, 800]
+    pinImage: /img/coi-leray-casquette-crop-top-pin.webp
+    ratio: "974/1200"
+    width: 800
+    height: 986
+    alt: "Coi Leray en casquette et crop top bleu clair, ventre tatoué apparent"
+    pinDescription: "Coi Leray, le style baddie assumé"
+  - id: coi-jaune
+    src: /img/coi-leray-robe-jaune-cuissardes.webp
+    widths: [400]
+    pinImage: /img/coi-leray-robe-jaune-cuissardes-pin.webp
+    ratio: "725/1095"
+    width: 400
+    height: 604
+    alt: "Coi Leray en robe jaune moulante et cuissardes, selfie miroir"
+    pinDescription: "Coi Leray, chaque tenue est un statement"
 heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## Elle a dit quoi, exactement, pour lancer l'année ?
 
@@ -91,6 +110,8 @@ Elle a posté une série de photos retraçant son évolution : d'un style tomboy
 
 Elle, elle n'a rien confirmé. Et ce silence, il alimente la machine encore mieux qu'une réponse.
 
+<Media id="coi-cap" images={frontmatter.images} />
+
 ## Et les posts en bikini, c'est si chaud que ça ?
 
 **Assez pour transformer chaque publication en champ de bataille de commentaires.**
@@ -99,11 +120,13 @@ Micro-bikini, poses assumées, à moitié dévêtue — Coi Leray poste ce qu'el
 
 Ce n'est pas de la maladresse. C'est une stratégie d'image, calibrée pour qu'on en parle. Et ça marche à chaque fois.
 
+<Media id="coi-jaune" images={frontmatter.images} />
+
 ## Le clip officiel
 
-<YouTubeEmbed id="9rfI1Q7F0EQ" title="Coi Leray - Get Loud (clip officiel)" />
+<YouTubeEmbed id="NqLe3mk__kg" title="Coi Leray - Better Than Yours ft. YoungBoy Never Broke Again (clip officiel)" />
 
-**Coi Leray**, en clip. Derrière l'image ultra-travaillée, il y a une rappeuse qui continue de sortir des sons — dont *Better Than Yours* avec NBA YoungBoy, clip lâché en mars 2026.
+**Coi Leray**, avec *Better Than Yours* et NBA YoungBoy (mars 2026) — le morceau qui interpole le « Milkshake » de Kelis. Derrière l'image ultra-travaillée, une rappeuse qui enchaîne les sorties.
 
 ## Elle subit ou elle pilote ?
 
