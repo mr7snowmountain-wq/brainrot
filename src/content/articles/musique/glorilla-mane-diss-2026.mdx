@@ -58,19 +58,37 @@ cta_hook:
   track: cta-hook-glorilla
 images:
   - id: hero
-    src: /img/glorilla-essence-fest-2025.webp
-    widths: [400, 800, 1200, 1600]
-    pinImage: /img/glorilla-essence-fest-2025-pin.webp
-    ratio: "3/2"
-    width: 1600
-    height: 1067
-    alt: "La rappeuse GloRilla en concert à l'Essence Festival 2025"
-    caption: "Photo : Cameron Woods, CC BY-SA 4.0 / Wikimedia Commons"
+    src: /img/glorilla-robe-doree-tapis-rouge.webp
+    widths: [400, 800]
+    pinImage: /img/glorilla-robe-doree-tapis-rouge-pin.webp
+    ratio: "1032/1291"
+    width: 800
+    height: 1001
+    alt: "GloRilla en robe dorée à sequins sur un tapis rouge, tatouages dans le dos"
     pinDescription: "GloRilla, le clash le plus flou de 2026"
+  - id: glo-portrait
+    src: /img/glorilla-portrait-beaute-tatouages.webp
+    widths: [400]
+    pinImage: /img/glorilla-portrait-beaute-tatouages-pin.webp
+    ratio: "736/846"
+    width: 400
+    height: 460
+    alt: "Portrait beauté de GloRilla, cheveux lissés, maquillage glam et tatouages"
+    pinDescription: "GloRilla, glam et tatouages"
+  - id: glo-reeses
+    src: /img/glorilla-reeses-puffs-promo.webp
+    widths: [400]
+    pinImage: /img/glorilla-reeses-puffs-promo-pin.webp
+    ratio: "1/1"
+    width: 400
+    height: 400
+    alt: "GloRilla souriante avec un grill et un pendentif Reese's Puffs, tenue orange"
+    pinDescription: "GloRilla, de la rue aux grandes marques"
 heroImage: hero
 draft: false
 ---
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
+import Media from '@/components/Media.astro';
 
 ## C'est quoi ce diss que personne ne nomme ?
 
@@ -86,11 +104,15 @@ Aucun nom cité. Juste assez de précision pour lancer le débat. C'est ce jeu-l
 
 GloRilla n'a pas pleinement confirmé, aucun nom n'est nommé. C'est une **interprétation** — dominante, certes, mais une interprétation. Ce flou entretenu vaut mieux qu'un diss frontal : il fait tourner la machine à spéculation pendant des semaines, sans jamais l'exposer à une riposte directe.
 
+<Media id="glo-portrait" images={frontmatter.images} />
+
 ## Ça vient d'où, cette embrouille ?
 
 **D'un repost qui a mal tourné, apparemment.**
 
 La tension aurait démarré vers mai 2025, quand Megan aurait cessé de suivre GloRilla après un repost impliquant Tory Lanez. GloRilla a parlé d'un « innocent repost ». Depuis, chaque parole ambiguë est passée au crible. À prendre comme un **contexte rapporté**, pas comme une vérité gravée.
+
+<Media id="glo-reeses" images={frontmatter.images} />
 
 ## Le clip officiel
 
